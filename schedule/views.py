@@ -12,7 +12,7 @@ from schedule.models import MyClass, Schedule, ScheduleService
 def index(request):
     schedule = Schedule
     schedule.Id = 1
-    schedule.Name = "Testing"
+    schedule.Name = "Test Schedule"
     schedule.StartDate = "1/11/2017"
 
     template = loader.get_template('schedule/index.html')
