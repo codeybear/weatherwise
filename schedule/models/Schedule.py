@@ -17,7 +17,6 @@ class Schedule:
     WorkingDays = []   # Represents the above information in an array for convenience
 
 class ScheduleService:
-
     @classmethod
     def GetById(self, uid):
         connection = Common.getconnection()
@@ -31,6 +30,31 @@ class ScheduleService:
                 schedule = self.__GetWorkingDays(schedule)
                 return schedule
 
+        finally:
+            connection.close()
+
+    @classmethod
+    def GetAll(self):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM schedule"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                scheduleList = [Schedule(**result) for result in results]
+                return scheduleList
+
+        finally:
+            connection.close()
+
+    @classmethod
+    def Add(self, schedule):
+        try:
+            with connection.cursor() as cursor:
+                sql = "INSERT INTO `users` (`Id`, `Name`, `StartDate`) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
+                connection.commit()
         finally:
             connection.close()
 

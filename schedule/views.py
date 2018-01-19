@@ -31,4 +31,12 @@ def detail(request, schedule_id):
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):
-    return HttpResponse(f"Will done on saving {schedule_id}!")
+    schedule = Schedule
+    schedule.Id = request.POST['Id']
+    schedule.Name = request.POST['Name']
+    schedule.StartDate = request.POST['StartDate']
+
+    scheduleService = ScheduleService
+    scheduleService.update(schedule)
+
+    return HttpResponse(f"Well done on saving {schedule_id}!")

@@ -3,6 +3,7 @@
 <form action="{% url 'schedule:update' schedule.Id %}" method="post">
     {% csrf_token %}
 
+    <input type="hidden" name="id" value="{{schedule.Id}}" />
     <input type="text" name="name" value="{{schedule.Name}}" />
     <input type="text" name="startdate" value="{{schedule.StartDate}}" />
     <input type="submit" value="Save" />
