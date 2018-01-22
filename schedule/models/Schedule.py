@@ -59,6 +59,16 @@ class ScheduleService:
             connection.close()
 
     @classmethod
+    def Add(self, schedule):
+        try:
+            with connection.cursor() as cursor:
+                sql = "UPDATE `users` SET (`Id` = %s, `Name` = %s, `StartDate` = %s)"
+                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
+                connection.commit()
+        finally:
+            connection.close()
+
+    @classmethod
     def __GetWorkingDays(self, schedule):
         schedule.WorkingDays = [schedule.WorkingDay0, 
                                 schedule.WorkingDay1, 
