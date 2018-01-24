@@ -35,8 +35,10 @@ def update(request, schedule_id):
     schedule.Id = request.POST['Id']
     schedule.Name = request.POST['Name']
     schedule.StartDate = request.POST['StartDate']
+    schedule.WorkingDay0 = request.POST['WorkingDay0']
 
     scheduleService = ScheduleService
-    scheduleService.update(schedule)
+    #scheduleService.update(schedule)
 
-    return HttpResponse(f"Well done on saving {schedule_id}!")
+    #return HttpResponse(f"Well done on saving {schedule_id}!")
+    return HttpResponseRedirect(reverse('schedule:index', args=(schedule.Name,)))
