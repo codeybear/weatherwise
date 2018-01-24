@@ -52,18 +52,18 @@ class ScheduleService:
     def Add(self, schedule):
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `users` (`Id`, `Name`, `StartDate`) VALUES (%s, %s, %s)"
+                sql = "INSERT INTO `schedule` (`Id`, `Name`, `StartDate`, 'WorkingDay0', 'WorkingDay1', 'WorkingDay2', 'WorkingDay3', 'WorkingDay4', 'WorkingDay5', 'WorkingDay6') VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                 cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Add(self, schedule):
+    def Update(self, schedule):
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `users` SET (`Id` = %s, `Name` = %s, `StartDate` = %s)"
-                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
+                sql = "UPDATE `users` SET (`Id` = %s, `Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, `WorkingDay1` = %s, `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, `WorkingDay6` = %s)"
+                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate, schedule.WorkingDay0))
                 connection.commit()
         finally:
             connection.close()
