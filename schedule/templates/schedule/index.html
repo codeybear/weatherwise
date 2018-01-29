@@ -24,11 +24,13 @@
             {{ schedule.StartDate }}
         </td>
         <td>
-            <a href="#">Edit...</a>
+            <a href="{% url 'schedule:detail' schedule.Id %}">Edit...</a>
         </td>            
     </tr>
     {% endfor %}
 </table>
+
+<a href="#">Add a new schedule...</a>
 
 </div>
 {% endblock %}
