@@ -41,7 +41,7 @@ class ScheduleService:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM schedule"
                 cursor.execute(sql)
-                result = cursor.fetchall()
+                results = cursor.fetchall()
                 scheduleList = [Schedule(**result) for result in results]
                 return scheduleList
 

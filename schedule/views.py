@@ -6,13 +6,11 @@ from django.http import Http404
 from schedule.models import MyClass, Schedule, ScheduleService
 
 def index(request):
-    schedule = Schedule
-    schedule.Id = 1
-    schedule.Name = "Test Schedule"
-    schedule.StartDate = "1/11/2017"
+    scheduleService = ScheduleService
+    schedules = scheduleService.GetAll()    
 
     template = loader.get_template('schedule/index.html')
-    context = { 'schedule' : schedule }
+    context = { 'schedules' : schedules }
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):
