@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
@@ -36,4 +37,4 @@ def update(request, schedule_id):
     scheduleService.Update(schedule)
 
     #return HttpResponse(f"Well done on saving {schedule_id}!")
-    return HttpResponseRedirect(reverse('schedule:index', args=(schedule.Id,)))
+    return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
