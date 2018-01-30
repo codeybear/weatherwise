@@ -29,10 +29,22 @@ def update(request, schedule_id):
     schedule.Id = request.POST['id']
     schedule.Name = request.POST['name']
     schedule.StartDate = request.POST['startdate']
-    #schedule.WorkingDay0 = request.POST['workingday0']
+    schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
+    schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
+    schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')
+    schedule.WorkingDay3 = IsChecked(request.POST, 'workingday3')
+    schedule.WorkingDay4 = IsChecked(request.POST, 'workingday4')
+    schedule.WorkingDay5 = IsChecked(request.POST, 'workingday5')
+    schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
 
     scheduleService = ScheduleService
     scheduleService.Update(schedule)
 
-    #return HttpResponse(f"Well done on saving {schedule_id}!")
-    return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
+    return HttpResponseRedirect(reverse('schedule:index'))
+    #return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
+
+def IsChecked(dict, item):
+    if dict.get(item, 0) == '':
+        return True
+    else:
+        return False
