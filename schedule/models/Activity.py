@@ -53,7 +53,10 @@ class ActivityService:
     def Update(self, activity):
             try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `activity` SET (`Id` = %s, `Name` = %s, `Duration` = %s, `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s)"
+                sql = "UPDATE `activity` SET `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s, `Name` = %s, `Duration` = %s) \
+                      ""
+                      
+                # UPDATE `weather`.`activity` SET `LocationId`='1' WHERE `Id`='2';
                 cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate, schedule.WorkingDay0))
                 connection.commit()
         finally:
