@@ -54,12 +54,14 @@ class ScheduleService:
         
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `schedule` (`Name`, `StartDate`, 'WorkingDay0', 'WorkingDay1', 'WorkingDay2', 'WorkingDay3', 'WorkingDay4', 'WorkingDay5', 'WorkingDay6') \
+                sql = "INSERT INTO `schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`) \
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
+                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6))
                 connection.commit()
         finally:
             connection.close()
+
+            #INSERT INTO `weather`.`schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`) VALUES ('New one', '2018-06-01', '1', '0', '1', '0', '0', '0', '0');
 
     @classmethod
     def Update(self, schedule):

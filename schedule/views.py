@@ -18,7 +18,10 @@ def detail(request, schedule_id):
         raise Http404('Schedule does not exist')
 
     scheduleService = ScheduleService
-    schedule = scheduleService.GetById(schedule_id)
+    schedule = Schedule
+    
+    if schedule_id != 0:
+        schedule = scheduleService.GetById(schedule_id)
 
     template = loader.get_template('schedule/detail.html')
     context = { 'schedule' : schedule }
@@ -38,7 +41,11 @@ def update(request, schedule_id):
     schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
 
     scheduleService = ScheduleService
-    scheduleService.Update(schedule)
+
+    if schedule_id != 0:
+        scheduleService.Update(schedule)
+    else:
+        scheduleService.Add(schedule)
 
     return HttpResponseRedirect(reverse('schedule:index'))
     #return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
