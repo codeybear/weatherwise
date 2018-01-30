@@ -1,22 +1,16 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
 from schedule.models import MyClass, Schedule, ScheduleService
 
-#class Schedule:
-#    Id = 0    
-#    Name = ""
-#    StartDate = ""
-
 def index(request):
-    schedule = Schedule
-    schedule.Id = 1
-    schedule.Name = "Test Schedule"
-    schedule.StartDate = "1/11/2017"
+    scheduleService = ScheduleService
+    schedules = scheduleService.GetAll()    
 
     template = loader.get_template('schedule/index.html')
-    context = { 'schedule' : schedule }
+    context = { 'schedules' : schedules }
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):
@@ -32,13 +26,13 @@ def detail(request, schedule_id):
 
 def update(request, schedule_id):
     schedule = Schedule
-    schedule.Id = request.POST['Id']
-    schedule.Name = request.POST['Name']
-    schedule.StartDate = request.POST['StartDate']
-    schedule.WorkingDay0 = request.POST['WorkingDay0']
+    schedule.Id = request.POST['id']
+    schedule.Name = request.POST['name']
+    schedule.StartDate = request.POST['startdate']
+    #schedule.WorkingDay0 = request.POST['workingday0']
 
     scheduleService = ScheduleService
-    #scheduleService.update(schedule)
+    scheduleService.Update(schedule)
 
     #return HttpResponse(f"Well done on saving {schedule_id}!")
-    return HttpResponseRedirect(reverse('schedule:index', args=(schedule.Name,)))
+    return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
