@@ -54,10 +54,9 @@ class ActivityService:
             try:
             with connection.cursor() as cursor:
                 sql = "UPDATE `activity` SET `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s, `Name` = %s, `Duration` = %s) \
-                      ""
+                      "WHERE Id = %s"
                       
-                # UPDATE `weather`.`activity` SET `LocationId`='1' WHERE `Id`='2';
-                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate, schedule.WorkingDay0))
+                cursor.execute(sql, (activity.ScheduleId, activity.LocationId, activity.ActivityTypeId, activity.DependencyTypeId, activity.DependencyLength, activity.Name, activity.Duration))
                 connection.commit()
         finally:
             connection.close()
@@ -67,7 +66,7 @@ class ActivityService:
         try:
             with connection.cursor() as cursor:
                 sql = "INSERT INTO `activity` (`Name`, `Duration`, 'ScheduleId', 'LocationId', 'ActivityTypeId') VALUES (%s, %s, %s, %s, %s)"
-                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate))
+                cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
                 connection.commit()
         finally:
             connection.close()

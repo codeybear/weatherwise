@@ -61,8 +61,6 @@ class ScheduleService:
         finally:
             connection.close()
 
-            #INSERT INTO `weather`.`schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`) VALUES ('New one', '2018-06-01', '1', '0', '1', '0', '0', '0', '0');
-
     @classmethod
     def Update(self, schedule):
         connection = Common.getconnection()
