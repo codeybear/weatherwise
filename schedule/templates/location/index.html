@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Schedules{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <br />
+    <h3>Location List</h3>
+
+    <!-- <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Start Date</th>                
+            </tr>
+        </thead>
+    {% for schedule in schedules %}
+    <tr>
+        <td>
+            {{ schedule.Name }}
+        </td>
+        <td>
+            {{ schedule.StartDate }}
+        </td>
+        <td>
+            <a href="{% url 'schedule:detail' schedule.Id %}">Edit...</a>
+        </td>            
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'schedule:detail' 0 %}">Add a new schedule...</a> -->
+
+</div>
+{% endblock %}
