@@ -45,7 +45,7 @@ class LocationService:
         
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `location` (`scheduleId`, `Lat`, `Long`) \
+                sql = "INSERT INTO `location` (`ScheduleId`, `Lat`, `Long`) \
                        VALUES (%s, %s, %s)"
                 cursor.execute(sql, (location.ScheduleId, location.Lat, location.Long))
                 connection.commit()
@@ -58,7 +58,7 @@ class LocationService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `location` SET `scheduleId` = %s, `Lat` = %s, `Long` = %s
+                sql = "UPDATE `location` SET `ScheduleId` = %s, `Lat` = %s, `Long` = %s
                        WHERE Id = %s"
                 
                 cursor.execute(sql, (location.ScheduleId, location.Lat, location.Long, location.Id))

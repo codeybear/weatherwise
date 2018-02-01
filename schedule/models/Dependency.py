@@ -30,11 +30,11 @@ class DependencyService:
 
 
     @classmethod
-    def Add(self, schedule):
+    def Add(self, dependency):
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `dependency` () VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, ())
+                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`) VALUES (%s, %s)"
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId))
                 connection.commit()
         finally:
             connection.close()
@@ -43,8 +43,7 @@ class DependencyService:
     def Update(self, schedule):
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `dependency` SET (`Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, \
-                       `WorkingDay1` = %s, `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, `WorkingDay6` = %s) \
+                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s \
                        WHERE Id = %s"
                 cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate, schedule.WorkingDay0))
                 connection.commit()
