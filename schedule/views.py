@@ -50,7 +50,8 @@ def update(request, schedule_id):
     else:
         scheduleService.Add(schedule)
 
-    return HttpResponseRedirect(reverse('schedule:index'))
+    return HttpResponseRedirect('/schedule')
+    #return HttpResponseRedirect(reverse('schedule:index'))
     #return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
 
 def IsChecked(dict, item):

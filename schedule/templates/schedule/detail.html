@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
 <div class="container">
     <form action="{% url 'schedule:update' schedule.Id %}" method="post" data-parsley-validate="">
         {% csrf_token %}
@@ -81,7 +80,8 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-secondary">Locations...</button>
+            <!-- <button type="submit" class="btn btn-secondary">Locations...</button> -->
+            <a class="btn btn-secondary" href="{% url 'schedule:index' %}">Location...</a>
             <button type="submit" class="btn btn-secondary">Activities...</button>
         </div>        
 
