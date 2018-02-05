@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
+import time
 from schedule.models import MyClass, Schedule, ScheduleService
 
 def index(request):
@@ -31,7 +32,9 @@ def update(request, schedule_id):
     schedule = Schedule
     schedule.Id = request.POST['id']
     schedule.Name = request.POST['name']
-    schedule.StartDate = request.POST['startdate']
+    schedule.StartDateDisplay = request.POST['startdate']
+    schedule.StartDate = time.strptime(schedule.StartDateDisplay, "%d/%m/%Y")
+
     schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
     schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
     schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')

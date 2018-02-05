@@ -7,6 +7,7 @@ class Schedule:
     Id = 0    
     Name = ""
     StartDate = ""
+    StartDateDisplay = ""
     WorkingDay0 = False
     WorkingDay1 = False
     WorkingDay2 = False
@@ -28,6 +29,8 @@ class ScheduleService:
                 result = cursor.fetchone()
                 schedule = None if result is None else Schedule(**result)
                 schedule = self.__GetWorkingDays(schedule)
+                schedule.StartDateDisplay = schedule.StartDate.strftime("%d/%m/%Y")
+
                 return schedule
 
         finally:
