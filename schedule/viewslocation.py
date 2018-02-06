@@ -5,9 +5,12 @@ from django.http import Http404
 
 from schedule.models import Location, LocationService
 
-def index(request):
+def index(request, schedule_id):
+    locationService = LocationService
+    locations = locationService.GetByScheduleId(schedule_id)    
+    
     template = loader.get_template('location/index.html')
-    context = { 'locations' : '' }
+    context = { 'locations' : locations }
     return HttpResponse(template.render(context, request))
 
 def detail(request, location_id):
@@ -19,7 +22,7 @@ def detail(request, location_id):
 
     template = loader.get_template('location/index.html')    
 
-    context = { 'locations' : location }
+    context = { 'location' : location }
     return HttpResponse(template.render(context, request))
 
 def update(request):

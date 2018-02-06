@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:schedule_id>/', views.detail, name='detail'),
     path('<int:schedule_id>/update', views.update, name='update'),
     path('location/', viewslocation.index, name='index'),
-    path('location/<int:location_id>', viewslocation.detail, name='detail'),
+    path('location/<int:schedule_id>', viewslocation.index, name='index'),
 ]
