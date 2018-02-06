@@ -4,7 +4,7 @@ from django.template import loader
 from django.http import Http404
 
 import time
-from schedule.models import MyClass, Schedule, ScheduleService
+from schedule.models import Schedule, ScheduleService
 
 def index(request):
     scheduleService = ScheduleService

@@ -1,10 +1,16 @@
 from schedule.models import Common
 
+class TestClass:
+    @classmethod
+    def TestMethod():
+        return ""
+
 class Location:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
     Id = ""
+    ScheduleId = 0
     Lat = 0.0
     Long = 0.0
 
@@ -31,7 +37,7 @@ class LocationService:
         try:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM location WHERE Id=%s"
-                cursor.execute(sql, (str(uid)))
+                cursor.execute(sql, (str(Id)))
                 result = cursor.fetchone()
                 location = None if result is None else Location(**result)
                 return location
@@ -58,7 +64,7 @@ class LocationService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `location` SET `ScheduleId` = %s, `Lat` = %s, `Long` = %s
+                sql = "UPDATE `location` SET `ScheduleId` = %s, `Lat` = %s, `Long` = %s \
                        WHERE Id = %s"
                 
                 cursor.execute(sql, (location.ScheduleId, location.Lat, location.Long, location.Id))
