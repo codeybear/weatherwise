@@ -25,7 +25,7 @@ def detail(request, location_id):
     context = { 'location' : location, 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
 
-def update(request):
+def update(request, location_id):
     locationService = LocationService
     location =  Location
     location.Id = request.POST['id']
