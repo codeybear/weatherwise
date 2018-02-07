@@ -64,10 +64,10 @@ class LocationService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `location` SET `ScheduleId` = %s, `Lat` = %s, `Long` = %s \
+                sql = "UPDATE `location` SET `Name` = %s, `ScheduleId` = %s, `Lat` = %s, `Long` = %s \
                        WHERE Id = %s"
                 
-                cursor.execute(sql, (location.ScheduleId, location.Lat, location.Long, location.Id))
+                cursor.execute(sql, (location.Name, location.ScheduleId, location.Lat, location.Long, location.Id))
                 connection.commit()
         finally:
             connection.close()

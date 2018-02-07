@@ -17,65 +17,65 @@
                 
                 <div id="map-wrapper" class="col-sm">
                     {% if viewtype == "detail" %}
-                    <form  style="width:300px">
+                    <form style="width:300px" action="/schedule/location/update" method="post">
+                        {% csrf_token %}
+                        
                         <input type="hidden" name="id" value="{{location.Id}}" />
-                        <input type="text" class="form-control" value="{{viewtype}}" required="" />
+                        <input type="hidden" name="schedule_id" value="{{location.ScheduleId}}" />
                         
                         <div class="form-group w-75">
                             <label for="inputName">Name</label>
-                            <input type="text" class="form-control" id="inputName" value="{{location.Name}}" />
+                            <input type="text" class="form-control" id="inputName" name="name" value="{{location.Name}}" />
                         </div>
             
                         <div class="form-group w-50">
                             <label for="inputLat">Lat</label>
-                            <input type="text" class="form-control" id="inputLat" value="{{location.Lat}}" />
+                            <input type="text" class="form-control" id="inputLat" name="lat" value="{{location.Lat}}" />
                             <small id="nameHelp" class="form-text text-muted">-9 to 2 (WGS84)</small>                
                         </div>
             
                         <div class="form-group w-50">
                             <label for="inputLat">Long</label>
-                            <input type="text" class="form-control" id="inputLong" value="{{location.Long}}" />
+                            <input type="text" class="form-control" id="inputLong" name="long" value="{{location.Long}}" />
                             <small id="nameHelp" class="form-text text-muted">49 to 61 (WGS84)</small>
                         </div>
             
                         <div class="form-group">
-                            <button type="submit" class="btn btn-secondary">Cancel</button>                            
                             <button type="submit" class="btn btn-primary">Update</button>
+                            <a class="btn btn-secondary" href="/schedule/location/{{location.ScheduleId}}/index">Cancel</a>              
                         </div>
-            
                     </form>
                     {% endif %}
 
                     {% if viewtype == "index" %}
                     <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Lat</th>
-                                <th scope="col">Long</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {% for location in locations %}
-                                    <tr>
-                                        <td>
-                                            {{ location.Name }}
-                                        </td>
-                                        <td>
-                                            {{ location.Lat }}
-                                        </td>
-                                        <td>
-                                            {{ location.Long }}
-                                        </td>
-                                        <td>
-                                            <a href="/schedule/location/{{location.Id}}/detail">Edit...</a>
-                                        </td>            
-                                    </tr>
-                                {% endfor %}                                                                
-                            </tbody>
-                        </table>
-
-                        {% endif %}
+                        <thead>
+                            <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Lat</th>
+                            <th scope="col">Long</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for location in locations %}
+                                <tr>
+                                    <td>
+                                        {{ location.Name }}
+                                    </td>
+                                    <td>
+                                        {{ location.Lat }}
+                                    </td>
+                                    <td>
+                                        {{ location.Long }}
+                                    </td>
+                                    <td>
+                                        <a href="/schedule/location/{{location.Id}}/detail">Edit...</a>
+                                    </td>            
+                                </tr>
+                            {% endfor %}                                                                
+                        </tbody>
+                    </table>
+                    {% endif %}
                 </div>
             </div>    
         </div>

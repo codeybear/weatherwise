@@ -29,13 +29,14 @@ def update(request):
     locationService = LocationService
     location =  Location
     location.Id = request.POST['id']
-    #location.Schedule_id = request.POST['schedule_id']
-    location.Lat = request.POST['id']
-    location.Long = request.POST['id']
+    location.ScheduleId = request.POST['schedule_id']
+    location.Name = request.POST['name']
+    location.Lat = request.POST['lat']
+    location.Long = request.POST['long']
 
     if location.Id == 0:
         locationService.Add(location)
     else:
         locationService.Update(location)
 
-    return HttpResponseRedirect("/schedule/location/" + location.Id)
+    return HttpResponseRedirect(f"/schedule/location/{location.ScheduleId}/index")
