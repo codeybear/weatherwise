@@ -10,7 +10,7 @@ def index(request, schedule_id):
     locations = locationService.GetByScheduleId(schedule_id)    
     
     template = loader.get_template('location/index.html')
-    context = { 'locations' : locations }
+    context = { 'locations' : locations, 'viewtype' : 'index' }
     return HttpResponse(template.render(context, request))
 
 def detail(request, location_id):
@@ -22,7 +22,7 @@ def detail(request, location_id):
 
     template = loader.get_template('location/index.html')    
 
-    context = { 'location' : location }
+    context = { 'location' : location, 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
 
 def update(request):
