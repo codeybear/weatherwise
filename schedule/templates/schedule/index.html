@@ -24,7 +24,7 @@
             {{ schedule.StartDate }}
         </td>
         <td>
-            <a href="{% url 'schedule:detail' schedule.Id %}">Edit...</a>
+            <a href="/schedule/{{schedule.Id}}">Edit...</a>
         </td>            
     </tr>
     {% endfor %}
