@@ -52,7 +52,6 @@ def update(request, schedule_id):
 
     return HttpResponseRedirect('/schedule')
     #return HttpResponseRedirect(reverse('schedule:index'))
-    #return HttpResponseRedirect(reverse('schedule:detail', args=(schedule.Id)))
 
 def IsChecked(dict, item):
     if dict.get(item, 0) == '':

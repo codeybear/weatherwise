@@ -10,7 +10,7 @@
         <h3>Schedule</h3>
 
         <input type="hidden" name="id" value="{{schedule.Id}}" />
-
+                
         <div class="form-group w-50">
             <label for="inputName">Name</label>
             <input type="text" class="form-control" name="name" id="inputName" value="{{schedule.Name}}" required="" />
@@ -80,9 +80,8 @@
         </div>
 
         <div class="form-group">
-            <!-- <button type="submit" class="btn btn-secondary">Locations...</button> -->
-            <a class="btn btn-secondary" href="{% url 'schedule:index' %}">Location...</a>
-            <button type="submit" class="btn btn-secondary">Activities...</button>
+            <a class="btn btn-secondary" href="/schedule/location/{{schedule.Id}}">Location...</a>
+            <a class="btn btn-secondary" href="/schedule/activities/{{schedule.Id}}">Activities...</a>
         </div>        
 
         <div class="form-group">
