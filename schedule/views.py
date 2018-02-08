@@ -19,7 +19,7 @@ def detail(request, schedule_id):
         raise Http404('Schedule does not exist')
 
     scheduleService = ScheduleService
-    schedule = Schedule
+    schedule = None
     
     if schedule_id != 0:
         schedule = scheduleService.GetById(schedule_id)
@@ -51,7 +51,6 @@ def update(request, schedule_id):
         scheduleService.Add(schedule)
 
     return HttpResponseRedirect('/schedule')
-    #return HttpResponseRedirect(reverse('schedule:index'))
 
 def IsChecked(dict, item):
     if dict.get(item, 0) == '':

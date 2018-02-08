@@ -20,7 +20,10 @@ def detail(request, location_id):
     if location_id != 0:
         location = locationService.GetById(location_id)
     else:
-        location.ScheduleId = request.GET['schedule_id']    # If this is an insert then this will be supplied in the query string
+        location.Name = ''
+        location.Lat = 0.0
+        location.Long = 0.0
+        location.ScheduleId = request.GET['schedule_id']    # If this is an insert then schedule_id will be supplied in the query string
 
     template = loader.get_template('location/index.html')    
 

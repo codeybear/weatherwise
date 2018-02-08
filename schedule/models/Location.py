@@ -1,16 +1,12 @@
 from schedule.models import Common
 
-class TestClass:
-    @classmethod
-    def TestMethod():
-        return ""
-
 class Location:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
     Id = 0
     ScheduleId = 0
+    Name = ''
     Lat = 0.0
     Long = 0.0
 

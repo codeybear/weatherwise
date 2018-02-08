@@ -5,19 +5,19 @@
 {% block content %}
 
 {% load static %}
+<div id="map-wrapper">
+    <img id="imgMap" src="{% static "schedule/UK.png" %}"></image>
+</div>
 
     <div class="container">
             <br />
             <h3>Locations</h3>
     
             <div class="row">
-                <div id="map-wrapper" class="col-sm">
-                    <img id="imgMap" src="{% static "schedule/UK.png" %}"></image>
-                </div>
                 
-                <div id="map-wrapper" class="col-sm">
+                <div id="form-wrapper" class="col-sm">
                     {% if viewtype == "detail" %}
-                    <form style="width:300px" action="/schedule/location/{{location.Id}}/update" method="post">
+                    <form style="width:300px" action="/schedule/location/{{location.Id}}/update"  data-parsley-validate="" method="post">
                         {% csrf_token %}
                         
                         <input type="hidden" name="id" value="{{location.Id}}" />
@@ -25,18 +25,18 @@
                         
                         <div class="form-group w-75">
                             <label for="inputName">Name</label>
-                            <input type="text" class="form-control" id="inputName" name="name" value="{{location.Name}}" />
+                            <input type="text" class="form-control" id="inputName" name="name" value="{{location.Name}}" required="" />
                         </div>
             
                         <div class="form-group w-50">
                             <label for="inputLat">Lat</label>
-                            <input type="text" class="form-control" id="inputLat" name="lat" value="{{location.Lat}}" />
+                            <input type="text" class="form-control" id="inputLat" name="lat" value="{{location.Lat}}" required="" Min="-9" Max="2" />
                             <small id="nameHelp" class="form-text text-muted">-9 to 2 (WGS84)</small>                
                         </div>
             
                         <div class="form-group w-50">
                             <label for="inputLat">Long</label>
-                            <input type="text" class="form-control" id="inputLong" name="long" value="{{location.Long}}" />
+                            <input type="text" class="form-control" id="inputLong" name="long" value="{{location.Long}}" required="" Min="49" Max="61" />
                             <small id="nameHelp" class="form-text text-muted">49 to 61 (WGS84)</small>
                         </div>
             
@@ -84,8 +84,14 @@
         </div>
     
         <script>
+            function precisionRound(number, precision) {
+                var factor = Math.pow(10, precision);
+                return Math.round(number * factor) / factor;
+            }
+
             document.getElementById('imgMap').addEventListener('click', (evt) => {
-                var txtCoordinates = document.getElementById('txtCoords');
+                var lat = document.getElementById('inputLat');
+                var long = document.getElementById('inputLong');
                 x = evt.offsetX;
                 y = evt.offsetY;
                 point = document.createElement('div');
@@ -96,7 +102,9 @@
     
                 document.getElementById('map-wrapper').appendChild(point);
     
-                txtCoordinates.value = `X = ${x}, Y = ${y}`;
+                lat.value = precisionRound(x / 365.766 * 11 - 9, 2);
+                long.value = precisionRound((600 - y) / 600 * 12 + 49, 2);
+                //txtCoordinates.value = `X = ${x}, Y = ${y}`;
             })
         </script>
 </div>
