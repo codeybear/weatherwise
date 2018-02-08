@@ -10,7 +10,7 @@ def index(request, schedule_id):
     locations = locationService.GetByScheduleId(schedule_id)    
     
     template = loader.get_template('location/index.html')
-    context = { 'locations' : locations, 'viewtype' : 'index' }
+    context = { 'locations' : locations, 'viewtype' : 'index', 'ScheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
 
 def detail(request, location_id):
@@ -19,6 +19,8 @@ def detail(request, location_id):
     
     if location_id != 0:
         location = locationService.GetById(location_id)
+    else:
+        location.ScheduleId = request.GET['schedule_id']    # If this is an insert then this will be supplied in the query string
 
     template = loader.get_template('location/index.html')    
 
@@ -28,7 +30,7 @@ def detail(request, location_id):
 def update(request, location_id):
     locationService = LocationService
     location =  Location
-    location.Id = request.POST['id']
+    location.Id = int(request.POST['id'])
     location.ScheduleId = request.POST['schedule_id']
     location.Name = request.POST['name']
     location.Lat = request.POST['lat']

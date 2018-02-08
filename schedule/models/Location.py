@@ -9,7 +9,7 @@ class Location:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
-    Id = ""
+    Id = 0
     ScheduleId = 0
     Lat = 0.0
     Long = 0.0
@@ -51,9 +51,9 @@ class LocationService:
         
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `location` (`ScheduleId`, `Lat`, `Long`) \
-                       VALUES (%s, %s, %s)"
-                cursor.execute(sql, (location.ScheduleId, location.Lat, location.Long))
+                sql = "INSERT INTO `location` (`ScheduleId`, `Name`, `Lat`, `Long`) \
+                       VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (location.ScheduleId, location.Name, location.Lat, location.Long))
                 connection.commit()
         finally:
             connection.close()

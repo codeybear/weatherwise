@@ -17,7 +17,7 @@
                 
                 <div id="map-wrapper" class="col-sm">
                     {% if viewtype == "detail" %}
-                    <form style="width:300px" action="/schedule/location/update" method="post">
+                    <form style="width:300px" action="/schedule/location/{{location.Id}}/update" method="post">
                         {% csrf_token %}
                         
                         <input type="hidden" name="id" value="{{location.Id}}" />
@@ -76,7 +76,7 @@
                         </tbody>
                     </table>
 
-                    <a href="/schedule/location/0/update">Add a new location...</a>
+                    <a href="/schedule/location/0/detail?schedule_id={{ScheduleId}}">Add a new location...</a>
 
                     {% endif %}
                 </div>
