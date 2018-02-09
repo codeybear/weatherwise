@@ -5,16 +5,16 @@
 {% block content %}
 
 {% load static %}
-<div id="map-wrapper">
-    <img id="imgMap" src="{% static "schedule/UK.png" %}"></image>
-</div>
 
-    <div class="container">
-            <br />
-            <h3>Locations</h3>
+<div class="container">
+    <br />
+    <h3>Locations</h3>
     
-            <div class="row">
-                
+    <div class="row">
+        <div id="map-wrapper">
+            <img id="imgMap" src="{% static "schedule/UK.png" %}"></image>
+        </div>
+        
                 <div id="form-wrapper" class="col-sm">
                     {% if viewtype == "detail" %}
                     <form style="width:300px" action="/schedule/location/{{location.Id}}/update"  data-parsley-validate="" method="post">
@@ -83,29 +83,81 @@
             </div>    
         </div>
     
-        <script>
-            function precisionRound(number, precision) {
-                var factor = Math.pow(10, precision);
-                return Math.round(number * factor) / factor;
-            }
+    <script>
+        function precisionRound(number, precision) {
+            var factor = Math.pow(10, precision);
+            return Math.round(number * factor) / factor;
+        }
 
-            document.getElementById('imgMap').addEventListener('click', (evt) => {
-                var lat = document.getElementById('inputLat');
-                var long = document.getElementById('inputLong');
-                x = evt.offsetX;
-                y = evt.offsetY;
-                point = document.createElement('div');
-                point.className = "map-point";
-                
-                point.style.left = x;
-                point.style.top = y;
-    
-                document.getElementById('map-wrapper').appendChild(point);
-    
-                lat.value = precisionRound(x / 365.766 * 11 - 9, 2);
-                long.value = precisionRound((600 - y) / 600 * 12 + 49, 2);
-                //txtCoordinates.value = `X = ${x}, Y = ${y}`;
-            })
-        </script>
+        function createPoint(x, y) {
+            point = document.createElement('div');
+            point.className = "map-point";
+            point.style.left = x + "px";
+            point.style.top = y + "px";
+            document.getElementById('map-wrapper').appendChild(point);
+        }
+
+        function convertLat(lat) {
+            return (lat + 9) / 11 * 365.766;
+        }   
+
+        function convertLong(long) {
+            l = (long - 49) / 12 * 600;
+            l = 600 - l
+            return l
+        }
+
+        function setPoint() {
+            var lat = document.getElementById('inputLat').value;
+            var long = document.getElementById('inputLong').value;
+
+            x = convertLat(parseInt(lat));
+            y = convertLong(parseInt(long));
+
+            removeExistingPoint();
+            createPoint(x, y);
+        }
+
+        function removeExistingPoint() {
+            var mapPoints = document.getElementsByClassName('map-point');
+            if(mapPoints.length > 0) mapPoints[0].remove();
+        }
+
+        {% if viewtype == "index" %}
+            var coords = [
+                {% for location in locations %}
+                    { Lat : {{ location.Lat }}, Long : {{ location.Long }} },
+                {% endfor %}
+                ];
+
+        coords.forEach(function(coord) {
+            var x = convertLat(coord.Lat);
+            var y = convertLong(coord.Long);
+
+            createPoint(x, y);
+        });
+        {% endif %}
+
+        {% if viewtype == "detail" %}
+        document.getElementById('imgMap').addEventListener('click', (evt) => {
+            var lat = document.getElementById('inputLat');
+            var long = document.getElementById('inputLong');
+            x = evt.offsetX;
+            y = evt.offsetY;
+
+            removeExistingPoint();
+            createPoint(x, y);
+            
+            // Convert pixels to WGS84
+            lat.value = precisionRound(x / 365.766 * 11 - 9, 1);
+            long.value = precisionRound((600 - y) / 600 * 12 + 49, 1);
+        })
+
+        setPoint();
+
+        var lat = document.getElementById('inputLat').onchange = setPoint;
+        var lat = document.getElementById('inputLong').onchange = setPoint;
+        {% endif %}
+    </script>
 </div>
 {% endblock %}
