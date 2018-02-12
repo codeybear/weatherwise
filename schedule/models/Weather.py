@@ -74,6 +74,9 @@ class Weather:
         # go through the dates get start or end accordingly
         # Adjust the dates add this to a new list
         # Choose the max from this new list
+		# Backup database
+		# Change tables
+		# Setup test data again
         # test single items
         # test just the starts
         # test just the ends
