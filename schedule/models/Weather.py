@@ -74,6 +74,10 @@ class Weather:
         # go through the dates get start or end accordingly
         # Adjust the dates add this to a new list
         # Choose the max from this new list
+        # test single items
+        # test just the starts
+        # test just the ends
+        # test both
 
         if activity.DependencyTypeId == 1:
             predActivity = max(predActivities, key=lambda item: item.EndDate)
