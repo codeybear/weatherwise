@@ -70,6 +70,11 @@ class Weather:
         # get this activity predessesors
         predActivities = [x for x in self.activityList for y in dependencies if x.Id == y.PredActivityId]
 
+        # Changes:
+        # go through the dates get start or end accordingly
+        # Adjust the dates add this to a new list
+        # Choose the max from this new list
+
         if activity.DependencyTypeId == 1:
             predActivity = max(predActivities, key=lambda item: item.EndDate)
             startDate = predActivity.EndDate + datetime.timedelta(days=1)
