@@ -4,33 +4,58 @@
 
 {% block content %}
 
-<div class="container">
-    <br />
+<br />
+    <div class="container">
     <h3>Activity List</h3>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Duration</th>                
-            </tr>
-        </thead>
-    {% for activity in activities %}
-    <tr>
-        <td>
-            {{ activity.Name }}
-        </td>
-        <td>
-            {{ activity.Duration }}
-        </td>
-        <td>
-            <a href="/activity/{{activity.Id}}">Edit...</a>
-        </td>            
-    </tr>
-    {% endfor %}
-</table>
+    <div class="row">
+        <div class="col-sm">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Duration</th>                
+                    </tr>
+                </thead>
+                {% for activity in activities %}
+                <tr>
+                    <td>
+                        {{ activity.Name }}
+                    </td>
+                    <td>
+                        {{ activity.Duration }}
+                    </td>
+                    <td>
+                        <a href="/schedule/activity/{{activity.Id}}/detail">Edit...</a>
+                    </td>            
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+        <div class="col-sm">
+            <form action="/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{activity.Id}}" />
 
-<a href="/activity/0">Add a new schedule...</a>
+                <div class="form-group">
+                    <label for="inputName">Name</label>
+                    <input type="text" class="form-control" id="inputName" name="inputName" value="{{activity.Name}}" data-parsley-datecheck required="" />
+                </div>
 
+                <div class="form-group w-50">
+                    <label for="inputName">Duration</label>
+                    <input type="text" class="form-control" id="inputDuration" name="inputDuration" value="{{activity.Duration}}" data-parsley-datecheck required="" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a class="btn btn-secondary" href="/schedule/activity/{{activity.ScheduleId}}/index">Cancel</a>
+                </div>                
+            </form>
+        </div>
+    </div>
+
+    <a href="/activity/0">Add a new schedule...</a>
 </div>
 {% endblock %}

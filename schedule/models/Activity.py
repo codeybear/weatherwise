@@ -18,13 +18,13 @@ class Activity:
 
 class ActivityService:
     @classmethod
-    def GetById(self, uid):
+    def GetById(self, activityId):
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM activity WHERE Id=%s"
-                cursor.execute(sql, (str(uid)))
+                cursor.execute(sql, (str(activityId)))
                 result = cursor.fetchone()
                 activity = None if result is None else Activity(**result)
                 return activity

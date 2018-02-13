@@ -18,11 +18,12 @@ def detail(request, activity_id):
     activity = Activity()
 
     if activity_id != 0:
-        activity = ActivityService.GetById()
+        activity = ActivityService.GetById(activity_id)
 
+    activities = activityService.GetByScheduleId(activity.ScheduleId)
     template = loader.get_template('activity/index.html')    
 
-    context = { 'activity' : activity, 'viewtype' : 'detail' }
+    context = { 'activity' : activity, 'activities' : activities , 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):
