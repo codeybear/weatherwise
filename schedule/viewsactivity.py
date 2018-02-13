@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
-from schedule.models import Activity, ActivityService
+from schedule.models import Activity, ActivityService, Location, LocationService
 
 def index(request, schedule_id):
     activityService = ActivityService
@@ -16,14 +16,17 @@ def index(request, schedule_id):
 def detail(request, activity_id):
     activityService = ActivityService
     activity = Activity()
+    locationService = LocationService
 
     if activity_id != 0:
         activity = ActivityService.GetById(activity_id)
 
+    locations = locationService.GetByScheduleId(activity.ScheduleId)
+    activityTypes = activityService.GetActivityTypes()
     activities = activityService.GetByScheduleId(activity.ScheduleId)
     template = loader.get_template('activity/index.html')    
 
-    context = { 'activity' : activity, 'activities' : activities , 'viewtype' : 'detail' }
+    context = { 'activity' : activity, 'activities' : activities, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):

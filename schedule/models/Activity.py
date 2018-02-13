@@ -16,6 +16,13 @@ class Activity:
     EndDate = ""        # temp field not stored in the database
     NewDuration = 0     # temp field not stored in the database
 
+class ActivityType:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+    Id = ""
+    Name = ""
+
 class ActivityService:
     @classmethod
     def GetById(self, activityId):
@@ -48,6 +55,23 @@ class ActivityService:
 
         finally:
             connection.close()
+
+    @classmethod
+    def GetActivityTypes(self):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM activity_type"
+                cursor.execute(sql)
+                results = cursor.fetchall()
+                # Convert list of dicts to list of classes
+                activityTypeList = [ActivityType(**result) for result in results]
+
+                return activityTypeList
+
+        finally:
+            connection.close()        
 
     @classmethod
     def Update(self, activity):

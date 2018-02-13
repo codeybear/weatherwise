@@ -48,19 +48,22 @@
                     <input type="text" class="form-control" id="inputDuration" name="duration" value="{{activity.Duration}}" required="" />
                 </div>
 
-                <div class="form-group w-50">
-                    <label for="inputName">Location</label>
-                    <input type="" class="form-control" id="inputDuration" name="location" value="{{activity.Duration}}" required="" />
+                <div class="form-group">
+                    <label for="activity-type">Activity Type</label>
+                    <select class="form-control form-control-sm" name="activity-type">
+                        {% for activitytype in activitytypes %}
+                        <option value="{{activitytype.Id}}" {% if activity.ActivityTypeId == activitytype.Id %}selected{% endif %}>{{activitytype.Name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
-                <div class="form-group w-50">
-                    <label for="selectActivityType">ActivityType</label>
-                    <select class="form-control form-control-sm">
-                        <option value="1">Actitity 1</option>
-                        <option value="2">Actitity 2</option>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select class="form-control form-control-sm" name="location">                        
+                        {% for location in locations  %}
+                        <option value="{{location.Id}}" {% if activity.LocationId == location.Id %}selected{% endif %}>{{location.Name}}</option>
+                        {% endfor %}
                     </select>
-
-                    <input type="text" class="form-control" id="inputDuration" name="activity_type" value="{{activity.Duration}}" required="" />
                 </div>
 
                 <div class="form-group">
