@@ -34,18 +34,33 @@
         </div>
         
         <div class="col-sm">
-            <form action="/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
+            <form action="/schedule/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
                 {% csrf_token %}
-                <input type="hidden" name="id" value="{{activity.Id}}" />
+                <input type="hidden" name="id" value="{{activity.ScheduleId}}" />
 
                 <div class="form-group">
                     <label for="inputName">Name</label>
-                    <input type="text" class="form-control" id="inputName" name="inputName" value="{{activity.Name}}" data-parsley-datecheck required="" />
+                    <input type="text" class="form-control" id="inputName" name="name" value="{{activity.Name}}" required="" />
                 </div>
 
                 <div class="form-group w-50">
                     <label for="inputName">Duration</label>
-                    <input type="text" class="form-control" id="inputDuration" name="inputDuration" value="{{activity.Duration}}" data-parsley-datecheck required="" />
+                    <input type="text" class="form-control" id="inputDuration" name="duration" value="{{activity.Duration}}" required="" />
+                </div>
+
+                <div class="form-group w-50">
+                    <label for="inputName">Location</label>
+                    <input type="" class="form-control" id="inputDuration" name="location" value="{{activity.Duration}}" required="" />
+                </div>
+
+                <div class="form-group w-50">
+                    <label for="selectActivityType">ActivityType</label>
+                    <select class="form-control form-control-sm">
+                        <option value="1">Actitity 1</option>
+                        <option value="2">Actitity 2</option>
+                    </select>
+
+                    <input type="text" class="form-control" id="inputDuration" name="activity_type" value="{{activity.Duration}}" required="" />
                 </div>
 
                 <div class="form-group">

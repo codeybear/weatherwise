@@ -33,6 +33,7 @@ def update(request, activity_id):
     activity.Id = activity_id
     activity.Name = request.POST['name']
     activity.Duration = request.POST['duration']
+    activity.ScheduleId = request.POST['schedule_id']
 
     if activity.Id == 0:
         activityService.Add(activity)
