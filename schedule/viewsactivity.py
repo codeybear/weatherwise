@@ -10,7 +10,7 @@ def index(request, schedule_id):
     activities = activityService.GetByScheduleId(schedule_id)    
     
     template = loader.get_template('activity/index.html')
-    context = { 'activities' : activities, 'viewtype' : 'index', 'ScheduleId' : schedule_id }
+    context = { 'activities' : activities, 'viewtype' : 'index' }
     return HttpResponse(template.render(context, request))
 
 def detail(request, activity_id):

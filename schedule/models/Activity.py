@@ -1,4 +1,4 @@
-import Common
+from schedule.models import Common
 
 class Activity:
     def __init__(self, **entries):
@@ -12,9 +12,9 @@ class Activity:
     ActivityTypeId = 0
     DependencyTypeId = 0
     DependencyLength = 0
-    StartDate = ""  # temp field not store in the database
-    EndDate = ""    # temp field not store in the database
-    NewDuration = 0 # temp field not store in the database
+    StartDate = ""      # temp field not stored in the database
+    EndDate = ""        # temp field not stored in the database
+    NewDuration = 0     # temp field not stored in the database
 
 class ActivityService:
     @classmethod
@@ -51,10 +51,10 @@ class ActivityService:
 
     @classmethod
     def Update(self, activity):
-            try:
+        try:
             with connection.cursor() as cursor:
                 sql = "UPDATE `activity` SET `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s, `Name` = %s, `Duration` = %s) \
-                      "WHERE Id = %s"
+                       WHERE Id = %s"
                       
                 cursor.execute(sql, (activity.ScheduleId, activity.LocationId, activity.ActivityTypeId, activity.DependencyTypeId, activity.DependencyLength, activity.Name, activity.Duration))
                 connection.commit()
