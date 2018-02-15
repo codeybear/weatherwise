@@ -11,7 +11,7 @@
     <form action="/schedule/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
         {% csrf_token %}
 
-        <input type="hidden" name="schedule_id" value="{{activity.ScheduleId}}" />
+        <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
 
         <div class="form-group w-75 ">
             <label for="inputName">Name</label>
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
-            <a class="btn btn-secondary" href="/schedule/activity/{{activity.ScheduleId}}">Cancel</a>
+            <a class="btn btn-secondary" href="/schedule/activity/{{scheduleId}}">Cancel</a>
         </div>                
     </form>
 </div>  

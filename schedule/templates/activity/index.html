@@ -34,7 +34,7 @@
                     {{ activity.ActivityTypeName }}
                 </td>
                 <td>
-                    <a href="/schedule/activity/{{activity.Id}}/detail">Edit...</a>
+                    <a href="/schedule/activity/{{activity.Id}}/detail?schedule_id={{scheduleId}}">Edit...</a>
                 </td>            
             </tr>
             {% endfor %}
@@ -46,6 +46,6 @@
     </div>
 </div>
 
-<a href="/activity/0">Add a new schedule...</a>
+<a href="/schedule/activity/0/detail?schedule_id={{scheduleId}}">Add a new schedule...</a>
 </div>
 {% endblock %}

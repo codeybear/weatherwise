@@ -10,10 +10,11 @@ def index(request, schedule_id):
     activities = activityService.GetByScheduleId(schedule_id)    
     
     template = loader.get_template('activity/index.html')
-    context = { 'activities' : activities, 'viewtype' : 'index' }
+    context = { 'activities' : activities, 'viewtype' : 'index', 'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
 
 def detail(request, activity_id):
+    scheduleId = request.GET["schedule_id"]
     activityService = ActivityService
     activity = Activity()
     locationService = LocationService
@@ -21,11 +22,11 @@ def detail(request, activity_id):
     if activity_id != 0:
         activity = ActivityService.GetById(activity_id)
 
-    locations = locationService.GetByScheduleId(activity.ScheduleId)
+    locations = locationService.GetByScheduleId(scheduleId)
     activityTypes = activityService.GetActivityTypes()
     template = loader.get_template('activity/detail.html')    
 
-    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail' }
+    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 'scheduleId' : scheduleId }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):
