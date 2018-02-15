@@ -36,10 +36,12 @@ def update(request, activity_id):
     activity.Name = request.POST['name']
     activity.Duration = request.POST['duration']
     activity.ScheduleId = request.POST['schedule_id']
+    activity.LocationId = request.POST['location']
+    activity.ActivityTypeId = request.POST['activity-type']
 
     if activity.Id == 0:
         activityService.Add(activity)
     else:
         activityService.Update(activity)
 
-    return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}/index")
+    return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")

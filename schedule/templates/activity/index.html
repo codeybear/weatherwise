@@ -15,6 +15,8 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Duration</th>                
+                    <th scope="col">Location</th>                
+                    <th scope="col">ActivityType</th>                
                 </tr>
             </thead>
             {% for activity in activities %}
@@ -26,10 +28,10 @@
                     {{ activity.Duration }}
                 </td>
                 <td>
-                    {{ activity.Location }}
+                    {{ activity.LocationName }}
                 </td>
                 <td>
-                    {{ activity.ActivityType }}
+                    {{ activity.ActivityTypeName }}
                 </td>
                 <td>
                     <a href="/schedule/activity/{{activity.Id}}/detail">Edit...</a>

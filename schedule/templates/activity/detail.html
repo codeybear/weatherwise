@@ -11,9 +11,9 @@
     <form action="/schedule/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
         {% csrf_token %}
 
-        <input type="hidden" name="id" value="{{activity.ScheduleId}}" />
+        <input type="hidden" name="schedule_id" value="{{activity.ScheduleId}}" />
 
-        <div class="form-group w-75">
+        <div class="form-group w-75 ">
             <label for="inputName">Name</label>
             <input type="text" class="form-control" id="inputName" name="name" value="{{activity.Name}}" required="" />
         </div>

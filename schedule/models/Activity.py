@@ -45,7 +45,13 @@ class ActivityService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM activity WHERE ScheduleId=%s"
+                sql= "SELECT activity.*, activity_type.Name AS ActivityTypeName, location.Name AS LocationName \
+                      FROM activity \
+                      INNER JOIN activity_type ON activity.ActivityTypeId = activity_type.Id \
+                      INNER JOIN location ON activity.LocationId = location.Id \
+                      WHERE activity.ScheduleId=%s"
+
+                #sql = "SELECT * FROM activity WHERE ScheduleId=%s"
                 cursor.execute(sql, (str(scheduleId)))
                 results = cursor.fetchall()
                 # Convert list of dicts to list of classes
@@ -75,18 +81,22 @@ class ActivityService:
 
     @classmethod
     def Update(self, activity):
+        connection = Common.getconnection()
+        
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `activity` SET `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s, `Name` = %s, `Duration` = %s) \
+                sql = "UPDATE `activity` SET `ScheduleId` = %s, `LocationId` = %s, `ActivityTypeId` = %s, `Name` = %s, `Duration` = %s \
                        WHERE Id = %s"
                       
-                cursor.execute(sql, (activity.ScheduleId, activity.LocationId, activity.ActivityTypeId, activity.DependencyTypeId, activity.DependencyLength, activity.Name, activity.Duration))
+                cursor.execute(sql, (activity.ScheduleId, activity.LocationId, activity.ActivityTypeId, activity.Name, activity.Duration, activity.Id))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
     def Add(self, schedule):
+        connection = Common.getconnection()
+        
         try:
             with connection.cursor() as cursor:
                 sql = "INSERT INTO `activity` (`Name`, `Duration`, 'ScheduleId', 'LocationId', 'ActivityTypeId') VALUES (%s, %s, %s, %s, %s)"

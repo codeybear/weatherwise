@@ -76,6 +76,7 @@ class Weather:
         # Choose the max from this new list
 		# Backup database
 		# Change tables
+        # Setup indexes and foreign keys
 		# Setup test data again
         # test single items
         # test just the starts
