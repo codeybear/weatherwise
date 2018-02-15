@@ -23,10 +23,9 @@ def detail(request, activity_id):
 
     locations = locationService.GetByScheduleId(activity.ScheduleId)
     activityTypes = activityService.GetActivityTypes()
-    activities = activityService.GetByScheduleId(activity.ScheduleId)
-    template = loader.get_template('activity/index.html')    
+    template = loader.get_template('activity/detail.html')    
 
-    context = { 'activity' : activity, 'activities' : activities, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail' }
+    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):

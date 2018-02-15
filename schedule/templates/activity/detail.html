@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Activity{% endblock %}
+
+{% block content %}
+
+<br />
+<div class="container">
+    <h3>Activity</h3>
+    
+    <form action="/schedule/activity/{{activity.Id}}/update" method="post" data-parsley-validate="">
+        {% csrf_token %}
+
+        <input type="hidden" name="id" value="{{activity.ScheduleId}}" />
+
+        <div class="form-group w-75">
+            <label for="inputName">Name</label>
+            <input type="text" class="form-control" id="inputName" name="name" value="{{activity.Name}}" required="" />
+        </div>
+
+        <div class="form-group w-25">
+            <label for="inputName">Duration</label>
+            <input type="text" class="form-control" id="inputDuration" name="duration" value="{{activity.Duration}}" required="" />
+        </div>
+
+        <div class="form-group w-50">
+            <label for="activity-type">Activity Type</label>
+            <select class="form-control form-control-sm" name="activity-type">
+                {% for activitytype in activitytypes %}
+                <option value="{{activitytype.Id}}" {% if activity.ActivityTypeId == activitytype.Id %}selected{% endif %}>{{activitytype.Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group w-50">
+            <label for="location">Location</label>
+            <select class="form-control form-control-sm" name="location">                        
+                {% for location in locations  %}
+                <option value="{{location.Id}}" {% if activity.LocationId == location.Id %}selected{% endif %}>{{location.Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a class="btn btn-secondary" href="/schedule/activity/{{activity.ScheduleId}}">Cancel</a>
+        </div>                
+    </form>
+</div>  
+{% endblock %}
