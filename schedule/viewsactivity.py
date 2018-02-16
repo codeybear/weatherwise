@@ -21,6 +21,8 @@ def detail(request, activity_id):
 
     if activity_id != 0:
         activity = ActivityService.GetById(activity_id)
+    else:
+        activity.Id = 0
 
     locations = locationService.GetByScheduleId(scheduleId)
     activityTypes = activityService.GetActivityTypes()

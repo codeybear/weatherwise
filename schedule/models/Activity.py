@@ -94,12 +94,12 @@ class ActivityService:
             connection.close()
 
     @classmethod
-    def Add(self, schedule):
+    def Add(self, activity):
         connection = Common.getconnection()
         
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `activity` (`Name`, `Duration`, 'ScheduleId', 'LocationId', 'ActivityTypeId') VALUES (%s, %s, %s, %s, %s)"
+                sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`) VALUES (%s, %s, %s, %s, %s)"
                 cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
                 connection.commit()
         finally:
