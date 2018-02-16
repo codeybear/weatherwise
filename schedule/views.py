@@ -15,9 +15,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):
-    if schedule_id == 9:
-        raise Http404('Schedule does not exist')
-
     scheduleService = ScheduleService
     schedule = None
     
