@@ -25,7 +25,8 @@
 
         <div class="form-group w-50">
             <label for="activity-type">Activity Type</label>
-            <select class="form-control form-control-sm" name="activity-type">
+            <select class="form-control form-control-sm" name="activity-type" required>
+                {% if activity.Id == 0 %}<option></option>{% endif %}   
                 {% for activitytype in activitytypes %}
                 <option value="{{activitytype.Id}}" {% if activity.ActivityTypeId == activitytype.Id %}selected{% endif %}>{{activitytype.Name}}</option>
                 {% endfor %}
@@ -34,8 +35,9 @@
 
         <div class="form-group w-50">
             <label for="location">Location</label>
-            <select class="form-control form-control-sm" name="location">                        
-                {% for location in locations  %}
+            <select class="form-control form-control-sm" name="location" required>  
+                {% if activity.Id == 0 %}<option></option>{% endif %}   
+                {% for location in locations %}
                 <option value="{{location.Id}}" {% if activity.LocationId == location.Id %}selected{% endif %}>{{location.Name}}</option>
                 {% endfor %}
             </select>
