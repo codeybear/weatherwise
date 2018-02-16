@@ -105,3 +105,15 @@ class ActivityService:
         finally:
             connection.close()
 
+    @classmethod
+    def Delete(self, activity_id):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:
+                sql = "DELETE FROM activity WHERE Id = %s"
+                cursor.execute(sql, (activity_id))
+                connection.commit()
+        finally:
+            connection.close()
+        

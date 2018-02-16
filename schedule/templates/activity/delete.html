@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Delete{% endblock %}
+
+{% block content %}
+
+<br />
+<div class="container">
+    <h3>Activity Delete</h3>
+    
+    <form action="/schedule/activity/{{activity.Id}}/delete" method="post" data-parsley-validate="">
+        {% csrf_token %}
+    </form> 
+</div>
+
+{% endblock %}

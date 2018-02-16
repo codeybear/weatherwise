@@ -1,4 +1,4 @@
-import Common
+from schedule.models import Common
 
 class Dependency:
     def __init__(self, **entries):
@@ -28,7 +28,25 @@ class DependencyService:
         finally:
             connection.close()
 
+    @classmethod 
+    def GetByActivityId(self, activity_id):
+        connection = Common.getconnection()
 
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM dependency \
+                       WHERE dependency.ActivityId = %s"
+                       
+                cursor.execute(sql, (str(activity_id)))
+                results = cursor.fetchall()
+                # Convert list of dicts to list of classes
+                activityList = [Dependency(**result) for result in results]
+
+                return activityList
+
+        finally:
+            connection.close()
+    
     @classmethod
     def Add(self, dependency):
         try:

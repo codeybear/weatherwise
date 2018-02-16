@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
-from schedule.models import Activity, ActivityService, Location, LocationService
+from schedule.models import Activity, ActivityService, Location, LocationService, Dependency, DependencyService
 
 def index(request, schedule_id):
     activityService = ActivityService
@@ -26,8 +26,8 @@ def detail(request, activity_id):
 
     locations = locationService.GetByScheduleId(scheduleId)
     activityTypes = activityService.GetActivityTypes()
-    template = loader.get_template('activity/detail.html')    
 
+    template = loader.get_template('activity/detail.html')    
     context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 'scheduleId' : scheduleId }
     return HttpResponse(template.render(context, request))
     
@@ -47,4 +47,18 @@ def update(request, activity_id):
     else:
         activityService.Update(activity)
 
+    return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
+
+def deleteindex(request, activity_id):
+    dependencyService = DependencyService
+    # Need to check to see if there are dependencies related to this activity
+    dependencies = dependencyService.GetByActivityId(activity_id)
+
+    template = loader.get_template('activity/delete.html')
+    context = { 'dependencies' : len(dependencies) }
+    return HttpResponse(template.render(context, request))
+
+def delete(request, activity_id):
+    activityService = ActivityService
+    activityService.Delete(activity_id)    
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
