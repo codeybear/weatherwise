@@ -37,16 +37,15 @@ function isValidDate(dateString)
   return day > 0 && day <= monthLength[month - 1];
 };  
 
-(function(window) {
-  'use strict';
-  window.ParsleyConfig = window.ParsleyConfig || {};
-  window.ParsleyConfig = $.extend(window.ParsleyConfig || {}, {
-    errorClass: 'has-error',
-    successClass: 'has-success',
-    errorsWrapper: '<div class="help-block parsley-errors-list"></div>',
-    errorTemplate: '<div class="parsley-error-item"></div>',
-    classHandler: function ( ParsleyField ) {
-      return ParsleyField.$element.closest('.form-group');
-    },
-  });
-})(window);
+$("form").parsley({
+  errorClass: 'has-danger',
+  successClass: 'has-success',
+  classHandler: function(ParsleyField) {
+      return ParsleyField.$element.parents('.form-group');
+  },
+  errorsContainer: function(ParsleyField) {
+      return ParsleyField.$element.parents('.form-group');
+  },
+  errorsWrapper: '<span class="text-help">',
+  errorTemplate: '<div></div>'
+});
