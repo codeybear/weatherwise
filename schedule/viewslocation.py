@@ -15,24 +15,20 @@ def index(request, schedule_id):
 
 def detail(request, location_id):
     locationService = LocationService
-    location = Location
+    location = Location()
     
     if location_id != 0:
         location = locationService.GetById(location_id)
     else:
-        location.Name = ''
-        location.Lat = 0.0
-        location.Long = 0.0
         location.ScheduleId = request.GET['schedule_id']    # If this is an insert then schedule_id will be supplied in the query string
 
     template = loader.get_template('location/index.html')    
-
     context = { 'location' : location, 'viewtype' : 'detail' }
     return HttpResponse(template.render(context, request))
 
 def update(request, location_id):
     locationService = LocationService
-    location =  Location
+    location =  Location()
     location.Id = int(request.POST['id'])
     location.ScheduleId = request.POST['schedule_id']
     location.Name = request.POST['name']
