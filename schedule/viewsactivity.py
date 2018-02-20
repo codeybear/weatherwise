@@ -60,7 +60,7 @@ def deleteindex(request, activity_id):
     return HttpResponse(template.render(context, request))
 
 def delete(request, activity_id):
-    scheduleId = request.POST["schedule_id"]
+    scheduleId = request.POST["schedule_id"]    
     activityService = ActivityService
     activityService.Delete(activity_id)    
     return HttpResponseRedirect(f"/schedule/activity/{scheduleId}")
