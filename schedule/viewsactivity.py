@@ -50,15 +50,17 @@ def update(request, activity_id):
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
 
 def deleteindex(request, activity_id):
+    scheduleId = request.GET["schedule_id"]
     dependencyService = DependencyService
     # Need to check to see if there are dependencies related to this activity
     dependencies = dependencyService.GetByActivityId(activity_id)
 
     template = loader.get_template('activity/delete.html')
-    context = { 'dependencies' : len(dependencies) }
+    context = { 'dependencies' : len(dependencies), 'scheduleId' : scheduleId, 'activityId' : activity_id }
     return HttpResponse(template.render(context, request))
 
 def delete(request, activity_id):
+    scheduleId = request.POST["schedule_id"]
     activityService = ActivityService
     activityService.Delete(activity_id)    
-    return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
+    return HttpResponseRedirect(f"/schedule/activity/{scheduleId}")

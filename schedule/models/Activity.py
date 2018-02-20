@@ -111,6 +111,10 @@ class ActivityService:
         
         try:
             with connection.cursor() as cursor:
+                sql = "DELETE FROM dependency WHERE ActivityId = %s"
+                cursor.execute(sql, (activity_id))
+                connection.commit()                
+
                 sql = "DELETE FROM activity WHERE Id = %s"
                 cursor.execute(sql, (activity_id))
                 connection.commit()

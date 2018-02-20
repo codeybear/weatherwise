@@ -15,6 +15,7 @@ urlpatterns = [
     path('location/<int:location_id>/update', viewslocation.update, name='update'),
     path('activity/<int:schedule_id>', viewsactivity.index, name='index'),
     path('activity/<int:activity_id>/detail', viewsactivity.detail, name='detail'),
+    path('activity/<int:activity_id>/delete', viewsactivity.delete, name='delete'),
     path('activity/<int:activity_id>/update', viewsactivity.update, name='update'),
     path('activity/<int:activity_id>/deleteindex', viewsactivity.deleteindex, name='deleteindex'),
 ]
