@@ -13,20 +13,24 @@
     <br />
     <div class="alert alert-danger">
         <p>         
-            Are you sure you wish to delete this location?
-            {% if dependencies > 0 %}
+            {% if activities > 0 %}
             This activity is associated with {{dependencies}} activities, so it can't be removed. 
-            {% endif %}
+            {% else %}
+            Are you sure you wish to delete this location?
             Press delete if you want to continue.
+            {% endif %}
         </p>
     </div>
 
-    <form action="/schedule/activity/{{activityId}}/delete" method="post" data-parsley-validate="">
+    <form action="/schedule/location/{{locationId}}/delete" method="post" data-parsley-validate="">
         {% csrf_token %}
         <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
+
+        {% if activities == 0 %}        
         <button type="submit" class="btn btn-primary">Delete</button>
+        {% endif %}
     
-        <a class="btn btn-secondary" href="/schedule/activity/{{scheduleId}}">Cancel</a>
+        <a class="btn btn-secondary" href="/schedule/location/{{scheduleId}}/index">Cancel</a>
     </form> 
 </div>
 
