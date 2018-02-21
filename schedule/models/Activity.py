@@ -40,6 +40,21 @@ class ActivityService:
             connection.close()
 
     @classmethod
+    def GetByLocationId(self, locationId):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM activity WHERE LocationId=%s"
+                cursor.execute(sql, (str(locationId)))
+                results = cursor.fetchall()
+                activityList = [Activity(**result) for result in results]
+                return activityList
+
+        finally:
+            connection.close()
+
+    @classmethod
     def GetByScheduleId(self, scheduleId):
         connection = Common.getconnection()
 
@@ -51,7 +66,6 @@ class ActivityService:
                       INNER JOIN location ON activity.LocationId = location.Id \
                       WHERE activity.ScheduleId=%s"
 
-                #sql = "SELECT * FROM activity WHERE ScheduleId=%s"
                 cursor.execute(sql, (str(scheduleId)))
                 results = cursor.fetchall()
                 # Convert list of dicts to list of classes

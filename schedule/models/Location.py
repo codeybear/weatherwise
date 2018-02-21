@@ -67,3 +67,16 @@ class LocationService:
                 connection.commit()
         finally:
             connection.close()
+
+    @classmethod
+    def Delete(self, location_id):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:
+                sql = "DELETE FROM location WHERE Id = %s"
+                cursor.execute(sql, (location_id))
+                connection.commit()
+        finally:
+            connection.close()
+        

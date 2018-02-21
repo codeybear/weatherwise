@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from django.http import Http404
 
-from schedule.models import Location, LocationService
+from schedule.models import Location, LocationService, Activity, ActivityService
 
 def index(request, schedule_id):
     locationService = LocationService
@@ -41,3 +41,20 @@ def update(request, location_id):
         locationService.Update(location)
 
     return HttpResponseRedirect(f"/schedule/location/{location.ScheduleId}/index")
+
+def deleteindex(request, location_id):
+    scheduleId = request.GET["schedule_id"]
+    activityService = activityService
+
+    # Need to check to see if there are dependencies related to this activity
+    activities = activityService.GetByLocationId(location_id)
+
+    template = loader.get_template('location/delete.html')
+    context = { 'activities' : len(activities), 'scheduleId' : scheduleId, 'locationId' : location_id }
+    return HttpResponse(template.render(context, request))
+
+def delete(request, location_id):
+    scheduleId = request.POST["schedule_id"]    
+    locationService = locationService
+    locationService.Delete(location_id)    
+    return HttpResponseRedirect(f"/schedule/activity/{scheduleId}")
