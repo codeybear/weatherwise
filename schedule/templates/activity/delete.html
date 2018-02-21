@@ -6,17 +6,20 @@
 
 <br />
 <div class="container">
-    <h3 class="alert alert-info">
+    <h3>
         Delete Activity
     </h3>
 
-    <p>         
-        Are you sure you wish to delete this activity?
-        {% if dependencies > 0 %}
-        This activity has {{dependencies}} dependencies, deleting it will remove these also. 
-        {% endif %}
-        Press delete if you wish to continue.
-    </p>
+    <br /   >
+    <div class="alert alert-danger">
+        <p>         
+            Are you sure you wish to delete this activity?
+            {% if dependencies > 0 %}
+            This activity has {{dependencies}} dependencies, deleting it will remove these also. 
+            {% endif %}
+            Press delete if you want to continue.
+        </p>
+    </div>
 
     <form action="/schedule/activity/{{activityId}}/delete" method="post" data-parsley-validate="">
         {% csrf_token %}
