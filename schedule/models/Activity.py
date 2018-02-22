@@ -10,8 +10,6 @@ class Activity:
     ScheduleId = 0
     LocationId = 0
     ActivityTypeId = 0
-    DependencyTypeId = 0
-    DependencyLength = 0
     StartDate = ""      # temp field not stored in the database
     EndDate = ""        # temp field not stored in the database
     NewDuration = 0     # temp field not stored in the database

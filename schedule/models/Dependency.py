@@ -7,8 +7,25 @@ class Dependency:
     Id = 0
     ActivityId = 0
     PredActivityId = 0
+    DependencyTypeId = 0
+    DependencyLength = 0
 
 class DependencyService:
+    @classmethod
+    def GetById(self, dependencyId):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM dependency WHERE Id=%s"
+                cursor.execute(sql, (str(dependencyId)))
+                result = cursor.fetchone()
+                dependency = None if result is None else Dependency(**result)
+                return dependency
+
+        finally:
+            connection.close()
+
     @classmethod
     def GetByScheduleId(self, scheduleId):
         connection = Common.getconnection()
@@ -34,7 +51,9 @@ class DependencyService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM dependency \
+                sql = "SELECT dependency.*, dependency_type.Name, activity.Name FROM dependency \
+                       INNER JOIN dependency_type ON dependency.DependencyTypeId = dependency_type.Id \
+                       INNER JOIN activity ON dependency.PredActivityId = activity.Id \
                        WHERE dependency.ActivityId = %s"
                        
                 cursor.execute(sql, (str(activity_id)))
