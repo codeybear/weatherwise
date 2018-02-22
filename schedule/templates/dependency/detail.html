@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Dependency Edit{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form action="/schedule/dependency/{{schedule.Id}}/update" method="post" data-parsley-validate="">
+        {% csrf_token %}
+        <h3>Dependency</h3>
+
+        <input type="hidden" name="id" value="{{dependency.Id}}" />
+                
+        <div class="form-group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Predessesor Activity
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Site marking</a>
+                    <a class="dropdown-item" href="#">Lean concrete</a>
+                    <a class="dropdown-item" href="#">Excavations</a>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dependency Type
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Finish to start</a>
+                    <a class="dropdown-item" href="#">Start to start</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group w-25">
+            <label for="inputStartDate">Dependency Duration</label>
+            <input type="text" class="form-control" id="inputStartDate" value="-5" />
+            <small id="nameHelp" class="form-text text-muted">Working Days</small>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn-secondary" href="/schedule/location/{{schedule.Id}}/index">Location...</a>
+            <a class="btn btn-secondary" href="/schedule/activity/{{schedule.Id}}">Activities...</a>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary" href="{% url 'schedule:index' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Dependencies{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <br />
+    <h3>Schedule List</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Predessesor</th>
+                <th scope="col">Dependency Type</th>                
+                <th scope="col">Time Lag</th>                
+            </tr>
+        </thead>
+    {% for dependency in dependencies %}
+    <tr>
+        <td>
+            {{ dependency.Predessesor }}
+        </td>
+        <td>
+            {{ dependency.DependencyType }}
+        </td>
+        <td>
+            {{ dependency.TimeLag }}
+        </td>
+        <td>
+            <a href="/schedule/dependency/{{dependency.Id}}">Edit...</a>
+        </td>            
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="/schedule/dependency/0">Add a new schedule...</a>
+
+</div>
+{% endblock %}
