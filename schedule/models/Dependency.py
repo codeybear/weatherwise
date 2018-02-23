@@ -10,6 +10,13 @@ class Dependency:
     DependencyTypeId = 0
     DependencyLength = 0
 
+class DependencyType:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+    Id = ""
+    Name = ""
+
 class DependencyService:
     @classmethod
     def GetById(self, dependencyId):
@@ -66,6 +73,24 @@ class DependencyService:
 
         finally:
             connection.close()
+
+    @classmethod
+    def GetDependencyTypes(self):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM dependency_type"
+                cursor.execute(sql)
+                results = cursor.fetchmany(cursor.rowcount)
+                dependencyTypeList = [DependencyType(**result) for result in results]
+
+                return dependencyTypeList
+
+        finally:
+            connection.close()
+
+
     
     @classmethod
     def Add(self, dependency):
@@ -87,4 +112,3 @@ class DependencyService:
                 connection.commit()
         finally:
             connection.close()
-    

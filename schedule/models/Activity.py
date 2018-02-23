@@ -53,6 +53,24 @@ class ActivityService:
             connection.close()
 
     @classmethod
+    def GetPredecessors(self, activityId, scheduleId):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM activity \
+                       WHERE ScheduleId = %s AND \
+                       activity.Pos < (SELECT pos FROM activity WHERE activity.Id = %s)"
+                cursor.execute(sql, (str(scheduleId), str(activityId)))
+                results = cursor.fetchmany(cursor.rowcount)
+                activityList = [Activity(**result) for result in results]
+                return activityList
+
+        finally:
+            connection.close()
+
+
+    @classmethod
     def GetByScheduleId(self, scheduleId):
         connection = Common.getconnection()
 

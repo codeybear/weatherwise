@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container">
-    <form action="/schedule/dependency/{{schedule.Id}}/update" method="post" data-parsley-validate="">
+    <form action="/schedule/dependency/{{dependency.Id}}/update" method="post" data-parsley-validate="">
         {% csrf_token %}
         <h3>Dependency</h3>
 
@@ -21,8 +21,6 @@
                     <a class="dropdown-item" href="#">Lean concrete</a>
                     <a class="dropdown-item" href="#">Excavations</a>
                 </div>
-
-
             </div>
         </div>
 
@@ -40,7 +38,7 @@
 
         <div class="form-group w-25">
             <label for="inputStartDate">Dependency Duration</label>
-            <input type="text" class="form-control" id="inputStartDate" value="-5" />
+            <input type="text" class="form-control" id="inputStartDate" value="{{dependency.DependencyLength}}" />
             <small id="nameHelp" class="form-text text-muted">Working Days</small>
         </div>
 

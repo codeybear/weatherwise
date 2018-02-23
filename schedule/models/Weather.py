@@ -67,7 +67,7 @@ class Weather:
         dependencies = [x for x in self.dependencyList if x.ActivityId == activity.Id]
         if len(dependencies) == 0: return currentDay
 
-        # get this activity predessesors
+        # get this activity predecessors
         predActivities = [x for x in self.activityList for y in dependencies if x.Id == y.PredActivityId]
 
         # Changes:
