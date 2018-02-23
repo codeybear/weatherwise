@@ -19,13 +19,13 @@
     {% for dependency in dependencies %}
     <tr>
         <td>
-            {{ dependency.Predessesor }}
+            {{ dependency.PredessesorName }}
         </td>
         <td>
-            {{ dependency.DependencyType }}
+            {{ dependency.DependencyName }}
         </td>
         <td>
-            {{ dependency.TimeLag }}
+            {{ dependency.DependencyLength }}
         </td>
         <td>
             <a href="/schedule/dependency/{{dependency.Id}}">Edit...</a>
@@ -34,7 +34,9 @@
     {% endfor %}
 </table>
 
-<a href="/schedule/dependency/0">Add a new schedule...</a>
+<div class="form-group">            
+<a href="/schedule/dependency/0">Add a new dependency...</a>
+</div>
 
 </div>
 {% endblock %}

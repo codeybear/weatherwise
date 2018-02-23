@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 from . import viewslocation
 from . import viewsactivity
+from . import viewsdependency
 
 app_name = 'schedule'
 
@@ -20,4 +21,5 @@ urlpatterns = [
     path('activity/<int:activity_id>/delete', viewsactivity.delete, name='delete'),
     path('activity/<int:activity_id>/update', viewsactivity.update, name='update'),
     path('activity/<int:activity_id>/deleteindex', viewsactivity.deleteindex, name='deleteindex'),
+    path('dependency/<int:activity_id>', viewsdependency.index, name='index'),
 ]

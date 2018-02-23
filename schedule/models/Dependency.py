@@ -36,7 +36,7 @@ class DependencyService:
                        INNER JOIN activity ON activity.id = dependency.ActivityId \
                        WHERE activity.ScheduleId = %s"
                 cursor.execute(sql, (str(scheduleId)))
-                results = cursor.fetchall()
+                results = cursor.fetchmany()
                 # Convert list of dicts to list of classes
                 activityList = [Dependency(**result) for result in results]
 
@@ -46,18 +46,19 @@ class DependencyService:
             connection.close()
 
     @classmethod 
-    def GetByActivityId(self, activity_id):
+    def GetByActivityId(self, activityId):
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT dependency.*, dependency_type.Name, activity.Name FROM dependency \
+                sql = "SELECT dependency.*, dependency_type.Name AS DependencyName, activity.Name AS PredessesorName  \
+                       FROM Dependency \
                        INNER JOIN dependency_type ON dependency.DependencyTypeId = dependency_type.Id \
                        INNER JOIN activity ON dependency.PredActivityId = activity.Id \
                        WHERE dependency.ActivityId = %s"
                        
-                cursor.execute(sql, (str(activity_id)))
-                results = cursor.fetchall()
+                cursor.execute(sql, (str(activityId)))
+                results = cursor.fetchmany()
                 # Convert list of dicts to list of classes
                 activityList = [Dependency(**result) for result in results]
 
