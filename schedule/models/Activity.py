@@ -45,7 +45,7 @@ class ActivityService:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM activity WHERE LocationId=%s"
                 cursor.execute(sql, (str(locationId)))
-                results = cursor.fetchmany()
+                results = cursor.fetchmany(cursor.rowcount)
                 activityList = [Activity(**result) for result in results]
                 return activityList
 
@@ -65,7 +65,7 @@ class ActivityService:
                       WHERE activity.ScheduleId=%s"
 
                 cursor.execute(sql, (str(scheduleId)))
-                results = cursor.fetchmany()
+                results = cursor.fetchmany(cursor.rowcount)
                 # Convert list of dicts to list of classes
                 activityList = [Activity(**result) for result in results]
 
@@ -82,7 +82,7 @@ class ActivityService:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM activity_type"
                 cursor.execute(sql)
-                results = cursor.fetchmany()
+                results = cursor.fetchmany(cursor.rowcount)
                 # Convert list of dicts to list of classes
                 activityTypeList = [ActivityType(**result) for result in results]
 

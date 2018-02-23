@@ -36,7 +36,7 @@ class DependencyService:
                        INNER JOIN activity ON activity.id = dependency.ActivityId \
                        WHERE activity.ScheduleId = %s"
                 cursor.execute(sql, (str(scheduleId)))
-                results = cursor.fetchmany()
+                results = cursor.fetchmany(cursor.rowcount)
                 # Convert list of dicts to list of classes
                 activityList = [Dependency(**result) for result in results]
 
@@ -58,7 +58,7 @@ class DependencyService:
                        WHERE dependency.ActivityId = %s"
                        
                 cursor.execute(sql, (str(activityId)))
-                results = cursor.fetchmany()
+                results = cursor.fetchmany(cursor.rowcount)
                 # Convert list of dicts to list of classes
                 activityList = [Dependency(**result) for result in results]
 
