@@ -19,7 +19,7 @@ class LocationService:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM location WHERE ScheduleId=%s"
                 cursor.execute(sql, (str(ScheduleId)))
-                results = cursor.fetchall()
+                results = cursor.fetchmany()
                 locationList = [Location(**result) for result in results]
                 return locationList
 
