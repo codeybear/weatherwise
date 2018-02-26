@@ -151,4 +151,3 @@ class ActivityService:
                 connection.commit()
         finally:
             connection.close()
-        

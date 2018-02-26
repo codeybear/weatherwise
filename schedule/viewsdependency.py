@@ -27,3 +27,30 @@ def detail(request, dependency_id):
     template = loader.get_template('dependency/detail.html')
     context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 'activityId' : dependency.ActivityId, 'scheduleId' : scheduleId }
     return HttpResponse(template.render(context, request))
+
+def update(request, dependency_id):
+    activityId = request.POST["activity_id"]
+    scheduleId = request.POST["schedule_id"]
+    dependencyService = DependencyService
+    dependency = Dependency()
+
+    dependency.Id = dependency_id
+    dependency.ActivityId = activityId
+    dependency.PredActivityId = request.POST["pred_activity_id"]
+    dependency.DependencyTypeId = request.POST["dependency_type_id"]
+    dependency.DependencyLength = request.POST["dependency_length"]
+
+    if dependency.Id == 0:
+        dependencyService.Add(dependency)
+    else:
+        dependencyService.Update(dependency)
+
+    return HttpResponseRedirect(f"/schedule/dependency/{activityId}?schedule_id={scheduleId}")
+    
+def delete(request, dependency_id):
+    dependencyService = DependencyService
+    dependency = Dependency()
+    dependencyService.Delete(dependency_id)    
+
+    return HttpResponseRedirect(f"/schedule/dependency/{activityId}?schedule_id={scheduleId}")
+    

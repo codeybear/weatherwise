@@ -23,4 +23,6 @@ urlpatterns = [
     path('activity/<int:activity_id>/deleteindex', viewsactivity.deleteindex, name='deleteindex'),
     path('dependency/<int:activity_id>', viewsdependency.index, name='index'),
     path('dependency/<int:dependency_id>/detail', viewsdependency.detail, name='index'),
+    path('dependency/<int:dependency_id>/update', viewsdependency.update, name='update'),
+    path('dependency/<int:dependency_id>/delete', viewsdependency.delete, name='delete'),
 ]

@@ -9,12 +9,13 @@
         {% csrf_token %}
         <h3>Dependency</h3>
 
-        <input type="hidden" name="id" value="{{dependency.Id}}" />
+        <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
+        <input type="hidden" name="activity_id" value="{{activityId}}" />
                 
         <div class="form-group w-50">
             <div class="dropdown">
                 <label for="pred-activity">Predecessor</label>
-                <select class="form-control form-control-sm" name="pred-activity" required>
+                <select class="form-control form-control-sm" name="pred_activity_id" required>
                     {% for predActivity in predActivities %}
                     <option value="{{predActivity.Id}}" {% if dependency.PredActivityId == predActivity.Id %}selected{% endif %}>{{predActivity.Name}}</option>
                     {% endfor %}
@@ -25,7 +26,7 @@
         <div class="form-group">
             <div class="dropdown">
                 <label for="pred-activity">Dependency Type</label>                
-                <select class="form-control form-control-sm" name="pred-activity" required>
+                <select class="form-control form-control-sm" name="dependency_type_id" required>
                     {% for dependencyType in dependencyTypes %}
                     <option value="{{dependencyType.Id}}" {% if dependency.DependencyTypeId == dependencyType.Id %}selected{% endif %}>{{dependencyType.Name}}</option>
                     {% endfor %}
@@ -35,7 +36,7 @@
 
         <div class="form-group w-25">
             <label for="inputStartDate">Dependency Duration</label>
-            <input type="text" class="form-control" id="inputStartDate" value="{{dependency.DependencyLength}}" />
+            <input type="text" class="form-control" id="inputStartDate" name="dependency_length" value="{{dependency.DependencyLength}}" />
             <small id="nameHelp" class="form-text text-muted">Working Days</small>
         </div>
 

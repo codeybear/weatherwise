@@ -92,21 +92,37 @@ class DependencyService:
     
     @classmethod
     def Add(self, dependency):
+        connection = Common.getconnection()
+                
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`) VALUES (%s, %s)"
-                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId))
+                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`, `DependencyTypeId`, `DependencyLength`) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.DependencyTypeId, dependency.DependencyLength))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Update(self, schedule):
+    def Update(self, dependency):
+        connection = Common.getconnection()
+
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s \
+                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s \
                        WHERE Id = %s"
-                cursor.execute(sql, (schedule.Id,  schedule.Name, schedule.StartDate, schedule.WorkingDay0))
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.DependencyTypeId, dependency.DependencyLength, dependency.Id))
                 connection.commit()
         finally:
             connection.close()
+
+    @classmethod
+    def Delete(self, dependency_id):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:
+                sql = "DELETE FROM dependency WHERE Id = %s"
+                cursor.execute(sql, (dependency_id))
+                connection.commit()
+        finally:
+            connection.close()        
