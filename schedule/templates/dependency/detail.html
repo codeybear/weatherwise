@@ -11,28 +11,25 @@
 
         <input type="hidden" name="id" value="{{dependency.Id}}" />
                 
-        <div class="form-group">
+        <div class="form-group w-50">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Predessesor Activity
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Site marking</a>
-                    <a class="dropdown-item" href="#">Lean concrete</a>
-                    <a class="dropdown-item" href="#">Excavations</a>
-                </div>
+                <label for="pred-activity">Predecessor</label>
+                <select class="form-control form-control-sm" name="pred-activity" required>
+                    {% for predActivity in predActivities %}
+                    <option value="{{predActivity.Id}}" {% if dependency.PredActivityId == predActivity.Id %}selected{% endif %}>{{predActivity.Name}}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
 
         <div class="form-group">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dependency Type
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Finish to start</a>
-                    <a class="dropdown-item" href="#">Start to start</a>
-                </div>
+                <label for="pred-activity">Dependency Type</label>                
+                <select class="form-control form-control-sm" name="pred-activity" required>
+                    {% for dependencyType in dependencyTypes %}
+                    <option value="{{dependencyType.Id}}" {% if dependency.DependencyTypeId == dependencyType.Id %}selected{% endif %}>{{dependencyType.Name}}</option>
+                    {% endfor %}
+                </select>                
             </div>
         </div>
 

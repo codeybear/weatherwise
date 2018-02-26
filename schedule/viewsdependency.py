@@ -18,7 +18,7 @@ def detail(request, dependency_id):
     dependency = dependencyService.GetById(dependency_id)
     dependencyTypes = dependencyService.GetDependencyTypes()
     activityService = ActivityService
-    predActivities = activityService.GetPredecessors(dependency_id, request.GET["schedule_id"])
+    predActivities = activityService.GetPredecessors(dependency.ActivityId, request.GET["schedule_id"])
     
     if dependency_id != 0:
         dependency = dependencyService.GetById(dependency_id)
