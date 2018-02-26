@@ -80,7 +80,8 @@ class ActivityService:
                       FROM activity \
                       INNER JOIN activity_type ON activity.ActivityTypeId = activity_type.Id \
                       INNER JOIN location ON activity.LocationId = location.Id \
-                      WHERE activity.ScheduleId=%s"
+                      WHERE activity.ScheduleId=%s \
+                      ORDER BY pos"
 
                 cursor.execute(sql, (str(scheduleId)))
                 results = cursor.fetchmany(cursor.rowcount)
