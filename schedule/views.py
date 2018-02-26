@@ -22,7 +22,7 @@ def detail(request, schedule_id):
         schedule = scheduleService.GetById(schedule_id)
 
     template = loader.get_template('schedule/detail.html')
-    context = { 'schedule' : schedule }
+    context = { 'schedule' : schedule, 'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):

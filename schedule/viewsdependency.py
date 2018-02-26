@@ -10,10 +10,11 @@ def index(request, activity_id):
     dependencies = dependencyService.GetByActivityId(activity_id)
 
     template = loader.get_template('dependency/index.html')
-    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId }
+    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId, 'activityId' : activity_id }
     return HttpResponse(template.render(context, request))
 
 def detail(request, dependency_id):
+    scheduleId = request.GET["schedule_id"]
     dependencyService = DependencyService
     dependency = dependencyService.GetById(dependency_id)
     dependencyTypes = dependencyService.GetDependencyTypes()
@@ -24,5 +25,5 @@ def detail(request, dependency_id):
         dependency = dependencyService.GetById(dependency_id)
 
     template = loader.get_template('dependency/detail.html')
-    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities }
+    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 'activityId' : dependency.ActivityId, 'scheduleId' : scheduleId }
     return HttpResponse(template.render(context, request))
