@@ -137,6 +137,19 @@ class ActivityService:
             connection.close()
 
     @classmethod
+    def GetMaxPos(self, scheduleId):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:        
+              sql = "(SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
+              cursor.execute(sql, (scheduleId))
+              connection.commit()
+        finally:
+            connection.close()
+
+
+    @classmethod
     def Delete(self, activity_id):
         connection = Common.getconnection()
         
