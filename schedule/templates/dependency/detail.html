@@ -11,11 +11,16 @@
 
         <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
         <input type="hidden" name="activity_id" value="{{activityId}}" />
-                
+        
+        <div class="form-group">
+            Activity: <strong>{{ activity.Name }}</strong>
+        </div>
+
         <div class="form-group w-50">
             <div class="dropdown">
                 <label for="pred-activity">Predecessor</label>
                 <select class="form-control form-control-sm" name="pred_activity_id" required>
+                    {% if dependency.Id == 0 %}<option></option>{% endif %}                       
                     {% for predActivity in predActivities %}
                     <option value="{{predActivity.Id}}" {% if dependency.PredActivityId == predActivity.Id %}selected{% endif %}>{{predActivity.Name}}</option>
                     {% endfor %}
@@ -23,10 +28,11 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group w-50">
             <div class="dropdown">
                 <label for="pred-activity">Dependency Type</label>                
                 <select class="form-control form-control-sm" name="dependency_type_id" required>
+                    {% if dependency.Id == 0 %}<option></option>{% endif %}                       
                     {% for dependencyType in dependencyTypes %}
                     <option value="{{dependencyType.Id}}" {% if dependency.DependencyTypeId == dependencyType.Id %}selected{% endif %}>{{dependencyType.Name}}</option>
                     {% endfor %}
@@ -36,7 +42,7 @@
 
         <div class="form-group w-25">
             <label for="inputStartDate">Dependency Duration</label>
-            <input type="text" class="form-control" id="inputStartDate" name="dependency_length" value="{{dependency.DependencyLength}}" />
+            <input type="text" class="form-control" id="inputStartDate" name="dependency_length" value="{{dependency.DependencyLength}}" required />
             <small id="nameHelp" class="form-text text-muted">Working Days</small>
         </div>
 

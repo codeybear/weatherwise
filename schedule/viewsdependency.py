@@ -8,24 +8,30 @@ def index(request, activity_id):
     scheduleId = request.GET["schedule_id"]
     dependencyService = DependencyService
     dependencies = dependencyService.GetByActivityId(activity_id)
+    activityService = ActivityService
+    activity = ActivityService.GetById(activity_id)
 
     template = loader.get_template('dependency/index.html')
-    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId, 'activityId' : activity_id }
+    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId, 'activityId' : activity_id, 'activity' : activity }
     return HttpResponse(template.render(context, request))
 
 def detail(request, dependency_id):
     scheduleId = request.GET["schedule_id"]
+    activityId = request.GET["activity_id"]
+
     dependencyService = DependencyService
-    dependency = dependencyService.GetById(dependency_id)
-    dependencyTypes = dependencyService.GetDependencyTypes()
-    activityService = ActivityService
-    predActivities = activityService.GetPredecessors(dependency.ActivityId, request.GET["schedule_id"])
-    
+    dependency = Dependency()
+
     if dependency_id != 0:
         dependency = dependencyService.GetById(dependency_id)
 
+    dependencyTypes = dependencyService.GetDependencyTypes()
+    activityService = ActivityService
+    predActivities = activityService.GetPredecessors(activityId, scheduleId)
+    activity = activityService.GetById(activityId)
+
     template = loader.get_template('dependency/detail.html')
-    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 'activityId' : dependency.ActivityId, 'scheduleId' : scheduleId }
+    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 'activityId' : activityId, 'scheduleId' : scheduleId, 'activity' : activity }
     return HttpResponse(template.render(context, request))
 
 def update(request, dependency_id):
@@ -47,9 +53,19 @@ def update(request, dependency_id):
 
     return HttpResponseRedirect(f"/schedule/dependency/{activityId}?schedule_id={scheduleId}")
     
+def deleteindex(request, dependency_id):
+    scheduleId = request.GET["schedule_id"]
+    activityId = request.GET["activity_id"]
+
+    template = loader.get_template('dependency/delete.html')
+    context = { 'dependencyId' : dependency_id, 'scheduleId' : scheduleId, 'activityId' : activityId }
+    return HttpResponse(template.render(context, request))
+
 def delete(request, dependency_id):
+    activityId = request.POST["activity_id"]
+    scheduleId = request.POST["schedule_id"]
+
     dependencyService = DependencyService
-    dependency = Dependency()
     dependencyService.Delete(dependency_id)    
 
     return HttpResponseRedirect(f"/schedule/dependency/{activityId}?schedule_id={scheduleId}")

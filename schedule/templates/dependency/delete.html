@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Dependency Delete{% endblock %}
+
+{% block content %}
+
+<br />
+<div class="container">
+    <h3>
+        Delete Dependency
+    </h3>
+
+    <br />
+    <div class="alert alert-danger">
+        <p>         
+            Are you sure you wish to delete this dependency?
+            Press delete if you want to continue.
+        </p>
+    </div>
+
+    <form action="/schedule/dependency/{{dependencyId}}/delete" method="post" data-parsley-validate="">
+        {% csrf_token %}
+        <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
+        <input type="hidden" name="activity_id" value="{{activityId}}" />
+
+        <button type="submit" class="btn btn-primary">Delete</button>
+    
+        <a class="btn btn-secondary" href="/schedule/dependency/{{activityId}}?schedule_id={{scheduleId}}">Cancel</a>
+    </form> 
+</div>
+
+{% endblock %}
