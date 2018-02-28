@@ -14,3 +14,14 @@ where ScheduleId = 2
 order by Pos
 
 SELECT * FROM activity where ScheduleId = 3
+
+SELECT if(@a, @a:=@a+1, @a:=1), pos as rownum
+FROM activity
+
+/* Need to test this, will it carry on? */
+UPDATE activity
+SET Pos=if(@a, @a:=@a+1, @a:=1)
+where ScheduleId = 1
+order by Pos
+
+select * from activity where scheduleid = 1

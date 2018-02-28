@@ -16,6 +16,7 @@ def index(request, schedule_id):
 def detail(request, activity_id):
     scheduleId = request.GET["schedule_id"]
     activityService = ActivityService
+    activities = activityService.GetByScheduleId(scheduleId)
     activity = Activity()
     locationService = LocationService
 
@@ -28,10 +29,11 @@ def detail(request, activity_id):
     activityTypes = activityService.GetActivityTypes()
 
     template = loader.get_template('activity/detail.html')    
-    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 'scheduleId' : scheduleId }
+    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 'scheduleId' : scheduleId, 'activities' : activities }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):
+    changePos = request.POST["changepos"] != -1
     activityService = ActivityService
     activity = Activity()
 
@@ -46,6 +48,9 @@ def update(request, activity_id):
         activityService.Add(activity, activity.ScheduleId)
     else:
         activityService.Update(activity)
+
+    if changePos != -1:
+        activityService.SetNewPos(changePos)
 
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
 

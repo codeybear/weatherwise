@@ -10,6 +10,7 @@ class Activity:
     ScheduleId = 0
     LocationId = 0
     ActivityTypeId = 0
+    Pos = 0
     StartDate = ""      # temp field not stored in the database
     EndDate = ""        # temp field not stored in the database
     NewDuration = 0     # temp field not stored in the database
@@ -131,7 +132,8 @@ class ActivityService:
         try:
             with connection.cursor() as cursor:
                 sql = "SELECT @rownum:= (SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
-                cursor.execute(sql, (scheduleId))                
+                cursor.execute(sql, (scheduleId))
+                id = cursor.lastrowid
 
                 sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`, `Pos`) VALUES (%s, %s, %s, %s, %s, @rownum)"
                 cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
@@ -139,19 +141,44 @@ class ActivityService:
         finally:
             connection.close()
 
-    @classmethod
-    def GetMaxPos(self, scheduleId):
+    @classmethod 
+    def UpdatePositions(self, scheduleId):
         connection = Common.getconnection()
-        
+
         try:
-            with connection.cursor() as cursor:        
-              sql = "(SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
-              cursor.execute(sql, (scheduleId))
-              connection.commit()
+            with connection.cursor() as cursor:
+                # sql = ""
+                # cursor.execute(sql)                
+
+                sql = "UPDATE activity \
+                       SET Pos=if(@a, @a:=@a+1, @a:=1) \
+                       where ScheduleId = %s \
+                       order by Pos"
+                cursor.execute(sql, (scheduleId))
+                connection.commit()
         finally:
             connection.close()
 
+    @classmethod 
+    def SetNewPos(self, activityId):
+        newPos = 0
 
+        if activityId != 0:
+            activity = self.GetById(activityId)
+            newPos = activity.Pos + 0.5
+
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "UPDATE activity SET Pos=%s where activityId = %s"
+                cursor.execute(sql, (activityId, newPos))
+                connection.commit()
+        finally:
+            connection.close()    
+
+        self.UpdatePositions()    
+        
     @classmethod
     def Delete(self, activity_id):
         connection = Common.getconnection()
