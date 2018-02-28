@@ -43,7 +43,7 @@ def update(request, activity_id):
     activity.ActivityTypeId = request.POST['activity-type']
 
     if activity.Id == 0:
-        activityService.Add(activity)
+        activityService.Add(activity, activity.ScheduleId)
     else:
         activityService.Update(activity)
 
