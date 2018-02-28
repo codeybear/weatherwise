@@ -125,12 +125,15 @@ class ActivityService:
             connection.close()
 
     @classmethod
-    def Add(self, activity):
+    def Add(self, activity, scheduleId):
         connection = Common.getconnection()
         
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`) VALUES (%s, %s, %s, %s, %s)"
+                sql = "SELECT @rownum:= (SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
+                cursor.execute(sql, (scheduleId))                
+
+                sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`, `Pos`) VALUES (%s, %s, %s, %s, %s, @rownum)"
                 cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
                 connection.commit()
         finally:
