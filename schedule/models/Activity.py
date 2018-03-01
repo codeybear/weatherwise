@@ -202,7 +202,7 @@ class ActivityService:
             connection.close()
 
     @classmethod
-    def DeletePredessesors(self, activityId, position):
+    def DeletePredecessors(self, activityId, position):
         connection = Common.getconnection()
         
         try:
