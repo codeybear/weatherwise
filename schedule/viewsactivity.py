@@ -47,11 +47,12 @@ def update(request, activity_id):
 
     if activity.Id == 0:
         insertedId = activityService.Add(activity, activity.ScheduleId)
+        activity.Id = insertedId
     else:
         activityService.Update(activity)
 
     if changePos != -1:
-        activityService.SetNewPos(changePos)
+        activityService.SetNewPos(changePos, activity.Id, activity.ScheduleId)
 
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
 

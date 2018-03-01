@@ -17,6 +17,4 @@ SET Pos=if(@a, @a:=@a+1, @a:=1)
 where ScheduleId = 5
 order by Pos
 
-select * from activity where scheduleId = 5
-
-IF (SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = 5) = null, 1, 0)
+select * from activity where scheduleId = 5 order by pos

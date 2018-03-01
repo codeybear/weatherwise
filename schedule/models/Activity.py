@@ -136,11 +136,11 @@ class ActivityService:
 
                 sql = "SET @top = IF(@TOP IS NULL, 1, @TOP)"
                 cursor.execute(sql)
-                # id = cursor.lastrowid
 
                 sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`, `Pos`) VALUES (%s, %s, %s, %s, %s, @top)"
                 cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
                 connection.commit()
+                return cursor.lastrowid
         finally:
             connection.close()
 
@@ -163,24 +163,26 @@ class ActivityService:
             connection.close()
 
     @classmethod 
-    def SetNewPos(self, activityId):
+    def SetNewPos(self, newPosId, activityId, scheduleId):
         newPos = 0
 
-        if activityId != 0:
-            activity = self.GetById(activityId)
+        if newPosId != 0:
+            activity = self.GetById(newPosId)
             newPos = activity.Pos + 0.5
+        else:
+            newPos = 0.5
 
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE activity SET Pos=%s where activityId = %s"
-                cursor.execute(sql, (activityId, newPos))
+                sql = "UPDATE activity SET Pos=%s where Id = %s"
+                cursor.execute(sql, (newPos, activityId))
                 connection.commit()
         finally:
             connection.close()    
 
-        self.UpdatePositions()    
+        self.UpdatePositions(scheduleId)    
         
     @classmethod
     def Delete(self, activity_id):
