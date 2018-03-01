@@ -33,9 +33,10 @@ def detail(request, activity_id):
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):
-    changePos = request.POST["changepos"] != -1
+    changePos = int(request.POST["changepos"])
     activityService = ActivityService
     activity = Activity()
+    insertedId = 0
 
     activity.Id = activity_id
     activity.Name = request.POST['name']
@@ -45,7 +46,7 @@ def update(request, activity_id):
     activity.ActivityTypeId = request.POST['activity-type']
 
     if activity.Id == 0:
-        activityService.Add(activity, activity.ScheduleId)
+        insertedId = activityService.Add(activity, activity.ScheduleId)
     else:
         activityService.Update(activity)
 

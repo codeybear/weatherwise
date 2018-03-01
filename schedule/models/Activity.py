@@ -131,11 +131,14 @@ class ActivityService:
         
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT @rownum:= (SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
+                sql = "SET @top:= (SELECT MAX(Pos) + 1 FROM activity WHERE scheduleId = %s)"
                 cursor.execute(sql, (scheduleId))
-                id = cursor.lastrowid
 
-                sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`, `Pos`) VALUES (%s, %s, %s, %s, %s, @rownum)"
+                sql = "SET @top = IF(@TOP IS NULL, 1, @TOP)"
+                cursor.execute(sql)
+                # id = cursor.lastrowid
+
+                sql = "INSERT INTO `activity` (`Name`, `Duration`, `ScheduleId`, `LocationId`, `ActivityTypeId`, `Pos`) VALUES (%s, %s, %s, %s, %s, @top)"
                 cursor.execute(sql, (activity.Name, activity.Duration, activity.ScheduleId, activity.LocationId, activity.ActivityTypeId))
                 connection.commit()
         finally:
@@ -147,11 +150,11 @@ class ActivityService:
 
         try:
             with connection.cursor() as cursor:
-                # sql = ""
-                # cursor.execute(sql)                
+                sql = "SET @pos:=0"
+                cursor.execute(sql)                
 
                 sql = "UPDATE activity \
-                       SET Pos=if(@a, @a:=@a+1, @a:=1) \
+                       SET Pos=@pos:=@pos+1 \
                        where ScheduleId = %s \
                        order by Pos"
                 cursor.execute(sql, (scheduleId))
