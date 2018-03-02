@@ -54,9 +54,11 @@
             </select>
         </div>
 
+        {% if activity.Id != 0 %}
         <div class="form-group">            
             <a class="btn btn-secondary" href="/schedule/dependency/{{activity.Id}}?schedule_id={{scheduleId}}">Dependencies...</a>
         </div>
+        {% endif %}
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
