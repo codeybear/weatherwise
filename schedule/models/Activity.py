@@ -183,7 +183,7 @@ class ActivityService:
             connection.close()    
 
         self.UpdatePositions(scheduleId)
-        self.DeletePredessesors(activityId, int(newPos + 0.5))
+        self.DeletePredecessors(activityId, int(newPos + 0.5))
         
     @classmethod
     def Delete(self, activity_id):
