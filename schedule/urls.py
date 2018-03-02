@@ -4,6 +4,7 @@ from . import views
 from . import viewslocation
 from . import viewsactivity
 from . import viewsdependency
+from . import viewsreport
 
 app_name = 'schedule'
 
@@ -26,4 +27,5 @@ urlpatterns = [
     path('dependency/<int:dependency_id>/update', viewsdependency.update, name='update'),
     path('dependency/<int:dependency_id>/delete', viewsdependency.delete, name='delete'),
     path('dependency/<int:dependency_id>/deleteindex', viewsdependency.deleteindex, name='deleteindex'),
+    path('report/<int:schedule_id>/', viewsreport.index, name='index'),
 ]

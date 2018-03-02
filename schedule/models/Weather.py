@@ -1,7 +1,7 @@
 import math
 import datetime
 
-from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, Dependency, DependencyService 
+from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
 
 class Weather:
     @classmethod
