@@ -66,42 +66,32 @@ class Weather:
 
         # get this activity predecessors
         predActivities = [x for x in self.activityList for y in dependencies if x.Id == y.PredActivityId]
+        dateList = []
 
-        # Changes:
-        # go through the dates get start or end accordingly
-        # Adjust the dates add this to a new list
-        # Choose the max from this new list
-		# Backup database
-		# Change tables
-        # Setup indexes and foreign keys
-		# Setup test data again
-        # test single items
-        # test just the starts
-        # test just the ends
-        # test both
+        for predActivity in predActivities:
+            dependency = [x for x in dependencies if x.PredActivityId == predActivity.Id ]
 
-        if activity.DependencyTypeId == 1:
-            predActivity = max(predActivities, key=lambda item: item.EndDate)
-            startDate = predActivity.EndDate + datetime.timedelta(days=1)
+            if dependency.DependencyTypeId == 1:
+                startDate = predActivity.EndDate + datetime.timedelta(days=1)
 
-            if activity.DependencyLength > 0:   # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, activity.DependencyLength)
-            else:
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, activity.DependencyLength, parameter)
+                if activity.DependencyLength > 0:   # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
+                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
+                else:
+                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
+                
+                dateList.append(startDate)
+            if dependency.DependencyTypeId == 2:
+                startDate = predActivity.StartDate
 
-            return startDate
-        if activity.DependencyTypeId == 2:
-            predActivity = min(predActivities, key=lambda item: item.StartDate)
-            startDate = predActivity.StartDate
+                if dependency.DependencyLength < 0:   # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
+                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
+                else:
+                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
 
-            if activity.DependencyLength < 0:   # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, activity.DependencyLength)
-            else:
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, activity.DependencyLength, parameter)
-
-            return startDate
-        else:
-            return currentDay        # is this how we should setup the default relationship?
+                dateList.append(startDate)
+                
+        maxDate = max(dateList)        
+        return maxDate
 
     def GetAdjustedDate(date, workingDays, adjustment, parameter = None):
         currentDate = date
