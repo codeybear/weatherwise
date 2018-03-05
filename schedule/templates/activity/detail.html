@@ -52,8 +52,15 @@
                 <option value="{{act.Id}}">{{act.Name}}</option>
                 {% endfor %}
             </select>
+            
         </div>
 
+        <div class="form-group">
+            <div class="alert alert-warning">
+                Changing the position of an activity may create successor dependencies, which will be removed as part of the move process.
+            </div>
+        </div>              
+        
         {% if activity.Id != 0 %}
         <div class="form-group">            
             <a class="btn btn-secondary" href="/schedule/dependency/{{activity.Id}}?schedule_id={{scheduleId}}">Dependencies...</a>
