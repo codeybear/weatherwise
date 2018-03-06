@@ -64,17 +64,16 @@ class Weather:
         dependencies = [x for x in self.dependencyList if x.ActivityId == activity.Id]
         if len(dependencies) == 0: return currentDay
 
-        # get this activity predecessors
-        predActivities = [x for x in self.activityList for y in dependencies if x.Id == y.PredActivityId]
+        # get this activity's predecessors
         dateList = []
 
-        for predActivity in predActivities:
-            dependency = [x for x in dependencies if x.PredActivityId == predActivity.Id ]
+        for dependency in dependencies:
+            predActivity = [x for x in self.activityList if dependency.PredActivityId == x.Id][0]
 
             if dependency.DependencyTypeId == 1:
                 startDate = predActivity.EndDate + datetime.timedelta(days=1)
 
-                if activity.DependencyLength > 0:   # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
+                if dependency.DependencyLength > 0:   # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
                 else:
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
