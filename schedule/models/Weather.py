@@ -1,5 +1,6 @@
 import math
 import datetime
+import functools
 
 from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
 
@@ -12,6 +13,7 @@ class Weather:
         self.locationList = LocationService.GetByScheduleId(scheduleId)
         self.dependencyList = DependencyService.GetByScheduleId(scheduleId)
 
+    @functools.lru_cache(maxsize=None)
     def CalcCRC(K, A, P, dayOfYear):
         result = 2*math.pi*(dayOfYear/365-P)
         return K + A*math.cos(result)
