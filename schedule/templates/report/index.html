@@ -4,9 +4,20 @@
 
 {% block content %}
 
-
-
 <a class="btn btn-secondary" href="/schedule/0">Add a new schedule...</a>
 
+<div>
+    {script}
+        var data  = [
+            {
+                {% for activity in activities %}
+                    id : {% activity.Id %},
+                    text : {% activity.Name %},
+                    start_date : {% activity.StartDate %},
+                    end_date : {% activity.EndDate %}
+                {% %}
+            },
+        ]
+    {/script}
 </div>
 {% endblock %}
