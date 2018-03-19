@@ -24,10 +24,8 @@
                         {
                             id : {{ activity.Id }},
                             text : '{{ activity.Name }}',
-                            start_date : '01-01-2018',
-                            end_date : '10-01-2018'
-                            // start_date : '{{ activity.StartDate }}',
-                            // end_date : '{{ activity.EndDate }}'
+                            start_date : '{{ activity.FormattedStartDate }}',
+                            end_date : '{{ activity.FormattedEndDate }}'
                         },  
                     {% endfor %}
                 ]};
