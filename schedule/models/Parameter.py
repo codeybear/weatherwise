@@ -13,7 +13,6 @@ class Parameter:
     A = 0.0
     P = 0.0
 
-@functools.lru_cache(maxsize=None)
 class ParameterService:
     @classmethod
     def GetByLatLong(self, ActivityTypeId, lat, long):

@@ -1,23 +1,40 @@
-{% extends "base.html" %}
-
 {% block title %}Schedules{% endblock %}
 
 {% block content %}
 
-<a class="btn btn-secondary" href="/schedule/0">Add a new schedule...</a>
+{% load static %}
 
-<div>
-    {script}
-        var data  = [
-            {
-                {% for activity in activities %}
-                    id : {% activity.Id %},
-                    text : {% activity.Name %},
-                    start_date : {% activity.StartDate %},
-                    end_date : {% activity.EndDate %}
-                {% %}
-            },
-        ]
-    {/script}
+<script src="{% static 'schedule/gantt/dhtmlxgantt.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'schedule/gantt/dhtmlxgantt.css' %}">
+
+
+<div class="container">
+    <br />
+    <h3>Reporting</h3>
+
+    <a class="btn btn-secondary" href="/schedule/0">Add a new schedule...</a>
+
+    <div id="gantt_here" style='width:100%; height:100%;'></div>
+
+    <div>
+        <script>
+            var tasks = {
+                data : [            
+                    {% for activity in activities %}
+                        {
+                            id : {{ activity.Id }},
+                            text : '{{ activity.Name }}',
+                            start_date : '01-01-2018',
+                            end_date : '10-01-2018'
+                            // start_date : '{{ activity.StartDate }}',
+                            // end_date : '{{ activity.EndDate }}'
+                        },  
+                    {% endfor %}
+                ]};
+
+            gantt.init("gantt_here");
+            gantt.parse(tasks);
+        </script>
+    </div>
 </div>
-{% endblock %}
+    {% endblock %}
