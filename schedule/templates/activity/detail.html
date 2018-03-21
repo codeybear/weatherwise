@@ -21,12 +21,12 @@
         <div class="form-group w-25">
             <label for="inputName">Duration</label>
             <input type="text" class="form-control" id="inputDuration" name="duration" value="{{activity.Duration}}" required="" min="1" />
+            <small id="nameHelp" class="form-text text-muted">Working Days</small>
         </div>
 
         <div class="form-group w-50">
             <label for="activity-type">Activity Type</label>
             <select class="form-control form-control-sm" name="activity-type" required>
-                {% if activity.Id == 0 %}<option></option>{% endif %}   
                 {% for activitytype in activitytypes %}
                 <option value="{{activitytype.Id}}" {% if activity.ActivityTypeId == activitytype.Id %}selected{% endif %}>{{activitytype.Name}}</option>
                 {% endfor %}

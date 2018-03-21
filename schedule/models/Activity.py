@@ -100,7 +100,8 @@ class ActivityService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM activity_type"
+                sql = "SELECT * FROM activity_type \
+                       ORDER BY pos"
                 cursor.execute(sql)
                 results = cursor.fetchmany(cursor.rowcount)
                 # Convert list of dicts to list of classes
