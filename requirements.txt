@@ -1,2 +1,2 @@
-pymysql
-django
+pymysql==0.8.0
+django==2.0.2
