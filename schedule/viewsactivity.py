@@ -51,8 +51,8 @@ def update(request, activity_id):
     else:
         activityService.Update(activity)
 
-    # if changePos != -1:
-    #     activityService.SetNewPos(changePos, activity.Id, activity.ScheduleId)
+    if changePos != -1:
+        activityService.SetNewPos(changePos, activity.Id, activity.ScheduleId)
 
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
 
