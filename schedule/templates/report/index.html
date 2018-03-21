@@ -1,4 +1,6 @@
-{% block title %}Schedules{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Reporting{% endblock %}
 
 {% block content %}
 
@@ -7,16 +9,83 @@
 <script src="{% static 'schedule/gantt/dhtmlxgantt.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'schedule/gantt/dhtmlxgantt.css' %}">
 
-<input type="radio" id="scale1" name="scale" value="1" checked/><label for="scale1">Day scale</label><br>
-<input type="radio" id="scale2" name="scale" value="2"/><label for="scale2">Week scale</label><br>
-<input type="radio" id="scale3" name="scale" value="3"/><label for="scale3">Month scale</label><br>
-<input type="radio" id="scale4" name="scale" value="4"/><label for="scale4">Year scale</label><br>
+<style>
+    html, body {
+        height: 100%;
+        padding: 0px;
+        margin: 10px;
+    }
+
+    .weekend {
+        background: #f4f7f4 !important;
+    }
+
+    .gantt_selected .weekend {
+        background: #FFF3A1 !important;
+    }
+
+    .well {
+        text-align: right;
+    }
+
+    @media (max-width: 991px) {
+        .nav-stacked > li {
+            float: left;
+        }
+    }
+
+    .container-fluid .row {
+        margin-bottom: 10px;
+    }
+
+    .container-fluid .gantt_wrapper {
+        height: 700px;
+        width: 100%;
+    }
+
+    .gantt_container {
+        border-radius: 4px;
+    }
+
+    .gantt_grid_scale {
+        background-color: transparent;
+    }
+
+    .gantt_hor_scroll {
+        margin-bottom: 1px;
+    }
+</style>
 
 <h3>Reporting</h3>
+<br />
 
-<div id="gantt_here" style='width:100%; height:100%;'></div>
+<div class="container-fluid">
+    Scale:
 
-<div>
+    <div class="row">
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="scale1" name="scale" value="1"/>
+            <label class="form-check-label" for="scale1">Day scale</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="scale2" name="scale" value="2"/>
+            <label class="form-check-label" for="scale2">Week scale</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="scale3" name="scale" value="3"/>
+            <label class="form-check-label" for="scale3">Month scale</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="scale4" name="scale" value="4" checked />
+            <label class="form-check-label" for="scale4">Year scale</label>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="gantt_wrapper panel" id="gantt_here"></div>
+    </div>
+</div>
+
     <script>
 
         function setScaleConfig(value) {
@@ -98,7 +167,7 @@
         gantt.config.columns=[
             {name:"start_date", label:"Start Date", align: "center", width: 80 },
             {name:"end_date", label:"End Date", align: "center", width: 80 },
-            {name:"text",       label:"Task name",  tree:true, width:'*' },
+            {name:"text", label:"Task name",  tree:true, width:'*' },
         ];            
 
         gantt.init("gantt_here");
@@ -118,5 +187,4 @@
         }
 
     </script>
-</div>
 {% endblock %}
