@@ -59,14 +59,17 @@ class Weather:
                 currentDay += datetime.timedelta(days=1)
 
         print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
-        self.CreateReportingDates(self.activityList)
+        self.CreateReportingVariables()
         return self.activityList
     
     @classmethod
-    def CreateReportingDates(self, activities):
-        for activity in activities:
+    def CreateReportingVariables(self):
+        for activity in self.activityList:
             activity.FormattedStartDate = activity.StartDate.strftime("%d-%m-%Y")
             activity.FormattedEndDate = activity.EndDate.strftime("%d-%m-%Y")
+
+        for dependency in self.dependencyList:
+            dependency.FormattedDependencyType = int(dependency.DependencyTypeId) - 1
 
     @classmethod
     def GetActivityStartDate(self, activity, parameter, currentDay):

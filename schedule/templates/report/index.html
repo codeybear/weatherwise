@@ -89,7 +89,7 @@
                         id : {{ dependency.Id }},
                         source : {{ dependency.PredActivityId }} ,
                         target : {{ dependency.ActivityId }},
-                        type : '{{ dependency.DependencyTypeId }}'
+                        type : '{{ dependency.FormattedDependencyType }}'
                     },
                 {% endfor %}
             ]
