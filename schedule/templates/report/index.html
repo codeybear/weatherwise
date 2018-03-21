@@ -82,7 +82,18 @@
                         end_date : '{{ activity.FormattedEndDate }}'
                     },  
                 {% endfor %}
-            ]};
+            ],
+            links : [
+                {% for dependency in dependencies %}
+                    {
+                        id : {{ dependency.Id }},
+                        source : {{ dependency.PredActivityId }} ,
+                        target : {{ dependency.ActivityId }},
+                        type : '{{ dependency.DependencyTypeId }}'
+                    },
+                {% endfor %}
+            ]
+        };
 
         gantt.config.columns=[
             {name:"start_date", label:"Start Date", align: "center", width: 80 },
