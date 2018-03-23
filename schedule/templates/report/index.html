@@ -54,6 +54,49 @@
     .gantt_hor_scroll {
         margin-bottom: 1px;
     }
+
+    .earthworks {
+        background: #547dab;
+        border: 2px solid #2b3f55;
+		color: #d6eb13;   
+    } 
+
+    .paintings  {
+        background: #1dc259;
+        border: 2px solid #134d28;
+		color: #d6eb13;          
+    }
+
+    .concrete {
+        background: #e61328;    
+        border: 2px solid #6d131c;
+		color: #d6eb13;
+    }
+
+    .formworks  {
+        background: #f8e809;
+        border: 2px solid #a79d11;
+		color: #d6eb13;          
+    }
+
+    .steelworks  {
+        background: #ee8905;
+        border: 2px solid #573304;
+		color: #d96c49;          
+    }
+
+    .pavements  {
+        background: #af0fb4;
+        border: 2px solid #400642;
+		color: #d96c49;          
+    }
+
+    .pavements  {
+        background: #0fafb4;
+        border: 2px solid #053f41;
+		color: #d96c49;          
+    }
+
 </style>
 
 <h3>Reporting</h3>
@@ -131,7 +174,6 @@
                     gantt.config.scale_height = 90;
                     gantt.templates.date_scale = null;
 
-
                     gantt.config.subscales = [
                         {unit: "month", step: 1, date: "%M"}
                     ];
@@ -146,7 +188,9 @@
                 {% for activity in activities %}
                     {
                         id : {{ activity.Id }},
+                        activityTypeId : {{ activity.ActivityTypeId }},
                         text : '{{ activity.Name }}',
+                        initial : '{{ activity.Initial }}',
                         start_date : '{{ activity.FormattedStartDate }}',
                         end_date : '{{ activity.FormattedEndDate }}'
                     },  
@@ -167,10 +211,38 @@
         gantt.config.columns=[
             {name:"start_date", label:"Start Date", align: "center", width: 80 },
             {name:"end_date", label:"End Date", align: "center", width: 80 },
-            {name:"text", label:"Task name",  tree:true, width:'*' },
-        ];            
+            {name:"initial", label:"Type", width:'40' },
+            {name:"text", label:"Task name", tree:true, width:'*' },
+        ];
 
         gantt.init("gantt_here");
+
+        gantt.templates.task_class = function(start, end, task) {
+            switch (task.activityTypeId) {
+			case 1:
+				return "earthworks";
+				break;
+			case 2:
+				return "concrete";
+				break;
+			case 3:
+				return "formworks";
+				break;
+            case 4:
+				return "steelworks";
+				break;
+            case 5:
+				return "paintings";
+				break;
+            case 6:
+				return "pavements";
+				break;
+            case 7:
+				return "unassigned";
+				break;
+		    }        
+        };
+
         gantt.parse(tasks);
 
         var func = function (e) {
