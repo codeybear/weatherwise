@@ -10,6 +10,7 @@ class Activity:
     ScheduleId = 0
     LocationId = 0
     ActivityTypeId = 0
+    Initial = ""
     Pos = 0
     StartDate = ""      # temp field not stored in the database
     EndDate = ""        # temp field not stored in the database

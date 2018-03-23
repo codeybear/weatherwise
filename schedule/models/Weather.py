@@ -12,6 +12,7 @@ class Weather:
         self.activityList = ActivityService.GetByScheduleId(scheduleId)
         self.locationList = LocationService.GetByScheduleId(scheduleId)
         self.dependencyList = DependencyService.GetByScheduleId(scheduleId)
+        self.activityTypeList = ActivityService.GetActivityTypes()
 
     @functools.lru_cache(maxsize=None)
     def CalcCRC(K, A, P, dayOfYear):
@@ -67,6 +68,8 @@ class Weather:
         for activity in self.activityList:
             activity.FormattedStartDate = activity.StartDate.strftime("%d-%m-%Y")
             activity.FormattedEndDate = activity.EndDate.strftime("%d-%m-%Y")
+            activityType = [x for x in self.activityTypeList if activity.ActivityTypeId == x.Id]
+            activity.Initial = activityType[0].Initial 
 
         for dependency in self.dependencyList:
             dependency.FormattedDependencyType = int(dependency.DependencyTypeId) - 1
