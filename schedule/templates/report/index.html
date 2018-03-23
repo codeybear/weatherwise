@@ -13,7 +13,7 @@
     html, body {
         height: 100%;
         padding: 0px;
-        margin: 10px;
+        margin: 0 5px 0 5px;
     }
 
     .weekend {
@@ -100,7 +100,6 @@
 </style>
 
 <h3>Reporting</h3>
-<br />
 
 <div class="container-fluid">
     Scale:
@@ -191,6 +190,8 @@
                         activityTypeId : {{ activity.ActivityTypeId }},
                         text : '{{ activity.Name }}',
                         initial : '{{ activity.Initial }}',
+                        original_duration : {{ activity.Duration }},
+                        new_duration : {{ activity.NewDuration }},
                         start_date : '{{ activity.FormattedStartDate }}',
                         end_date : '{{ activity.FormattedEndDate }}'
                     },  
@@ -209,12 +210,13 @@
         };
 
         gantt.config.columns=[
-            {name:"start_date", label:"Start Date", align: "center", width: 80 },
-            {name:"end_date", label:"End Date", align: "center", width: 80 },
-            {name:"initial", label:"Type", width:'40' },
-            {name:"text", label:"Task name", tree:true, width:'*' },
+            {name:"text", label:"Task name", width: '*' },
+            {name:"original_duration", label:"Dur.", align : "center", width: 40 },
+            {name:"new_duration", label:"New", align : "center", width: 40 },
+            {name:"initial", label:"Type", width: 25 },
         ];
 
+        gantt.config.grid_width = 400;
         gantt.init("gantt_here");
 
         gantt.templates.task_class = function(start, end, task) {
