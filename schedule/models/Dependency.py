@@ -58,7 +58,7 @@ class DependencyService:
         try:
             with connection.cursor() as cursor:
                 sql = "SELECT dependency.*, dependency_type.Name AS DependencyName, activity.Name AS PredessesorName  \
-                       FROM Dependency \
+                       FROM dependency \
                        INNER JOIN dependency_type ON dependency.DependencyTypeId = dependency_type.Id \
                        INNER JOIN activity ON dependency.PredActivityId = activity.Id \
                        WHERE dependency.ActivityId = %s"
