@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
-from django.http import Http404
+from django.http import Http404, JsonResponse
 
 from schedule.models import Activity, ActivityService, Location, LocationService, Dependency, DependencyService
 
@@ -55,6 +55,14 @@ def update(request, activity_id):
         activityService.SetNewPos(changePos, activity.Id, activity.ScheduleId)
 
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
+
+def getsuccessors(request, activity_id):
+    activityService = ActivityService
+    # activityId = request.GET.get("activityid")
+    count = activityService.GetSuccessors(activity_id)
+    data = { successorCount : count }
+    
+    return JsonResponse(data)
 
 def deleteindex(request, activity_id):
     scheduleId = request.GET["schedule_id"]

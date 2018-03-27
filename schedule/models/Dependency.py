@@ -44,10 +44,9 @@ class DependencyService:
                        WHERE activity.ScheduleId = %s"
                 cursor.execute(sql, (str(scheduleId)))
                 results = cursor.fetchmany(cursor.rowcount)
-                # Convert list of dicts to list of classes
-                activityList = [Dependency(**result) for result in results]
+                dependencyList = [Dependency(**result) for result in results]
 
-                return activityList
+                return dependencyList
 
         finally:
             connection.close()
@@ -66,10 +65,9 @@ class DependencyService:
                        
                 cursor.execute(sql, (str(activityId)))
                 results = cursor.fetchmany(cursor.rowcount)
-                # Convert list of dicts to list of classes
-                activityList = [Dependency(**result) for result in results]
+                dependencyList = [Dependency(**result) for result in results]
 
-                return activityList
+                return dependencyList
 
         finally:
             connection.close()

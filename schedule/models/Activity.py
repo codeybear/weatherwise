@@ -185,7 +185,7 @@ class ActivityService:
             connection.close()    
 
         self.UpdatePositions(scheduleId)
-        self.DeletePredecessors(activityId, int(newPos + 0.5))
+        self.DeleteSuccessors(activityId, int(newPos + 0.5))
         
     @classmethod
     def Delete(self, activity_id):
@@ -204,7 +204,26 @@ class ActivityService:
             connection.close()
 
     @classmethod
-    def DeletePredecessors(self, activityId, position):
+    def GetSuccessors(self, activityId, position):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT dependency FROM dependency  \
+                       INNER JOIN activity ON dependency.PredActivityId = activity.Id \
+                       WHERE dependency.ActivityId = %s AND activity.Pos > %s"
+                    
+                cursor.execute(sql, (activityId, position))
+                results = cursor.fetchmany(cursor.rowcount)
+                dependencyList = [Dependency(**result) for result in results]
+
+                return dependencyList
+
+        finally:
+            connection.close()        
+
+    @classmethod
+    def DeleteSuccessors(self, activityId, position):
         connection = Common.getconnection()
         
         try:
