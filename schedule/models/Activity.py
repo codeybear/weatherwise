@@ -1,4 +1,4 @@
-from schedule.models import Common
+from schedule.models import Common, Dependency
 
 class Activity:
     def __init__(self, **entries):
@@ -204,18 +204,24 @@ class ActivityService:
             connection.close()
 
     @classmethod
-    def GetSuccessors(self, activityId, position):
+    def GetSuccessors(self, activityId, newPosId):
         connection = Common.getconnection()
+
+        newPos = 0
+
+        if newPosId != 0:
+            activity = self.GetById(newPosId)
+            newPos = activity.Pos
         
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT dependency FROM dependency  \
-                       INNER JOIN activity ON dependency.PredActivityId = activity.Id \
+                sql = "SELECT dependency.* FROM dependency  \
+                       INNER JOIN activity ON activity.Id = dependency.PredActivityId \
                        WHERE dependency.ActivityId = %s AND activity.Pos > %s"
                     
-                cursor.execute(sql, (activityId, position))
+                cursor.execute(sql, (activityId, newPos))
                 results = cursor.fetchmany(cursor.rowcount)
-                dependencyList = [Dependency(**result) for result in results]
+                dependencyList = [Dependency.Dependency(**result) for result in results]
 
                 return dependencyList
 

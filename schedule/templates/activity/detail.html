@@ -79,20 +79,20 @@
 {% block javascript %}
 <script>
     $( document ).ready(function() {
-    document.getElementById('selectPosition').onchange = function(event) {
-        activityId = event.currentTarget.value;
+        document.getElementById('selectPosition').onchange = function(event) {
+            newPosId = event.currentTarget.value;
 
-        $.ajax({
-        url: '/schedule/activity/' + activityId + '/getsuccessors',
-        // data: {
-        // 'activityid': activityId
-        // },
-        dataType: 'json',
-        success: function (data) {
-            alert(data);
+            $.ajax({
+                url: '/schedule/activity/' + {{ activity.Id }} + '/getsuccessors',
+                data: {
+                'newposid': newPosId
+                },
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.successorCount);
+                }
+            });
         }
-    });
-    }
     });
 </script>
 {% endblock %}

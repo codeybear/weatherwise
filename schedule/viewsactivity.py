@@ -33,7 +33,7 @@ def detail(request, activity_id):
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):
-    changePos = int(request.POST["changepos"])
+    changePos = int(request.POST["selectPosition"])
     activityService = ActivityService
     activity = Activity()
     insertedId = 0
@@ -57,10 +57,11 @@ def update(request, activity_id):
     return HttpResponseRedirect(f"/schedule/activity/{activity.ScheduleId}")
 
 def getsuccessors(request, activity_id):
+    newPosId = int(request.GET["newposid"])
     activityService = ActivityService
     # activityId = request.GET.get("activityid")
-    count = activityService.GetSuccessors(activity_id)
-    data = { successorCount : count }
+    successors = activityService.GetSuccessors(activity_id, newPosId)
+    data = { 'successorCount' : len(successors) }
     
     return JsonResponse(data)
 
