@@ -53,11 +53,12 @@
                 {% endfor %}
             </select>
             
+            <span id="divSuccessorCount"></span>
         </div>
 
         <div class="form-group">
             <div class="alert alert-warning">
-                Changing the position of an activity may create successor dependencies, which will be removed as part of the move process.
+                Changing the position of an activity may create successor dependencies, these will be removed as part of the move process.
             </div>
         </div>              
         
@@ -82,6 +83,8 @@
         document.getElementById('selectPosition').onchange = function(event) {
             newPosId = event.currentTarget.value;
 
+            if (newPosId == -1) document.getElementById('divSuccessorCount').innerText = "";
+
             $.ajax({
                 url: '/schedule/activity/' + {{ activity.Id }} + '/getsuccessors',
                 data: {
@@ -89,7 +92,7 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    alert(data.successorCount);
+                    document.getElementById('divSuccessorCount').innerText = "Successors to be deleted = " + data.successorCount;
                 }
             });
         }

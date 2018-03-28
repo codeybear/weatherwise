@@ -128,137 +128,136 @@
     </div>
 </div>
 
-    <script>
+<script>
+    function setScaleConfig(value) {
+        switch (value) {
+            case "1":
+                gantt.config.scale_unit = "day";
+                gantt.config.step = 1;
+                gantt.config.date_scale = "%d %M";
+                gantt.config.subscales = [];
+                gantt.config.scale_height = 27;
+                gantt.templates.date_scale = null;
+                break;
+            case "2":
+                var weekScaleTemplate = function (date) {
+                    var dateToStr = gantt.date.date_to_str("%d %M");
+                    var endDate = gantt.date.add(gantt.date.add(date, 1, "week"), -1, "day");
+                    return dateToStr(date) + " - " + dateToStr(endDate);
+                };
 
-        function setScaleConfig(value) {
-            switch (value) {
-                case "1":
-                    gantt.config.scale_unit = "day";
-                    gantt.config.step = 1;
-                    gantt.config.date_scale = "%d %M";
-                    gantt.config.subscales = [];
-                    gantt.config.scale_height = 27;
-                    gantt.templates.date_scale = null;
-                    break;
-                case "2":
-                    var weekScaleTemplate = function (date) {
-                        var dateToStr = gantt.date.date_to_str("%d %M");
-                        var endDate = gantt.date.add(gantt.date.add(date, 1, "week"), -1, "day");
-                        return dateToStr(date) + " - " + dateToStr(endDate);
-                    };
+                gantt.config.scale_unit = "week";
+                gantt.config.step = 1;
+                gantt.templates.date_scale = weekScaleTemplate;
+                gantt.config.subscales = [
+                    {unit: "day", step: 1, date: "%D"}
+                ];
+                gantt.config.scale_height = 50;
+                break;
+            case "3":
+                gantt.config.scale_unit = "month";
+                gantt.config.date_scale = "%F, %Y";
+                gantt.config.subscales = [
+                    {unit: "day", step: 1, date: "%j, %D"}
+                ];
+                gantt.config.scale_height = 50;
+                gantt.templates.date_scale = null;
+                break;
+            case "4":
+                gantt.config.scale_unit = "year";
+                gantt.config.step = 1;
+                gantt.config.date_scale = "%Y";
+                gantt.config.min_column_width = 50;
 
-                    gantt.config.scale_unit = "week";
-                    gantt.config.step = 1;
-                    gantt.templates.date_scale = weekScaleTemplate;
-                    gantt.config.subscales = [
-                        {unit: "day", step: 1, date: "%D"}
-                    ];
-                    gantt.config.scale_height = 50;
-                    break;
-                case "3":
-                    gantt.config.scale_unit = "month";
-                    gantt.config.date_scale = "%F, %Y";
-                    gantt.config.subscales = [
-                        {unit: "day", step: 1, date: "%j, %D"}
-                    ];
-                    gantt.config.scale_height = 50;
-                    gantt.templates.date_scale = null;
-                    break;
-                case "4":
-                    gantt.config.scale_unit = "year";
-                    gantt.config.step = 1;
-                    gantt.config.date_scale = "%Y";
-                    gantt.config.min_column_width = 50;
+                gantt.config.scale_height = 90;
+                gantt.templates.date_scale = null;
 
-                    gantt.config.scale_height = 90;
-                    gantt.templates.date_scale = null;
-
-                    gantt.config.subscales = [
-                        {unit: "month", step: 1, date: "%M"}
-                    ];
-                    break;
-            }
+                gantt.config.subscales = [
+                    {unit: "month", step: 1, date: "%M"}
+                ];
+                break;
         }
+    }
 
-        setScaleConfig('4');
+    setScaleConfig('4');
 
-        var tasks = {
-            data : [            
-                {% for activity in activities %}
-                    {
-                        id : {{ activity.Id }},
-                        activityTypeId : {{ activity.ActivityTypeId }},
-                        text : '{{ activity.Name }}',
-                        initial : '{{ activity.Initial }}',
-                        original_duration : {{ activity.Duration }},
-                        new_duration : {{ activity.NewDuration }},
-                        start_date : '{{ activity.FormattedStartDate }}',
-                        end_date : '{{ activity.FormattedEndDate }}'
-                    },  
-                {% endfor %}
-            ],
-            links : [
-                {% for dependency in dependencies %}
-                    {
-                        id : {{ dependency.Id }},
-                        source : {{ dependency.PredActivityId }} ,
-                        target : {{ dependency.ActivityId }},
-                        type : '{{ dependency.FormattedDependencyType }}'
-                    },
-                {% endfor %}
-            ]
-        };
+    var tasks = {
+        data : [            
+            {% for activity in activities %}
+                {
+                    id : {{ activity.Id }},
+                    activityTypeId : {{ activity.ActivityTypeId }},
+                    text : '{{ activity.Name }}',
+                    initial : '{{ activity.Initial }}',
+                    original_duration : {{ activity.Duration }},
+                    new_duration : {{ activity.NewDuration }},
+                    start_date : '{{ activity.FormattedStartDate }}',
+                    end_date : '{{ activity.FormattedEndDate }}'
+                },  
+            {% endfor %}
+        ],
+        links : [
+            {% for dependency in dependencies %}
+                {
+                    id : {{ dependency.Id }},
+                    source : {{ dependency.PredActivityId }} ,
+                    target : {{ dependency.ActivityId }},
+                    type : '{{ dependency.FormattedDependencyType }}'
+                },
+            {% endfor %}
+        ]
+    };
 
-        gantt.config.columns=[
-            {name:"text", label:"Task name", width: '*' },
-            {name:"original_duration", label:"Dur.", align : "center", width: 40 },
-            {name:"new_duration", label:"New", align : "center", width: 40 },
-            {name:"initial", label:"Type", width: 25 },
-        ];
+    gantt.config.columns=[
+        {name:"text", label:"Task name", width: '*' },
+        {name:"original_duration", label:"Dur.", align : "center", width: 40 },
+        {name:"new_duration", label:"New", align : "center", width: 40 },
+        {name:"initial", label:"Type", width: 25 },
+    ];
 
-        gantt.config.grid_width = 400;
-        gantt.init("gantt_here");
+    gantt.config.grid_width = 400;
+    gantt.init("gantt_here");
 
-        gantt.templates.task_class = function(start, end, task) {
-            switch (task.activityTypeId) {
-			case 1:
-				return "earthworks";
-				break;
-			case 2:
-				return "concrete";
-				break;
-			case 3:
-				return "formworks";
-				break;
-            case 4:
-				return "steelworks";
-				break;
-            case 5:
-				return "paintings";
-				break;
-            case 6:
-				return "pavements";
-				break;
-            case 7:
-				return "unassigned";
-				break;
-		    }        
-        };
+    gantt.templates.task_class = function(start, end, task) {
+        switch (task.activityTypeId) {
+        case 1:
+            return "earthworks";
+            break;
+        case 2:
+            return "concrete";
+            break;
+        case 3:
+            return "formworks";
+            break;
+        case 4:
+            return "steelworks";
+            break;
+        case 5:
+            return "paintings";
+            break;
+        case 6:
+            return "pavements";
+            break;
+        case 7:
+            return "unassigned";
+            break;
+        }        
+    };
 
-        gantt.parse(tasks);
+    gantt.parse(tasks);
 
-        var func = function (e) {
-            e = e || window.event;
-            var el = e.target || e.srcElement;
-            var value = el.value;
-            setScaleConfig(value);
-            gantt.render();
-        };
+    var func = function (e) {
+        e = e || window.event;
+        var el = e.target || e.srcElement;
+        var value = el.value;
+        setScaleConfig(value);
+        gantt.render();
+    };
 
-        var els = document.getElementsByName("scale");
-        for (var i = 0; i < els.length; i++) {
-            els[i].onclick = func;
-        }
+    var els = document.getElementsByName("scale");
+    for (var i = 0; i < els.length; i++) {
+        els[i].onclick = func;
+    }
 
-    </script>
+</script>
 {% endblock %}
