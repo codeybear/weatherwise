@@ -17,3 +17,9 @@
     background-color: #f00;
     position: absolute; /* this is also key */
 }
+
+#divider {
+    border-bottom-style : solid; 
+    border-bottom-color: #919191;
+    margin-bottom : 15px;
+}

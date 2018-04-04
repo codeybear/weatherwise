@@ -82,13 +82,22 @@
         <div class="form-group">
             <a class="btn btn-secondary" href="/schedule/location/{{schedule.Id}}/index">Location...</a>
             <a class="btn btn-secondary" href="/schedule/activity/{{schedule.Id}}">Activities...</a>
-            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}">Run Report...</a>
         </div>
         {% endif %}
-
+        
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a class="btn btn-secondary" href="{% url 'schedule:index' %}">Cancel</a>
+        </div>
+        
+        <div class="form-group">
+            <div id="divider"></div>
+            <h6>Reporting</h6>
+            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}">Gantt...</a>
+        </div>  
+        
+        <div class="form-group">
+            <a class="btn btn-secondary" href="/">Day of Year...</a>
         </div>
     </form>
 </div>
