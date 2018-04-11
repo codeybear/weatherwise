@@ -50,6 +50,5 @@ class TestWeatherMethods(TestCase):
     def testMinus10WeatherEffected(self):
         self.assertEqual(Weather.GetAdjustedDate(datetime.date(2018, 1, 17), self._standardWorkingDays, -10, self._parameter), datetime.date(2018, 1, 1))
 
-
 if __name__ == '__main__':
     unittest.main()

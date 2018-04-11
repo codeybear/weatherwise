@@ -25,6 +25,18 @@ class Weather:
         activity.NewDuration = duration
 
     @classmethod
+    def CalcDaysOfWeek(self):
+        day = datetime.datetime(2018, 1, 1)
+        endDatesList = []
+
+        for dayNum in range(1, 365):
+            activities = self.CalcScheduleDuration(day)
+            endDatesList.append(activities[-1].EndDate)
+            day += datetime.timedelta(days=1)
+
+        return endDatesList;
+
+    @classmethod
     def CalcScheduleDuration(self):
         currentDay = self.GetAdjustedDate(self.schedule.StartDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
         newScheduleDuration = 0

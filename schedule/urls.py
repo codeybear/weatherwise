@@ -29,4 +29,5 @@ urlpatterns = [
     path('dependency/<int:dependency_id>/delete', viewsdependency.delete, name='delete'),
     path('dependency/<int:dependency_id>/deleteindex', viewsdependency.deleteindex, name='deleteindex'),
     path('report/<int:schedule_id>/', viewsreport.index, name='index'),
+    path('reportdays/<int:schedule_id>/', viewsreport.daysindex, name='daysindex'),
 ]

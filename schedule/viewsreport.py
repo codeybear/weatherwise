@@ -15,16 +15,11 @@ def index(request, schedule_id):
     context = { 'activities' : activities, 'dependencies' : weather.dependencyList }
     return HttpResponse(template.render(context, request))
 
-# activityService = ActivityService
-# activities = activityService.GetByScheduleId(schedule_id)
+def daysindex(request, schedule_id):
+    weather = Weather(schedule_id)
+    series = weather.CalcDaysOfYear()
 
-# start_time = time.time()
-# today = datetime.datetime.now()
-
-# for x in range(1,1000000):
-#     today += datetime.timedelta(days=1)
-
-# for x in range(1,100):
-#     activities = weather.CalcScheduleDuration()
-# print(today)
-# print("Program took " + str(time.time() - start_time) + " to run")
+    template = loader.get_template('report/daysindex.html')
+    context = { 'series' : '' }
+    return HttpResponse(template.render(context, request))
+    
