@@ -25,20 +25,23 @@ class Weather:
         activity.NewDuration = duration
 
     @classmethod
-    def CalcDaysOfWeek(self):
+    def CalcDaysOfYear(self):
         day = datetime.datetime(2018, 1, 1)
-        endDatesList = []
+        durationList = []
 
         for dayNum in range(1, 365):
-            activities = self.CalcScheduleDuration(day)
-            endDatesList.append(activities[-1].EndDate)
+            result = self.CalcScheduleDuration(day)
+            durationList.append(result[1])
             day += datetime.timedelta(days=1)
 
-        return endDatesList;
+        return durationList;
 
     @classmethod
-    def CalcScheduleDuration(self):
-        currentDay = self.GetAdjustedDate(self.schedule.StartDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
+    def CalcScheduleDuration(self, startDate=None):
+        if startDate == None:
+            startDate = self.schedule.StartDate
+
+        currentDay = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
         newScheduleDuration = 0
 
         for activity in self.activityList:
@@ -73,7 +76,7 @@ class Weather:
 
         print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
         self.CreateReportingVariables()
-        return self.activityList
+        return (self.activityList, newScheduleDuration)
     
     @classmethod
     def CreateReportingVariables(self):

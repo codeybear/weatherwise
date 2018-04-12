@@ -9,7 +9,8 @@ import datetime
 
 def index(request, schedule_id):
     weather = Weather(schedule_id)
-    activities = weather.CalcScheduleDuration()
+    result = weather.CalcScheduleDuration()
+    activities = result[0]
     
     template = loader.get_template('report/index.html')
     context = { 'activities' : activities, 'dependencies' : weather.dependencyList }
@@ -17,9 +18,9 @@ def index(request, schedule_id):
 
 def daysindex(request, schedule_id):
     weather = Weather(schedule_id)
-    series = weather.CalcDaysOfYear()
+    durationList = weather.CalcDaysOfYear()
 
     template = loader.get_template('report/daysindex.html')
-    context = { 'series' : '' }
+    context = { 'durationList' : durationList }
     return HttpResponse(template.render(context, request))
     

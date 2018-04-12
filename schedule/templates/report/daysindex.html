@@ -1,31 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}Schedules{% endblock %}
+{% block title %}Days of Year by Duration Report{% endblock %}
 
 {% block content %}
-
-{% endblock %}
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <div id="chart_div"></div>
 
 <script>
+
+
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
+        var durationList = [
           ['Day', 'Date'],
-          [ 8,      12],
-          [ 4,      5.5],
-          [ 11,     14],
-          [ 4,      5],
-          [ 3,      3.5],
-          [ 6.5,    7]
-        ]);
+          {% for duration in durationList %}
+            [{{ forloop.counter0 }}, {{ duration }}],
+          {% endfor %}
+        ];
+
+        var data = google.visualization.arrayToDataTable(durationList);
 
         var options = {
-          title: 'Age vs. Weight comparison',
+          title: 'Day/Duration comparison',
           hAxis: {title: 'Project Start date (day of the year)', minValue: 0, maxValue: 365},
           vAxis: {title: 'Project duration (in days)', minValue: 0, maxValue: 1000},
           legend: 'none'
@@ -35,4 +34,6 @@
 
         chart.draw(data, options);
       }
-    </script></script>
+    </script>
+
+{% endblock %}

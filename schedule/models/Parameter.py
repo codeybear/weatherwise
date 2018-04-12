@@ -15,6 +15,7 @@ class Parameter:
 
 class ParameterService:
     @classmethod
+    @functools.lru_cache(maxsize=None)
     def GetByLatLong(self, ActivityTypeId, lat, long):
         latRounded = round(lat, 1)
         longRounded = round(long, 1)
