@@ -26,8 +26,10 @@
         var options = {
           title: 'Day/Duration comparison',
           hAxis: {title: 'Project Start date (day of the year)', minValue: 0, maxValue: 365},
-          vAxis: {title: 'Project duration (in days)', minValue: 0, maxValue: 1000},
-          legend: 'none'
+          vAxis: {title: 'Project duration (in days)', minValue: 550, maxValue: 600},
+          legend: 'none',
+          height: 600,
+          pointSize: 2
         };
 
         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
