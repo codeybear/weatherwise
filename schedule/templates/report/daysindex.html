@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}Days of Year by Duration Report{% endblock %}
+{% block title %}Reporting{% endblock %}
 
 {% block content %}
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
+
 <div id="chart_div"></div>
 
 <script>
-
 
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
         var durationList = [
-          ['Day', 'Date'],
+          ['Day', 'Duration'],
           {% for duration in durationList %}
             [{{ forloop.counter0 }}, {{ duration }}],
           {% endfor %}
@@ -24,15 +26,25 @@
         var data = google.visualization.arrayToDataTable(durationList);
 
         var options = {
-          title: 'Day/Duration comparison',
+          title: 'Project Duration as a function of the project start date',
           hAxis: {title: 'Project Start date (day of the year)', minValue: 0, maxValue: 365},
-          vAxis: {title: 'Project duration (in days)', minValue: 550, maxValue: 600},
+          vAxis: {title: 'Project duration (in total days)'},
           legend: 'none',
           height: 600,
-          pointSize: 2
+          pointSize: 1,
+          tooltip: { trigger: 'selection' }
         };
 
-        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.setAction({
+          id: 'sample',
+          text: 'See sample book',
+          action: function() {
+            selection = chart.getSelection();
+            alert(selection[0].row);
+          }
+        });
 
         chart.draw(data, options);
       }
