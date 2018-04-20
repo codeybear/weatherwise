@@ -13,7 +13,7 @@ def index(request, schedule_id):
     activities = result[0]
     
     template = loader.get_template('report/index.html')
-    context = { 'activities' : activities, 'dependencies' : weather.dependencyList }
+    context = { 'activities' : activities, 'dependencies' : weather.dependencyList, 'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
 
 def daysindex(request, schedule_id):
@@ -21,6 +21,5 @@ def daysindex(request, schedule_id):
     durationList = weather.CalcDaysOfYear()
 
     template = loader.get_template('report/daysindex.html')
-    context = { 'durationList' : durationList }
+    context = { 'durationList' : durationList, 'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
-    
