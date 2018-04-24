@@ -39,10 +39,12 @@
 
         chart.setAction({
           id: 'sample',
-          text: 'See sample book',
+          text: 'Get Date',
           action: function() {
             selection = chart.getSelection();
-            alert(selection[0].row);
+            var date = new Date(2018, 0);
+            var fullDate = new Date(date.setDate(selection[0].row));
+            alert(fullDate.getDate() + "/" + (fullDate.getMonth() + 1) + "/" + fullDate.getFullYear());
           }
         });
 
