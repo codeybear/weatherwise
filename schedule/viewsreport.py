@@ -8,9 +8,13 @@ import time
 import datetime
 
 def index(request, schedule_id):
+    reportType = int(request.GET["reporttype"])
     weather = Weather(schedule_id)
-    result = weather.CalcScheduleDuration()
-    activities = result[0]
+    activities = []
+
+    if reportType == 2:
+        result = weather.CalcScheduleDuration()
+        activities = result[0]
     
     template = loader.get_template('report/index.html')
     context = { 'activities' : activities, 'dependencies' : weather.dependencyList, 'scheduleId' : schedule_id }
