@@ -12,6 +12,7 @@ def index(request, schedule_id):
     weather = Weather(schedule_id)
     activities = []
 
+    # TODO: add the additional reports here
     if reportType == 2:
         result = weather.CalcScheduleDuration()
         activities = result[0]

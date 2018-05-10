@@ -1,8 +1,14 @@
 import math
 import datetime
 import functools
+from enum import Enum
 
 from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
+
+class ReportType(Enum):
+    NORMAL = 1
+    WEATHER_AWARE = 2
+    STOCHASTIC = 3
 
 class Weather:
     @classmethod
@@ -37,7 +43,7 @@ class Weather:
         return durationList;
 
     @classmethod
-    def CalcScheduleDuration(self, startDate=None):
+    def CalcScheduleDuration(self, startDate=None, reportType=ReportType.WEATHER_AWARE):
         if startDate == None:
             startDate = self.schedule.StartDate
 
@@ -103,7 +109,8 @@ class Weather:
             if dependency.DependencyTypeId == 1:
                 startDate = predActivity.EndDate + datetime.timedelta(days=1)
 
-                if dependency.DependencyLength > 0:   # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
+                # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
+                if dependency.DependencyLength > 0:   
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
                 else:
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
@@ -112,7 +119,8 @@ class Weather:
             if dependency.DependencyTypeId == 2:
                 startDate = predActivity.StartDate
 
-                if dependency.DependencyLength < 0:   # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
+                # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
+                if dependency.DependencyLength < 0:  
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
                 else:
                     startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
