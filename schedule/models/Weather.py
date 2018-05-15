@@ -34,13 +34,15 @@ class Weather:
     def CalcDaysOfYear(self):
         day = datetime.datetime(2018, 1, 1)
         durationList = []
+        endDateList = []
 
         for dayNum in range(1, 365):
             result = self.CalcScheduleDuration(day)
             durationList.append(result[1])
+            endDateList.append(result[2])
             day += datetime.timedelta(days=1)
 
-        return durationList;
+        return (durationList, endDateList);
 
     @classmethod
     def CalcScheduleDuration(self, startDate=None, reportType=ReportType.WEATHER_AWARE):
@@ -80,9 +82,10 @@ class Weather:
                 
                 currentDay += datetime.timedelta(days=1)
 
+        currentDay -= datetime.timedelta(days=1)
         print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
         self.CreateReportingVariables()
-        return (self.activityList, newScheduleDuration)
+        return (self.activityList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
     
     @classmethod
     def CreateReportingVariables(self):

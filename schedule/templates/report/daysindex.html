@@ -23,6 +23,13 @@
           {% endfor %}
         ];
 
+        var endDateList = [
+          ['Day', 'endDate'],
+          {% for endDate in endDateList %}
+            [{{ forloop.counter0 }}, '{{ endDate }}'],
+          {% endfor %}
+        ];
+
         var data = google.visualization.arrayToDataTable(durationList);
 
         var options = {
@@ -44,7 +51,9 @@
             selection = chart.getSelection();
             var date = new Date(2018, 0);
             var fullDate = new Date(date.setDate(selection[0].row));
-            alert(fullDate.getDate() + "/" + (fullDate.getMonth() + 1) + "/" + fullDate.getFullYear());
+
+            alert("Start Date: " + fullDate.getDate() + "-" + (fullDate.getMonth() + 1) + "-" + fullDate.getFullYear() + 
+                  " End Date: " + endDateList[selection[0].row][1]);
           }
         });
 
