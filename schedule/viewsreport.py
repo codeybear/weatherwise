@@ -28,3 +28,11 @@ def daysindex(request, schedule_id):
     template = loader.get_template('report/daysindex.html')
     context = { 'durationList' : durationList, 'endDateList' : endDateList ,'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
+
+def daysindex(request, schedule_id):
+    weather = Weather(schedule_id)
+    durationList = weather.CalcStochastic(10)
+
+    template = loader.get_template('report/stochasticindex.html')
+    context = { 'durationList' : durationList, 'scheduleId' : schedule_id }
+    return HttpResponse(template.render(context, request))

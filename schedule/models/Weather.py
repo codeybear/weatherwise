@@ -45,7 +45,17 @@ class Weather:
         return (durationList, endDateList);
 
     @classmethod
-    def CalcScheduleDuration(self, startDate=None, reportType=ReportType.WEATHER_AWARE):
+    def CalcStochastic(self, iterCount):
+        durationList = []
+
+        for counter in range(1, iterCount):
+            result = self.CalcScheduleDuration(calcType=ReportType.STOCHASTIC)
+            durationList.append(result[1])                
+
+        return durationList
+
+    @classmethod
+    def CalcScheduleDuration(self, startDate=None, calcType=ReportType.WEATHER_AWARE):
         if startDate == None:
             startDate = self.schedule.StartDate
 

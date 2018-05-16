@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Reporting{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
+
+<div id="chart_div">
+    <script>
+
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+  
+        function drawChart() {
+          var durationList = [
+            ['Day', 'Duration'],
+            {% for duration in durationList %}
+              [{{ forloop.counter0 }}, {{ duration }}],
+            {% endfor %}
+          ];
+  
+          var data = google.visualization.arrayToDataTable(durationList);
+  
+          var options = {
+            title: 'Stochastic Weather Aware Report',
+            hAxis: {title: 'Duration'},
+            vAxis: {title: 'Probability'},
+            legend: 'none',
+            height: 600,
+            pointSize: 1,
+            tooltip: { trigger: 'selection' }
+          };
+  
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+  
+          chart.draw(data, options);
+        }
+      </script>
+  
+</div>
+
+{% endblock %}
