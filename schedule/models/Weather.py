@@ -1,6 +1,7 @@
 import math
 import datetime
 import functools
+import random
 from enum import Enum
 
 from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
@@ -21,9 +22,19 @@ class Weather:
         self.activityTypeList = ActivityService.GetActivityTypes()
 
     @functools.lru_cache(maxsize=None)
-    def CalcCRC(K, A, P, dayOfYear):
+    def CalcCRC(K, A, P, dayOfYear, calcType=ReportType.NORMAL):
         result = 2*math.pi*(dayOfYear/365-P)
-        return K + A*math.cos(result)
+        result =  K + A*math.cos(result)
+
+        if calcType == ReportType.NORMAL:
+            return result
+        else:
+            randomNum = random.random()
+            if randomNum < result:
+                return 1
+            else: 
+                return 0 
+
 
     def ProcessNewDuration(activity, activityStartDay, activityEndDay, duration):
         activity.StartDate = activityStartDay
@@ -77,8 +88,8 @@ class Weather:
                     dayCoeff = 1
 
                     if activity.ActivityTypeId != 7:
-                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum)
-                        if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
+                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, calcType=calcType)
+                        #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
                     actualDuration += dayCoeff
                     actualDurationDays += 1

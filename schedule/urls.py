@@ -30,5 +30,5 @@ urlpatterns = [
     path('dependency/<int:dependency_id>/deleteindex', viewsdependency.deleteindex, name='deleteindex'),
     path('report/<int:schedule_id>/', viewsreport.index, name='index'),
     path('reportdays/<int:schedule_id>/', viewsreport.daysindex, name='daysindex'),
-    path('reportdays/<int:schedule_id>/', viewsreport.stochasticindex, name='stochasticindex'),
+    path('reportstochastic/<int:schedule_id>/', viewsreport.stochasticindex, name='stochasticindex'),
 ]

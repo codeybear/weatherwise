@@ -29,7 +29,7 @@ def daysindex(request, schedule_id):
     context = { 'durationList' : durationList, 'endDateList' : endDateList ,'scheduleId' : schedule_id }
     return HttpResponse(template.render(context, request))
 
-def daysindex(request, schedule_id):
+def stochasticindex(request, schedule_id):
     weather = Weather(schedule_id)
     durationList = weather.CalcStochastic(10)
 
