@@ -18,7 +18,7 @@
           var durationList = [
             ['Day', 'Duration'],
             {% for duration in durationList %}
-              [{{ forloop.counter0 }}, {{ duration }}],
+              [{{ duration.1 }}, {{ duration.0 }}],
             {% endfor %}
           ];
   
@@ -27,7 +27,10 @@
           var options = {
             title: 'Stochastic Weather Aware Report',
             hAxis: {title: 'Duration'},
-            vAxis: {title: 'Probability'},
+            vAxis: {title: 'Probability', viewWindow: {
+              min: 0,
+              max: 100
+            }},
             legend: 'none',
             height: 600,
             pointSize: 1,

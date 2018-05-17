@@ -31,7 +31,7 @@ def daysindex(request, schedule_id):
 
 def stochasticindex(request, schedule_id):
     weather = Weather(schedule_id)
-    durationList = weather.CalcStochastic(10)
+    durationList = weather.CalcStochastic(1000)
 
     template = loader.get_template('report/stochasticindex.html')
     context = { 'durationList' : durationList, 'scheduleId' : schedule_id }

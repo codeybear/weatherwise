@@ -2,6 +2,7 @@ import math
 import datetime
 import functools
 import random
+from operator import itemgetter
 from enum import Enum
 
 from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
@@ -21,7 +22,7 @@ class Weather:
         self.dependencyList = DependencyService.GetByScheduleId(scheduleId)
         self.activityTypeList = ActivityService.GetActivityTypes()
 
-    @functools.lru_cache(maxsize=None)
+    #@functools.lru_cache(maxsize=None)
     def CalcCRC(K, A, P, dayOfYear, calcType=ReportType.NORMAL):
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
@@ -61,7 +62,14 @@ class Weather:
 
         for counter in range(1, iterCount):
             result = self.CalcScheduleDuration(calcType=ReportType.STOCHASTIC)
-            durationList.append(result[1])                
+            durationList.append((0, result[1]))         
+
+        durationList.sort(key=itemgetter(1))
+
+        for counter in range(0, iterCount - 1):
+            index = ((counter - 0.5) / iterCount) * 100
+            listItem = durationList[counter]
+            durationList[counter] = (index, listItem[1])
 
         return durationList
 
