@@ -16,7 +16,7 @@
   
         function drawChart() {
           var durationList = [
-            ['Day', 'Duration'],
+            ['Duration', 'CDF'],
             {% for duration in durationList %}
               [{{ duration.1 }}, {{ duration.0 }}],
             {% endfor %}
