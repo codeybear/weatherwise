@@ -34,8 +34,8 @@
 
         var options = {
           title: 'Project Duration as a function of the project start date',
-          hAxis: {title: 'Project Start date (day of the year)', minValue: 0, maxValue: 365},
-          vAxis: {title: 'Project duration (in total days)'},
+          hAxis: {title: 'Project Start date (day of the year)', gridlines: { count: 10 }, minValue: 0, maxValue: 365},
+          vAxis: {title: 'Project duration (in total days)', gridlines: { count: 10 }},
           legend: 'none',
           height: 600,
           pointSize: 1,
