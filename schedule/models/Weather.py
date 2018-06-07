@@ -66,11 +66,18 @@ class Weather:
 
         durationList.sort(key=itemgetter(1))
 
+        prevDuration = 0
+        thisIndex = 0
+
         for counter in range(0, iterCount - 1):
             index = ((counter - 0.5) / iterCount) * 100
             listItem = durationList[counter]
-            durationList[counter] = (index, listItem[1])
-            #durationList[counter] = (counter, listItem[1])
+
+            if prevDuration != listItem[1]:    # this makes sure to points with the same duration are plotted in the same place
+                thisIndex = index
+
+            durationList[counter] = (thisIndex, listItem[1])
+            prevDuration = listItem[1]
 
         return durationList
 
