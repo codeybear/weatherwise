@@ -27,7 +27,7 @@ class Weather:
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
 
-        if calcType == ReportType.NORMAL:
+        if calcType != ReportType.STOCHASTIC:
             return result
         else:
             randomNum = random.random()
@@ -49,7 +49,7 @@ class Weather:
         endDateList = []
 
         for dayNum in range(1, 365):
-            result = self.CalcScheduleDuration(day)
+            result = self.CalcScheduleDuration(day, calcType=ReportType.WEATHER_AWARE)
             durationList.append(result[1])
             endDateList.append(result[2])
             day += datetime.timedelta(days=1)
@@ -69,7 +69,8 @@ class Weather:
         for counter in range(0, iterCount - 1):
             index = ((counter - 0.5) / iterCount) * 100
             listItem = durationList[counter]
-            durationList[counter] = (index, listItem[1])
+            # durationList[counter] = (index, listItem[1])
+            durationList[counter] = (counter, listItem[1])
 
         return durationList
 
