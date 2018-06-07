@@ -26,11 +26,17 @@
   
           var options = {
             title: 'Stochastic Weather Aware Report',
-            hAxis: {title: 'Duration'},
-            vAxis: {title: 'Probability', viewWindow: {
-              min: 0,
-              max: 100
-            }},
+            hAxis: {
+                    title: 'Duration',
+                    gridlines: { count: 11 },
+                   },
+            vAxis: {title: 'Probability', 
+              gridlines: { count: 11 },
+              viewWindow: {
+                min: 0,
+                max: 100
+              }
+            },
             legend: 'none',
             height: 600,
             pointSize: 1,

@@ -69,8 +69,8 @@ class Weather:
         for counter in range(0, iterCount - 1):
             index = ((counter - 0.5) / iterCount) * 100
             listItem = durationList[counter]
-            # durationList[counter] = (index, listItem[1])
-            durationList[counter] = (counter, listItem[1])
+            durationList[counter] = (index, listItem[1])
+            #durationList[counter] = (counter, listItem[1])
 
         return durationList
 
