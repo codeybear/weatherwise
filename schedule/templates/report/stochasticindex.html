@@ -8,6 +8,11 @@
 
 <a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
 
+<form action="/schedule/reportstochastic/{{scheduleId}}/" method="GET" data-parsley-validate="">
+  <input name="itercount" type="text" min="2" max="10000">
+  <input type="submit" value="Change Iterations">
+</form>
+
 <div id="chart_div">
     <script>
 

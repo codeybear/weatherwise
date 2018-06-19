@@ -31,8 +31,9 @@ def daysindex(request, schedule_id):
     return HttpResponse(template.render(context, request))
 
 def stochasticindex(request, schedule_id):
+    iterCount = int(request.GET.get('itercount', 1000))
     weather = Weather(schedule_id)
-    durationList = weather.CalcStochastic(1000)
+    durationList = weather.CalcStochastic(iterCount)
 
     template = loader.get_template('report/stochasticindex.html')
     context = { 'durationList' : durationList, 'scheduleId' : schedule_id }
