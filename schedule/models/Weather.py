@@ -11,6 +11,7 @@ class ReportType(Enum):
     NORMAL = 1
     WEATHER_AWARE = 2
     STOCHASTIC = 3
+    REVERSE = 4
 
 class Weather:
     @classmethod
@@ -107,10 +108,16 @@ class Weather:
                         dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, calcType=calcType)
                         #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
-                    actualDuration += dayCoeff
-                    actualDurationDays += 1
+                    if calcType == ReportType.REVERSE:
+                        actualDuration += 1
+                        actualDurationDays += dayCoeff
+                    else:
+                        actualDuration += dayCoeff
+                        actualDurationDays += 1
+                    
 
                     if actualDuration >= activity.Duration:
+                        actualDurationDays = math.ceil(actualDurationDays)
                         activity.NewDuration = actualDurationDays
                         newScheduleDuration += actualDurationDays
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
@@ -150,20 +157,20 @@ class Weather:
                 startDate = predActivity.EndDate + datetime.timedelta(days=1)
 
                 # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
-                if dependency.DependencyLength > 0:   
-                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
-                else:
-                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
+                #if dependency.DependencyLength > 0:   
+                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
+                #else:
+                #    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
                 
                 dateList.append(startDate)
             if dependency.DependencyTypeId == 2:
                 startDate = predActivity.StartDate
 
                 # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
-                if dependency.DependencyLength < 0:  
-                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
-                else:
-                    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
+                #if dependency.DependencyLength < 0:  
+                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
+                #else:
+                #    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
 
                 dateList.append(startDate)
                 
