@@ -114,7 +114,6 @@ class Weather:
                         actualDuration += dayCoeff
                         actualDurationDays += 1
                     
-
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.ceil(actualDurationDays)
                         activity.NewDuration = actualDurationDays

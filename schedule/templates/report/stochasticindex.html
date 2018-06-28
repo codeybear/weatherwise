@@ -18,14 +18,24 @@
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
+
+        var highlightPoint = {{duration}};
   
         function drawChart() {
           var durationList = [
-            ['Duration', 'CDF'],
+            ['Duration', 'CDF', {'type': 'string', 'role': 'style'}],
             {% for duration in durationList %}
-              [{{ duration.1 }}, {{ duration.0 }}],
+              [{{ duration.1 }}, {{ duration.0 }}, null],
             {% endfor %}
           ];
+
+          if (highlightPoint > 0) {
+            for(var durItem in durationList)
+              if (durationList[durItem][0] >= highlightPoint) {
+                durationList[durItem][2] = 'point { size: 8; shape-type: circle; fill-color: #a52714; }';
+                break;
+              }
+          }
   
           var data = google.visualization.arrayToDataTable(durationList);
   
