@@ -12,6 +12,8 @@ def index(request, schedule_id):
     weather = Weather(schedule_id)
     activities = []
 
+    if reportType == 1:
+        result = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)
     if reportType == 2:
         result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
     if reportType == 4:

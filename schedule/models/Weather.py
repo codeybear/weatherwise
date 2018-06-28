@@ -37,7 +37,6 @@ class Weather:
             else: 
                 return 0 
 
-
     def ProcessNewDuration(activity, activityStartDay, activityEndDay, duration):
         activity.StartDate = activityStartDay
         activity.EndDate = activityEndDay
@@ -104,7 +103,7 @@ class Weather:
                     currentDayNum = currentDay.timetuple().tm_yday
                     dayCoeff = 1
 
-                    if activity.ActivityTypeId != 7:
+                    if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL:
                         dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, calcType=calcType)
                         #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
