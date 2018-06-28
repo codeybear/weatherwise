@@ -91,10 +91,17 @@
         </div>
         
         <div class="form-group">
-            <div id="divider"></div>
-            <h6>Reporting</h6>
+            <div id="divider">
+            </div>
+
+        <h6>Reporting</h6>
+        <div class="form-group">
             <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=2">Weather Aware...</a>
             <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=4">Reverse...</a>
+            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=1">Scheduled...</a>
+        </div>
+
+        <div class="form-group">        
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic...</a>
             <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Duration by Days of Year...</a>
         </div>  
