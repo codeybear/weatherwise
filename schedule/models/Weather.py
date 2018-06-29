@@ -118,6 +118,10 @@ class Weather:
                         actualDurationDays = math.ceil(actualDurationDays)
                         activity.NewDuration = actualDurationDays
                         newScheduleDuration += actualDurationDays
+
+                        if calcType == ReportType.REVERSE:
+                            currentDay = self.calcActivityEndDate(activityStartDay, actualDurationDays)
+
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
                         break  
@@ -174,6 +178,24 @@ class Weather:
                 
         maxDate = max(dateList)        
         return maxDate
+
+    @classmethod
+    def calcActivityEndDate(self, activityStartDay, actualDurationDays):
+        calcDay = activityStartDay
+        workingdayCounter = 0
+
+        for daysCounter in range(1, 999999):
+            if self.schedule.WorkingDays[calcDay.weekday()]:
+                workingdayCounter += 1
+
+            if workingdayCounter == actualDurationDays:
+                break
+
+            calcDay += datetime.timedelta(days=1)
+
+        return calcDay
+
+
 
     def GetAdjustedDate(date, workingDays, adjustment, parameter = None):
         currentDate = date
