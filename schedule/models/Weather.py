@@ -2,6 +2,7 @@ import math
 import datetime
 import functools
 import random
+import copy
 from operator import itemgetter
 from enum import Enum
 
@@ -135,7 +136,8 @@ class Weather:
         currentDay -= datetime.timedelta(days=1)
         print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
         self.CreateReportingVariables()
-        return (self.activityList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
+        returnList = copy.deepcopy(self.activityList)
+        return (returnList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
     
     @classmethod
     def CreateReportingVariables(self):
