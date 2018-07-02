@@ -106,10 +106,6 @@
 
     <div class="row">
         <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="scale1" name="scale" value="1"/>
-            <label class="form-check-label" for="scale1">Day scale</label>
-        </div>
-        <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="scale2" name="scale" value="2"/>
             <label class="form-check-label" for="scale2">Week scale</label>
         </div>
@@ -122,6 +118,10 @@
             <label class="form-check-label" for="scale4">Year scale</label>
         </div>
 
+    </div>
+    <div class="row">
+        <div>Actual Duration: {{duration}} days. </div>
+        <div><a href="/schedule/reportstochastic/{{scheduleId}}/?duration={{duration}}">View in stochastic report</a></div>
     </div>
     <div class="row">
         <div class="gantt_wrapper panel" id="gantt_here"></div>
