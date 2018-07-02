@@ -38,7 +38,12 @@ def stochasticindex(request, schedule_id):
     duration = int(request.GET.get('duration', 0))
     reportType = int(request.GET.get('type', 2))
     weather = Weather(schedule_id)
-    durationList = weather.CalcStochastic(iterCount, reportType)
+    durationList = []
+
+    if reportType == 2:
+        durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
+    if reportType == 4:
+        durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE)
 
     template = loader.get_template('report/stochasticindex.html')
     context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'duration' : duration }

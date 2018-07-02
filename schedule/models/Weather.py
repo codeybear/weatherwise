@@ -24,11 +24,11 @@ class Weather:
         self.activityTypeList = ActivityService.GetActivityTypes()
 
     #@functools.lru_cache(maxsize=None)
-    def CalcCRC(K, A, P, dayOfYear, calcType=ReportType.NORMAL):
+    def CalcCRC(K, A, P, dayOfYear, stochastic=False):
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
 
-        if calcType != ReportType.STOCHASTIC:
+        if stochastic == False:
             return result
         else:
             randomNum = random.random()
@@ -61,7 +61,7 @@ class Weather:
         durationList = []
 
         for counter in range(1, iterCount):
-            result = self.CalcScheduleDuration(calcType=ReportType.STOCHASTIC)
+            result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
             durationList.append((0, result[1]))         
 
         durationList.sort(key=itemgetter(1))
@@ -104,7 +104,7 @@ class Weather:
                     dayCoeff = 1
 
                     if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL:
-                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, calcType=calcType)
+                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
                         #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
                     if calcType == ReportType.REVERSE:
@@ -116,6 +116,10 @@ class Weather:
                     
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.ceil(actualDurationDays)
+
+                        if actualDurationDays == 0: 
+                            actualDurationDays = 1   # Fix for the stochastic reverse report
+
                         activity.NewDuration = actualDurationDays
                         newScheduleDuration += actualDurationDays
 
@@ -194,8 +198,6 @@ class Weather:
             calcDay += datetime.timedelta(days=1)
 
         return calcDay
-
-
 
     def GetAdjustedDate(date, workingDays, adjustment, parameter = None):
         currentDate = date
