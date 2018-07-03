@@ -22,7 +22,6 @@ def index(request, schedule_id):
         result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
     if reportType == 4:
         # result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
-
         # for idx, activity in enumerate(weather.activityList):
         #     weather.activityList[idx].Duration = result[0][idx].NewDuration
 
@@ -61,9 +60,9 @@ def stochasticindex(request, schedule_id):
     durationList = []
 
     if reportType == 2:
-        durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
+        durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE, duration)
     if reportType == 4:
-        durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE)
+        durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
 
     template = loader.get_template('report/stochasticindex.html')
     context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'duration' : duration, 'reportType' : reportType }

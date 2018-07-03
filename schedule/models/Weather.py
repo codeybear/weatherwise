@@ -58,12 +58,17 @@ class Weather:
         return (durationList, endDateList);
 
     @classmethod
-    def CalcStochastic(self, iterCount, reportType):
+    def CalcStochastic(self, iterCount, reportType, duration = 0):
         durationList = []
 
         for counter in range(1, iterCount):
             result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
             durationList.append((0, result[1]))         
+
+        # Add the extra point to be marked on the chart
+        if duration > 0:
+            durationList.append((0, duration))
+            iterCount += 1
 
         durationList.sort(key=itemgetter(1))
 
