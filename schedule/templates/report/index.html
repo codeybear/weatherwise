@@ -256,12 +256,12 @@
 
     var opt = document.getElementById("optActual");
     opt.onclick = function(e) {
-        gantt.parse(tasks2);
+        gantt.parse(tasks);
     }
 
     opt = document.getElementById("optPlanned");
     opt.onclick = function(e) {
-        gantt.parse(tasks);
+        gantt.parse(tasks2);
     }
 
     function setScaleConfig(value) {

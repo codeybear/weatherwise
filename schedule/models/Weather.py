@@ -123,14 +123,11 @@ class Weather:
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.ceil(actualDurationDays)
 
-                        if actualDurationDays == 0: 
-                            actualDurationDays = 1   # Fix for the stochastic reverse report
-
                         activity.NewDuration = actualDurationDays
                         newScheduleDuration += actualDurationDays
 
-                        if calcType == ReportType.REVERSE:
-                            currentDay = self.calcActivityEndDate(activityStartDay, actualDurationDays)
+                        # if calcType == ReportType.REVERSE:
+                        #     currentDay = self.calcActivityEndDate(activityStartDay, actualDurationDays)
 
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
