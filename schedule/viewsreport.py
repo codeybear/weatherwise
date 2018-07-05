@@ -21,6 +21,7 @@ def index(request, schedule_id):
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
         result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        
         for idx, activity in enumerate(weather.activityList):
             weather.activityList[idx].Duration = result[0][idx].NewDuration
 
