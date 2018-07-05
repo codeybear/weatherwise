@@ -61,6 +61,13 @@ class Weather:
     def CalcStochastic(self, iterCount, reportType, duration = 0):
         durationList = []
 
+        if reportType == ReportType.REVERSE:
+            # Get the weather aware durations and set these durations for the reverse report
+            result = self.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        
+            for idx, activity in enumerate(self.activityList):
+                self.activityList[idx].Duration = result[0][idx].NewDuration
+
         for counter in range(1, iterCount):
             result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
             durationList.append((0, result[1]))         
