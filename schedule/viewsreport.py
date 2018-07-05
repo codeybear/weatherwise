@@ -10,9 +10,6 @@ import datetime
 def index(request, schedule_id):
     reportType = int(request.GET["reporttype"])
     weather = Weather(schedule_id)
-    activities = []
-    activities2 = []
-    duration2 = 0
     originalLabel = "Planned dur"
     newLabel = "Actual dur"
 
@@ -20,6 +17,7 @@ def index(request, schedule_id):
         result = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)
     if reportType == 2:
         result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        result2 = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
         result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
@@ -35,16 +33,18 @@ def index(request, schedule_id):
            
         result2 = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)
 
-        activities2 = result2[0]
-        duration2 = result2[1]
         originalLabel, newLabel = newLabel, originalLabel
     
     activities = result[0]
     duration = result[1]
+    activities2 = result2[0]
+    duration2 = result2[1]
 
-    if reportType == 4:
-        for idx, activity in enumerate(activities):
+    for idx, activity in enumerate(activities):
+        if reportType == 4:
             activities2[idx].Duration = activities[idx].Duration
+        if reportType == 2:
+            activities2[idx].NewDuration = activities[idx].NewDuration
 
     template = loader.get_template('report/index.html')
 
