@@ -120,18 +120,16 @@
         </div>
     </div>
 
-    {% if reportType == 4 %}
     <div class="row">
         <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="optActual" name="report-type" value="1"/>
+            <input type="radio" class="form-check-input" id="optActual" name="report-type" value="1" checked />
             <label class="form-check-label" for="optActual">Actual</label>
         </div>
         <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="optPlanned" name="report-type" value="2" checked />
+            <input type="radio" class="form-check-input" id="optPlanned" name="report-type" value="2" />
             <label class="form-check-label" for="optPlanned">Planned</label>
         </div>
     </div>  
-    {% endif %}
 
     <!-- <div class="row">
         {% if reportType == 4 %}
