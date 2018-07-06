@@ -79,6 +79,18 @@ class ScheduleService:
             connection.close()
 
     @classmethod
+    def Delete(self, schedule_id):
+        connection = Common.getconnection()
+        
+        try:
+            with connection.cursor() as cursor:
+                sql = "DELETE FROM Schedule WHERE Id = %s"
+                cursor.execute(sql, (schedule_id))
+                connection.commit()                
+        finally:
+            connection.close()
+
+    @classmethod
     def __GetWorkingDays(self, schedule):
         schedule.WorkingDays = [schedule.WorkingDay0, 
                                 schedule.WorkingDay1, 

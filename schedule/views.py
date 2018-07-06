@@ -54,15 +54,20 @@ def update(request, schedule_id):
 
     return HttpResponseRedirect('/schedule')
 
-def delete(request, schedule_id):
+def deleteindex(request, schedule_id):
     activityService = ActivityService
     # Need to check to see if there are dependencies related to this activity
     activities = activityService.GetByScheduleId(schedule_id)
 
     template = loader.get_template('schedule/delete.html')
-    context = { 'activities' : len(activities), 'scheduleId' : scheduleId}
+    context = { 'activities' : len(activities), 'scheduleId' : schedule_id}
     return HttpResponse(template.render(context, request))
 
+def delete(request, schedule_id):
+    scheduleService = ScheduleService
+    scheduleService.Delete(schedule_id)
+    return HttpResponseRedirect("/")
+    
 def IsChecked(dict, item):
     if dict.get(item, 0) == '':
         return True
