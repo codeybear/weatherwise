@@ -62,7 +62,7 @@ class Weather:
         durationList = []
 
         if reportType == ReportType.REVERSE:
-            # Get the weather aware durations and set these durations for the reverse report
+            # Get the weather aware durations and set these as the start durations for the reverse report
             result = self.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
         
             for idx, activity in enumerate(self.activityList):
@@ -128,13 +128,10 @@ class Weather:
                         actualDurationDays += 1
                     
                     if actualDuration >= activity.Duration:
-                        actualDurationDays = math.ceil(actualDurationDays)
+                        actualDurationDays = math.floor(actualDurationDays)
 
                         activity.NewDuration = actualDurationDays
                         newScheduleDuration += actualDurationDays
-
-                        # if calcType == ReportType.REVERSE:
-                        #     currentDay = self.calcActivityEndDate(activityStartDay, actualDurationDays)
 
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
