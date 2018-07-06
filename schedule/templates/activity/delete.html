@@ -14,8 +14,8 @@
     <div class="alert alert-danger">
         <p>         
             Are you sure you wish to delete this activity?
-            {% if dependencies > 0 %}
-            This activity has {{dependencies}} dependencies, deleting it will remove these also. 
+            {% if dependencyCount > 0 %}
+            This activity has {{dependencyCount}} dependencies, deleting it will remove these also. 
             {% endif %}
             Press delete if you want to continue.
         </p>

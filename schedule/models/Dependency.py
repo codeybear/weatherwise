@@ -51,6 +51,25 @@ class DependencyService:
         finally:
             connection.close()
 
+    @classmethod
+    def GetPredByActivityId(self, activityId):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT *  \
+                       FROM dependency \
+                       WHERE dependency.PredActivityId = %s"
+                       
+                cursor.execute(sql, (str(activityId)))
+                results = cursor.fetchmany(cursor.rowcount)
+                dependencyList = [Dependency(**result) for result in results]
+
+                return dependencyList
+
+        finally:
+            connection.close()         
+
     @classmethod 
     def GetByActivityId(self, activityId):
         connection = Common.getconnection()
