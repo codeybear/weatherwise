@@ -5,7 +5,7 @@ from django.http import Http404
 from django.conf import settings
 
 import time
-from schedule.models import Schedule, ScheduleService
+from schedule.models import Schedule, ScheduleService, ActivityService
 
 def index(request):
     demoMode = settings.DEMO_MODE
@@ -18,11 +18,13 @@ def index(request):
 
 def detail(request, schedule_id):
     scheduleService = ScheduleService
-    schedule = None
+    schedule = Schedule
     demoMode = settings.DEMO_MODE
     
     if schedule_id != 0:
         schedule = scheduleService.GetById(schedule_id)
+    else:
+        schedule.Id == 0
 
     template = loader.get_template('schedule/detail.html')
     context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode  }
@@ -51,6 +53,15 @@ def update(request, schedule_id):
         scheduleService.Add(schedule)
 
     return HttpResponseRedirect('/schedule')
+
+def delete(request, schedule_id):
+    activityService = ActivityService
+    # Need to check to see if there are dependencies related to this activity
+    activities = activityService.GetByScheduleId(schedule_id)
+
+    template = loader.get_template('schedule/delete.html')
+    context = { 'activities' : len(activities), 'scheduleId' : scheduleId}
+    return HttpResponse(template.render(context, request))
 
 def IsChecked(dict, item):
     if dict.get(item, 0) == '':
