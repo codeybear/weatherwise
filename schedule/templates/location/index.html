@@ -41,7 +41,9 @@
                 </div>
     
                 <div class="form-group">
+                    {% if demoMode == False %}
                     <button type="submit" class="btn btn-primary">Update</button>
+                    {% endif %}
                     <a class="btn btn-secondary" href="/schedule/location/{{scheduleId}}/index">Cancel</a>              
                 </div>
             </form>
@@ -72,7 +74,9 @@
                                 <a href="/schedule/location/{{location.Id}}/detail?schedule_id={{scheduleId}}">Edit...</a>
                             </td>            
                             <td>
+                                {% if demoMode == False %}
                                 <a href="/schedule/location/{{location.Id}}/deleteindex?schedule_id={{scheduleId}}">Delete...</a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}                                                                

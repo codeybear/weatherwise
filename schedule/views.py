@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
 from django.http import Http404
+from django.conf import settings
 
 import time
 from schedule.models import Schedule, ScheduleService
@@ -11,18 +12,19 @@ def index(request):
     schedules = scheduleService.GetAll()    
 
     template = loader.get_template('schedule/index.html')
-    context = { 'schedules' : schedules }
+    context = { 'schedules' : schedules}
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):
     scheduleService = ScheduleService
     schedule = None
+    demoMode = settings.DEMO_MODE
     
     if schedule_id != 0:
         schedule = scheduleService.GetById(schedule_id)
 
     template = loader.get_template('schedule/detail.html')
-    context = { 'schedule' : schedule, 'scheduleId' : schedule_id }
+    context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode  }
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):
