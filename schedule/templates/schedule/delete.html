@@ -15,6 +15,8 @@
         <p>         
             {% if activities > 0 %}
             This activity has {{activities}} activities, so cannot be deleted.
+            {% elif locations > 0 %}
+            This activity has {{locations}} location(s), so cannot be deleted.
             {% else %}
             Are you sure you wish to delete this schedule?
             
@@ -26,7 +28,7 @@
     <form action="/schedule/{{scheduleId}}/delete" method="post" data-parsley-validate="">
         {% csrf_token %}
         <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
-        {% if activities == 0 %}
+        {% if activities == 0 and locations == 0 %}
         <button type="submit" class="btn btn-primary">Delete</button>
         {% endif %}
         <a class="btn btn-secondary" href="/">Cancel</a>

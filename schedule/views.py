@@ -5,7 +5,7 @@ from django.http import Http404
 from django.conf import settings
 
 import time
-from schedule.models import Schedule, ScheduleService, ActivityService
+from schedule.models import Schedule, ScheduleService, ActivityService, LocationService
 
 def index(request):
     demoMode = settings.DEMO_MODE
@@ -56,11 +56,13 @@ def update(request, schedule_id):
 
 def deleteindex(request, schedule_id):
     activityService = ActivityService
+    locationService = LocationService
     # Need to check to see if there are dependencies related to this activity
     activities = activityService.GetByScheduleId(schedule_id)
+    locations = locationService.GetByScheduleId(schedule_id)
 
     template = loader.get_template('schedule/delete.html')
-    context = { 'activities' : len(activities), 'scheduleId' : schedule_id}
+    context = { 'activities' : len(activities), 'scheduleId' : schedule_id, 'locations' : len(locations)}
     return HttpResponse(template.render(context, request))
 
 def delete(request, schedule_id):
