@@ -26,6 +26,11 @@
         <td>
             <a href="/schedule/{{schedule.Id}}">Edit...</a>
         </td>            
+        {% if demoMode == False %}
+        <td>
+            <a href="/schedule/{{schedule.Id}}">Delete...</a>
+        </td>            
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

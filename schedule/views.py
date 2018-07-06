@@ -8,11 +8,12 @@ import time
 from schedule.models import Schedule, ScheduleService
 
 def index(request):
+    demoMode = settings.DEMO_MODE
     scheduleService = ScheduleService
     schedules = scheduleService.GetAll()    
-
+    
     template = loader.get_template('schedule/index.html')
-    context = { 'schedules' : schedules}
+    context = { 'schedules' : schedules, 'demoMode' : demoMode}
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):

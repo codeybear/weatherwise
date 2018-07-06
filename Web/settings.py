@@ -80,7 +80,7 @@ DATABASES = {
     }
 }
 
-DEMO_MODE = True
+DEMO_MODE = False
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

@@ -8,11 +8,13 @@
 
 <a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
 
+{% if demoMode == False %}
 <form action="/schedule/reportstochastic/{{scheduleId}}/" method="GET" data-parsley-validate="">
   <input name="type" type="hidden" value="{{reportType}}">
   <input name="itercount" type="text" min="2" max="10000">
   <input type="submit" value="Change Iterations">
 </form>
+{% endif %}
 
 <div id="chart_div">
     <script>

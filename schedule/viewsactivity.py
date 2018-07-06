@@ -2,15 +2,17 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
 from django.http import Http404, JsonResponse
+from django.conf import settings
 
 from schedule.models import Activity, ActivityService, Location, LocationService, Dependency, DependencyService
 
 def index(request, schedule_id):
     activityService = ActivityService
     activities = activityService.GetByScheduleId(schedule_id)    
-    
+    demoMode = settings.DEMO_MODE    
+
     template = loader.get_template('activity/index.html')
-    context = { 'activities' : activities, 'viewtype' : 'index', 'scheduleId' : schedule_id }
+    context = { 'activities' : activities, 'viewtype' : 'index', 'scheduleId' : schedule_id, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
 
 def detail(request, activity_id):
@@ -19,6 +21,7 @@ def detail(request, activity_id):
     activities = activityService.GetByScheduleId(scheduleId)
     activity = Activity()
     locationService = LocationService
+    demoMode = settings.DEMO_MODE    
 
     if activity_id != 0:
         activity = ActivityService.GetById(activity_id)
@@ -29,7 +32,8 @@ def detail(request, activity_id):
     activityTypes = activityService.GetActivityTypes()
 
     template = loader.get_template('activity/detail.html')    
-    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 'scheduleId' : scheduleId, 'activities' : activities }
+    context = { 'activity' : activity, 'locations': locations, 'activitytypes' : activityTypes , 'viewtype' : 'detail', 
+                'scheduleId' : scheduleId, 'activities' : activities, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
     
 def update(request, activity_id):

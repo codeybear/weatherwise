@@ -35,14 +35,18 @@
             <a href="/schedule/dependency/{{dependency.Id}}/detail?schedule_id={{scheduleId}}&activity_id={{activityId}}">Edit...</a>
         </td>            
         <td>
+            {% if demoMode == False %}
             <a href="/schedule/dependency/{{dependency.Id}}/deleteindex?schedule_id={{scheduleId}}&activity_id={{activityId}}">Delete...</a>
+            {% endif %}
         </td>      
     </tr>
     {% endfor %}
 </table>
 
 <div class="form-group">            
+    {% if demoMode == False %}
     <a class="btn btn-secondary" href="/schedule/dependency/0/detail?schedule_id={{scheduleId}}&activity_id={{activityId}}">Add a new dependency...</a>
+    {% endif %}
 </div>
 
 <div class="form-group">            

@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
+from django.conf import settings
 
 from schedule.models import Dependency, DependencyService, Activity, ActivityService
 
@@ -10,14 +11,16 @@ def index(request, activity_id):
     dependencies = dependencyService.GetByActivityId(activity_id)
     activityService = ActivityService
     activity = ActivityService.GetById(activity_id)
+    demoMode = settings.DEMO_MODE
 
     template = loader.get_template('dependency/index.html')
-    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId, 'activityId' : activity_id, 'activity' : activity }
+    context = { 'dependencies' : dependencies, 'scheduleId' : scheduleId, 'activityId' : activity_id, 'activity' : activity, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
 
 def detail(request, dependency_id):
     scheduleId = request.GET["schedule_id"]
     activityId = request.GET["activity_id"]
+    demoMode = settings.DEMO_MODE
 
     dependencyService = DependencyService
     dependency = Dependency()
@@ -31,7 +34,8 @@ def detail(request, dependency_id):
     activity = activityService.GetById(activityId)
 
     template = loader.get_template('dependency/detail.html')
-    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 'activityId' : activityId, 'scheduleId' : scheduleId, 'activity' : activity }
+    context = { 'dependency' : dependency, 'dependencyTypes' : dependencyTypes, 'predActivities' : predActivities, 
+                'activityId' : activityId, 'scheduleId' : scheduleId, 'activity' : activity, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
 
 def update(request, dependency_id):
