@@ -100,7 +100,6 @@ class Weather:
             startDate = self.schedule.StartDate
 
         currentDay = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
-        newScheduleDuration = 0
 
         for activity in self.activityList:
             actualDuration = 0
@@ -129,9 +128,7 @@ class Weather:
                     
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.floor(actualDurationDays)
-
                         activity.NewDuration = actualDurationDays
-                        newScheduleDuration += actualDurationDays
 
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
@@ -140,6 +137,7 @@ class Weather:
                 currentDay += datetime.timedelta(days=1)
 
         currentDay -= datetime.timedelta(days=1)
+        newScheduleDuration = self.CalcDuration()
         print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
         self.CreateReportingVariables()
         returnList = copy.deepcopy(self.activityList)
@@ -190,6 +188,22 @@ class Weather:
                 
         maxDate = max(dateList)        
         return maxDate
+
+    @classmethod
+    def CalcDuration(self):
+        startDate = self.activityList[0].StartDate
+        endDate = self.activityList[-1].EndDate
+        currentDate = startDate
+        duration = 1
+
+        while currentDate != endDate:
+            if self.schedule.WorkingDays[currentDate.weekday()]:
+                duration += 1
+
+            currentDate += datetime.timedelta(days=1)
+
+        return duration
+
 
     @classmethod
     def calcActivityEndDate(self, activityStartDay, actualDurationDays):
