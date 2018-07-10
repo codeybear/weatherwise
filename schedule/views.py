@@ -31,7 +31,7 @@ def detail(request, schedule_id):
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):
-    schedule = Schedule
+    schedule = Schedule()
     schedule.Id = request.POST['id']
     schedule.Name = request.POST['name']
     schedule.StartDateDisplay = request.POST['startdate']
