@@ -202,8 +202,8 @@ class Weather:
 
     @classmethod
     def CalcDuration(self):
-        startDate = self.activityList[0].StartDate
-        endDate = self.activityList[-1].EndDate
+        startDate = min(activity.StartDate for activity in self.activityList)
+        endDate = max(activity.EndDate for activity in self.activityList)
         currentDate = startDate
         duration = 1
 
