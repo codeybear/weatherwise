@@ -75,7 +75,6 @@ WSGI_APPLICATION = 'Web.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
         'NAME': 'weather',
         'USER': 'root',
         'PASSWORD': '',
