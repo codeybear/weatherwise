@@ -83,11 +83,6 @@ class Weather:
                 result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
                 durationList.append((0, result[1]))         
 
-        # Add the extra point to be marked on the chart
-        if duration > 0:
-            durationList.append((0, duration))
-            iterCount += 1
-
         durationList.sort(key=itemgetter(1))
 
         prevDuration = 0
