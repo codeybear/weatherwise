@@ -63,14 +63,25 @@ class Weather:
 
         if reportType == ReportType.REVERSE:
             # Get the weather aware durations and set these as the start durations for the reverse report
-            result = self.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+            resultWA = self.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
         
-            for idx, activity in enumerate(self.activityList):
-                self.activityList[idx].Duration = result[0][idx].NewDuration
 
-        for counter in range(1, iterCount):
-            result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
-            durationList.append((0, result[1]))         
+            for counter in range(1, iterCount):
+                for idx, activity in enumerate(self.activityList):
+                    self.activityList[idx].Duration = resultWA[0][idx].NewDuration
+
+                # Get the planned durations from the weather aware durations with stochastic variations
+                result = self.CalcScheduleDuration(calcType = ReportType.REVERSE, stochastic=True)
+
+                for idx, activity in enumerate(self.activityList):
+                    self.activityList[idx].Duration = result[0][idx].NewDuration
+
+                result = self.CalcScheduleDuration(startDate=None, calcType=ReportType.NORMAL)
+                durationList.append((0, result[1]))  
+        else:        
+            for counter in range(1, iterCount):
+                result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
+                durationList.append((0, result[1]))         
 
         # Add the extra point to be marked on the chart
         if duration > 0:
