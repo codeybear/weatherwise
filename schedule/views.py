@@ -46,8 +46,11 @@ def update(request, schedule_id):
     schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
 
     if schedule.WorkingDay0 == False and schedule.WorkingDay1 == False and schedule.WorkingDay2 == False and schedule.WorkingDay3 == False and schedule.WorkingDay4 == False and schedule.WorkingDay5 == False and schedule.WorkingDay6 == False:
-        schedule.WorkingDay5 = True
-        schedule.WorkingDay6 = True
+        schedule.WorkingDay0 = True
+        schedule.WorkingDay1 = True
+        schedule.WorkingDay2 = True
+        schedule.WorkingDay3 = True
+        schedule.WorkingDay4 = True
 
     scheduleService = ScheduleService
 
