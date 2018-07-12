@@ -65,7 +65,6 @@ class Weather:
             # Get the weather aware durations and set these as the start durations for the reverse report
             resultWA = self.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
         
-
             for counter in range(1, iterCount):
                 for idx, activity in enumerate(self.activityList):
                     self.activityList[idx].Duration = resultWA[0][idx].NewDuration
