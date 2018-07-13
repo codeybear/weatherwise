@@ -19,12 +19,13 @@ def detail(request, location_id):
     locationService = LocationService
     location = Location()
     scheduleId = request.GET['schedule_id']
+    demoMode = settings.DEMO_MODE
     
     if location_id != 0:
         location = locationService.GetById(location_id)
 
     template = loader.get_template('location/index.html')    
-    context = { 'location' : location, 'viewtype' : 'detail', 'scheduleId' : scheduleId }
+    context = { 'location' : location, 'viewtype' : 'detail', 'scheduleId' : scheduleId, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
 
 def update(request, location_id):
