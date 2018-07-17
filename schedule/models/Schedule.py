@@ -84,7 +84,7 @@ class ScheduleService:
         
         try:
             with connection.cursor() as cursor:
-                sql = "DELETE FROM Schedule WHERE Id = %s"
+                sql = "DELETE FROM schedule WHERE Id = %s"
                 cursor.execute(sql, (schedule_id))
                 connection.commit()                
         finally:
