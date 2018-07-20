@@ -96,6 +96,7 @@
             <div id="divider">
             </div>
 
+        {% if scheduleId != 0 %}
         <h5>Reporting</h5>
         <h6>Forwards</h6>
         <div class="form-group">
@@ -110,6 +111,7 @@
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}/?type=4">Stochastic...</a>
         </div>  
         
+        {% endif %}
         <div class="form-group">
         </div>
     </form>
