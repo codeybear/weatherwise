@@ -171,24 +171,12 @@ class Weather:
             predActivity = [x for x in self.activityList if dependency.PredActivityId == x.Id][0]
 
             if dependency.DependencyTypeId == 1:
-                startDate = predActivity.EndDate + datetime.timedelta(days=1)
-
-                # A finish to start relationship with a negative length should be a weather aware adjustment (else statement)
-                #if dependency.DependencyLength > 0:   
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
-                #else:
-                #    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
-                
+                startDate = predActivity.EndDate + datetime.timedelta(days=1) 
+                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)                
                 dateList.append(startDate)
             if dependency.DependencyTypeId == 2:
                 startDate = predActivity.StartDate
-
-                # A start to start relationship with a positive length should be a weather aware adjustment (else statement)
-                #if dependency.DependencyLength < 0:  
                 startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
-                #else:
-                #    startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength, parameter)
-
                 dateList.append(startDate)
                 
         maxDate = max(dateList)        
