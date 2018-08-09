@@ -63,8 +63,9 @@ def daysindex(request, schedule_id):
     return HttpResponse(template.render(context, request))
 
 def stochasticindex(request, schedule_id):
+    duration = 0
+    durationCDF = 0
     iterCount = int(request.GET.get('itercount', 1000))
-    duration = int(request.GET.get('duration', 0))
     reportType = int(request.GET.get('type', 2))
     weather = Weather(schedule_id)
     durationList = []
@@ -74,10 +75,16 @@ def stochasticindex(request, schedule_id):
     schedule = scheduleService.GetById(schedule_id)
 
     if reportType == 2:
-        durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE, duration)
+        durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
+        result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        duration = result[1]
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
+        itemCDF = [item for item in durationList if item[1] == duration]
+
+        if len(itemCDF) > 0:
+            durationCDF = itemCDF[0][0]
 
     template = loader.get_template('report/stochasticindex.html')
-    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 'reportType' : reportType, 'demoMode' : demoMode }
+    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 'durationCDF' : durationCDF, 'reportType' : reportType, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))

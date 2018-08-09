@@ -8,14 +8,6 @@
 
 <a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
 
-{% if demoMode == False %}
-<form action="/schedule/reportstochastic/{{scheduleId}}/" method="GET" data-parsley-validate="">
-  <input name="type" type="hidden" value="{{reportType}}">
-  <input name="itercount" type="text" min="2" max="10000">
-  <input type="submit" value="Change Iterations">
-</form>
-{% endif %}
-
 <div id="chart_div">
     <script>
 
@@ -23,6 +15,7 @@
         google.charts.setOnLoadCallback(drawChart);
 
         var highlightPoint = {{duration}};
+        var pointCDF = {{durationCDF}}
   
         function drawChart() {
           var durationList = [
@@ -33,11 +26,20 @@
           ];
 
           if (highlightPoint > 0) {
-            for(var durItem in durationList)
+            for(var durItem in durationList) {
               if (durationList[durItem][0] >= highlightPoint) {
                 durationList[durItem][2] = 'point { size: 8; shape-type: circle; fill-color: #a52714; }';
                 break;
               }
+            }
+            
+            var pointDesc = "Actual Project Duration: " + highlightPoint;
+
+            if (pointCDF > 0) {
+              pointDesc += ", Probability: " + pointCDF + "%";
+            }
+
+            document.getElementById('divPointDescription').innerText = pointDesc;
           }
   
           var data = google.visualization.arrayToDataTable(durationList);
@@ -69,5 +71,7 @@
       </script>
   
 </div>
+
+<div id="divPointDescription"></div>
 
 {% endblock %}
