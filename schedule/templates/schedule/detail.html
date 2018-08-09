@@ -17,7 +17,7 @@
         </div>
 
         <div class="form-group w-25">
-            <label for="inputStartDate">Start Date</label>
+            <label for="inputStartDate">Project Start Date</label>
             <input type="text" class="form-control" id="inputStartDate" name="startdate" value="{{schedule.StartDateDisplay}}" data-parsley-datecheck required="" />
         </div>
 
@@ -80,8 +80,8 @@
 
         {% if scheduleId != 0 %}
         <div class="form-group">
-            <a class="btn btn-secondary" href="/schedule/location/{{schedule.Id}}/index">Location...</a>
-            <a class="btn btn-secondary" href="/schedule/activity/{{schedule.Id}}">Activities...</a>
+            <a class="btn btn-secondary" href="/schedule/location/{{schedule.Id}}/index">Edit project locations</a>
+            <a class="btn btn-secondary" href="/schedule/activity/{{schedule.Id}}">Edit project activities</a>
         </div>
         {% endif %}
         
@@ -97,18 +97,18 @@
             </div>
 
         {% if scheduleId != 0 %}
-        <h5>Reporting</h5>
-        <h6>Forwards</h6>
+        <h5>Schedule Reports</h5>
+        <h6>Forwards (for weather-aware project planning)</h6>
         <div class="form-group">
-            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=2">Weather Aware...</a>
-            <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic...</a>
-            <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Duration by Days of Year...</a>
+            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=2">Gantt Chart</a>
+            <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic Project Duration</a>
+            <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Avg. Project Duration by start date</a>
         </div>
         
-        <h6>Backwards</h6>
+        <h6>Backwards (for retrospective weather-related as-built projects)</h6>
         <div class="form-group">        
-            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=4">Weather Aware...</a>
-            <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}/?type=4">Stochastic...</a>
+            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=4">Gantt Chart</a>
+            <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}/?type=4">Stochastic Project Duration</a>
         </div>  
         
         {% endif %}

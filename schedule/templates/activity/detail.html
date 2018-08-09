@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group w-50">
-            <label for="activity-type">Activity Type</label>
+            <label for="activity-type">Climatic Activity Type</label>
             <select class="form-control form-control-sm" name="activity-type" required>
                 {% for activitytype in activitytypes %}
                 <option value="{{activitytype.Id}}" {% if activity.ActivityTypeId == activitytype.Id %}selected{% endif %}>{{activitytype.Name}}</option>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group w-50">
-            <label for="selectPosition">Position Activity After - (leave blank to add to end)</label>
+            <label for="selectPosition">Position Activity After - (leave blank to add to bottom of list)</label>
             <select class="form-control form-control-sm" name="selectPosition" id="selectPosition" required>  
                 <option value="-1"></option>                
                 <option value="0">Move to beginning</option>

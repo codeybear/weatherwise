@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from django.conf import settings
 
-from schedule.models import Weather, ActivityService, Activity, ReportType
+from schedule.models import Weather, ActivityService, Activity, ReportType, ScheduleService
 
 import time
 import datetime
@@ -70,11 +70,14 @@ def stochasticindex(request, schedule_id):
     durationList = []
     demoMode = settings.DEMO_MODE
 
+    scheduleService = ScheduleService()
+    schedule = scheduleService.GetById(schedule_id)
+
     if reportType == 2:
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE, duration)
     if reportType == 4:
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
 
     template = loader.get_template('report/stochasticindex.html')
-    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'duration' : duration, 'reportType' : reportType, 'demoMode' : demoMode }
+    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 'reportType' : reportType, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
