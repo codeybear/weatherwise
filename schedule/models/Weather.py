@@ -95,6 +95,7 @@ class Weather:
 
         for counter in range(0, iterCount - 1):
             index = ((counter - 0.5) / iterCount) * 100
+            index = round(index, 2)
             listItem = durationList[counter]
 
             if prevDuration != listItem[1]:    # this makes sure to points with the same duration are plotted in the same place
