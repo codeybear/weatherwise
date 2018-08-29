@@ -24,7 +24,7 @@
             {{ schedule.StartDate }}
         </td>
         <td>
-            <a href="/schedule/{{schedule.Id}}">Edit...</a>
+            <a title="Edit the Schedule and view reports" href="/schedule/{{schedule.Id}}">Edit...</a>
         </td>            
         {% if demoMode == False %}
         <td>
@@ -38,6 +38,7 @@
 <a class="btn btn-secondary" href="/schedule/0">Add a new schedule...</a>
 
 <div style="margin-top:100px">
+<div id="divider"></div>
     <p>
     This is an website application for considering the influence of weather in UK construction projects. This project was funded by the Natural Environment Research Council (NERC) under the Environmental Risks to Infrastructure Innovation Programme (ERIIP) with Grant number NE/R008876/1 at the University of Reading. Weather data were supplied by the UK Met Office (MIDAS data set).
     </p>
