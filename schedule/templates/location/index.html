@@ -116,16 +116,16 @@
 
     function convertLong(long) {
         l = (long - 49) / 12 * 600;
-        l = 600 - l
-        return l
+        l = 600 - l;
+        return l;
     }
 
     function setPoint() {
         var lat = document.getElementById('inputLat').value;
         var long = document.getElementById('inputLong').value;
 
-        x = convertLat(parseInt(lat));
-        y = convertLong(parseInt(long));
+        x = convertLat(parseFloat(lat));
+        y = convertLong(parseFloat(long));
 
         removeExistingPoint();
         createPoint(x, y);
@@ -133,7 +133,7 @@
 
     function removeExistingPoint() {
         var mapPoints = document.getElementsByClassName('map-point');
-        if(mapPoints.length > 0) mapPoints[0].remove();
+        if(mapPoints.length > 0) mapPoints[0].parentNode.removeChild(mapPoints[0]);
     }
 
     {% if viewtype == "index" %}
@@ -152,7 +152,7 @@
     {% endif %}
 
     {% if viewtype == "detail" %}
-    document.getElementById('imgMap').addEventListener('click', (evt) => {
+    document.getElementById('imgMap').addEventListener('click', function(evt) {
         var lat = document.getElementById('inputLat');
         var long = document.getElementById('inputLong');
         x = evt.offsetX;
