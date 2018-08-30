@@ -97,6 +97,9 @@
 </div>
     
 <script>
+    var mapWidth = 337;
+    var mapHeight = 557;
+
     function precisionRound(number, precision) {
         var factor = Math.pow(10, precision);
         return Math.round(number * factor) / factor;
@@ -111,12 +114,12 @@
     }
 
     function convertLat(lat) {
-        return (lat + 9) / 11 * 365.766;
+        return (lat + 9) / 11 * mapWidth;
     }   
 
     function convertLong(long) {
-        l = (long - 49) / 12 * 600;
-        l = 600 - l;
+        l = (long - 49) / 12 * mapHeight;
+        l = mapHeight - l;
         return l;
     }
 
@@ -162,8 +165,8 @@
         createPoint(x, y);
         
         // Convert pixels to WGS84
-        lat.value = precisionRound(x / 365.766 * 11 - 9, 1);
-        long.value = precisionRound((600 - y) / 600 * 12 + 49, 1);
+        lat.value = precisionRound(x / mapWidth * 11 - 9, 1);
+        long.value = precisionRound((mapHeight - y) / mapHeight * 12 + 49, 1);
     })
 
     setPoint();
