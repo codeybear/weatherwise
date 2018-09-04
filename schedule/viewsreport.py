@@ -9,6 +9,7 @@ import time
 import datetime
 
 def index(request, schedule_id):
+    fromSchedules = request.GET.get('fromschedules', False)    
     reportType = int(request.GET["reporttype"])
     weather = Weather(schedule_id)
     originalLabel = "Planned dur"
@@ -51,7 +52,8 @@ def index(request, schedule_id):
     template = loader.get_template('report/index.html')
 
     context = { 'activities' : activities, 'activities2' : activities2 , 'dependencies' : weather.dependencyList, 'scheduleId' : schedule_id, 
-                'duration' : duration, 'duration2' : duration2 ,'reportType' : reportType, 'originalLabel' : originalLabel, 'newLabel' : newLabel }
+                'duration' : duration, 'duration2' : duration2 ,'reportType' : reportType, 'originalLabel' : originalLabel, 'newLabel' : newLabel, 
+                'fromSchedules' : fromSchedules  }
     return HttpResponse(template.render(context, request))
 
 def daysindex(request, schedule_id):
@@ -86,5 +88,6 @@ def stochasticindex(request, schedule_id):
             durationCDF = itemCDF[0][0]
 
     template = loader.get_template('report/stochasticindex.html')
-    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 'durationCDF' : durationCDF, 'reportType' : reportType, 'demoMode' : demoMode }
+    context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 
+                'durationCDF' : durationCDF, 'reportType' : reportType, 'demoMode' : demoMode}
     return HttpResponse(template.render(context, request))

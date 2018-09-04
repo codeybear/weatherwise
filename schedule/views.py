@@ -10,10 +10,10 @@ from schedule.models import Schedule, ScheduleService, ActivityService, Location
 def index(request):
     demoMode = settings.DEMO_MODE
     scheduleService = ScheduleService
-    schedules = scheduleService.GetAll()    
+    schedules = scheduleService.GetAll()
     
     template = loader.get_template('schedule/index.html')
-    context = { 'schedules' : schedules, 'demoMode' : demoMode}
+    context = { 'schedules' : schedules, 'demoMode' : demoMode }
     return HttpResponse(template.render(context, request))
 
 def detail(request, schedule_id):
