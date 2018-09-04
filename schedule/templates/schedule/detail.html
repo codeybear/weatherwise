@@ -80,8 +80,8 @@
 
         {% if scheduleId != 0 %}
         <div class="form-group">
-            <a class="btn btn-secondary" title="Plot location where works will be carried out" href="/schedule/location/{{schedule.Id}}/index">Edit project locations</a>
-            <a class="btn btn-secondary" href="/schedule/activity/{{schedule.Id}}">Edit project activities</a>
+            <a class="btn btn-secondary" d  ata-toggle="tooltip" title="Manage the locations where construction will be carried out" href="/schedule/location/{{schedule.Id}}/index">Edit project locations</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Manage this schedule's activities and dependencies" href="/schedule/activity/{{schedule.Id}}">Edit project activities</a>
         </div>
         {% endif %}
         
@@ -89,7 +89,7 @@
             {% if demoMode == False %}
             <button type="submit" class="btn btn-primary">Save</button>
             {% endif %}
-            <a class="btn btn-secondary" href="{% url 'schedule:index' %}">Cancel</a>
+            <a data-toggle="tooltip" title="Discard any changes and return to the schedule list" class="btn btn-secondary" href="{% url 'schedule:index' %}">Cancel</a>
         </div>
         
         <div class="form-group">
@@ -100,14 +100,14 @@
         <h5>Schedule Reports</h5>
         <h6>Forwards (for weather-aware project planning)</h6>
         <div class="form-group">
-            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=2">Gantt Chart</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Show the planned and weather affected schedule" href="/schedule/report/{{schedule.Id}}?reporttype=2">Gantt Chart</a>
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic Project Duration</a>
             <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Avg. Project Duration by start date</a>
         </div>
         
         <h6>Backwards (for retrospective weather-related as-built projects)</h6>
         <div class="form-group">        
-            <a class="btn btn-secondary" href="/schedule/report/{{schedule.Id}}?reporttype=4">Gantt Chart</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Show the planned and weather affected schedule" href="/schedule/report/{{schedule.Id}}?reporttype=4">Gantt Chart</a>
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}/?type=4">Stochastic Project Duration</a>
         </div>  
         

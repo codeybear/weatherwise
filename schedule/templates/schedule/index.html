@@ -24,7 +24,10 @@
             {{ schedule.StartDate }}
         </td>
         <td>
-            <a title="Edit the Schedule and view reports" href="/schedule/{{schedule.Id}}">Edit...</a>
+            <a data-toggle="tooltip" title="View the Gantt Chart" href="/schedule/report/{{schedule.Id}}/?reporttype=2&fromschedules=1">View...</a>
+        </td>            
+        <td>
+            <a data-toggle="tooltip" title="Edit the Schedule and view reports" href="/schedule/{{schedule.Id}}">Manage...</a>
         </td>            
         {% if demoMode == False %}
         <td>

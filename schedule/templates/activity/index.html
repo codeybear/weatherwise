@@ -7,11 +7,12 @@
 <br />
 <div class="container">
 <h3>Activity List</h3>
-
+<form>
 <div class="form-group">            
-    <a class="btn btn-secondary" href="/schedule/activity/0/detail?schedule_id={{scheduleId}}">Add a new activity...</a>
+    <a class="btn btn-secondary" data-toggle="tooltip" title="Create an activity and manage its dependencies" href="/schedule/activity/0/detail?schedule_id={{scheduleId}}">Add a new activity...</a>
     <a class="btn btn-secondary" href="/schedule/{{scheduleId}}">Back to schedule...</a>
 </div>
+</form>
 
 <div class="row">
     <div>
@@ -39,7 +40,7 @@
                     {{ activity.ActivityTypeName }}
                 </td>
                 <td>
-                    <a href="/schedule/activity/{{activity.Id}}/detail?schedule_id={{scheduleId}}">Edit...</a>
+                    <a data-toggle="tooltip" title="Manage this activity and its dependencies" href="/schedule/activity/{{activity.Id}}/detail?schedule_id={{scheduleId}}">Edit...</a>
                 </td>            
                 <td>
                     {% if demoMode == False %}

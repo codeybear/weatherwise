@@ -65,15 +65,15 @@
         
         {% if activity.Id != 0 %}
         <div class="form-group">            
-            <a class="btn btn-secondary" href="/schedule/dependency/{{activity.Id}}?schedule_id={{scheduleId}}">Dependencies...</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Create and edit one or more dependencies" href="/schedule/dependency/{{activity.Id}}?schedule_id={{scheduleId}}">Dependencies...</a>
         </div>
         {% endif %}
 
         <div class="form-group">
             {% if demoMode == False %}
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" data-toggle="tooltip" title="Save and return to the activity" class="btn btn-primary">Save</button>
             {% endif %}
-            <a class="btn btn-secondary" href="/schedule/activity/{{scheduleId}}">Cancel</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Cancel any changes and return to the activity" href="/schedule/activity/{{scheduleId}}">Cancel</a>
         </div>                
     </form>
 </div>  
