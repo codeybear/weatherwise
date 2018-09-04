@@ -156,17 +156,19 @@
 
     {% if viewtype == "detail" %}
     document.getElementById('imgMap').addEventListener('click', function(evt) {
-        var lat = document.getElementById('inputLat');
-        var long = document.getElementById('inputLong');
-        x = evt.offsetX;
-        y = evt.offsetY;
+        var inputLat = document.getElementById('inputLat');
+        var inputLong = document.getElementById('inputLong');
+        var x = evt.offsetX;
+        var y = evt.offsetY;
+        
+        if(x > mapWidth || y > mapHeight) return;
 
         removeExistingPoint();
         createPoint(x, y);
         
         // Convert pixels to WGS84
-        lat.value = precisionRound(x / mapWidth * 11 - 9, 1);
-        long.value = precisionRound((mapHeight - y) / mapHeight * 12 + 49, 1);
+        inputLat.value = precisionRound(x / mapWidth * 11 - 9, 1);
+        inputLong.value = precisionRound((mapHeight - y) / mapHeight * 12 + 49, 1);
     })
 
     setPoint();
