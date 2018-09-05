@@ -2,6 +2,12 @@
 
 {% block title %}Reporting{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+<li class="breadcrumb-item active" aria-current="page">Stochastic Report</li>
+{% endblock %}
+
 {% block content %}
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

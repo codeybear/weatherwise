@@ -2,14 +2,22 @@
 
 {% block title %}Schedules{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+{% if viewtype == "detail" %}
+<li class="breadcrumb-item"><a href="/schedule/location/{{scheduleId}}/index">Locations</a></li>
+<li class="breadcrumb-item active" aria-current="page">Location</li>
+{% else %}
+<li class="breadcrumb-item active" aria-current="page">Locations</li>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 {% load static %}
 
 <div class="container">
-    <br />
-    <h3>Locations</h3>
-    
     <div class="row">
         <div id="map-wrapper">
             <img id="imgMap" src="{% static "schedule/UK.PNG" %}"></image>

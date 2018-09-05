@@ -2,12 +2,17 @@
 
 {% block title %}Dependencies{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+<li class="breadcrumb-item"><a href="/schedule/activity/{{scheduleId}}">Activities</a></li>
+<li class="breadcrumb-item"><a href="/schedule/activity/{{activityId}}/detail?schedule_id={{scheduleId}}">Activity</a></li>
+<li class="breadcrumb-item active" aria-current="page">Dependencies</li>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
-    <br />
-    <h3>Dependency List</h3>
-    <br />
     <div class="form-group">
         Activity: <strong>{{ activity.Name }}</strong>
     </div>

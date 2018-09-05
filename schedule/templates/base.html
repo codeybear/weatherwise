@@ -9,17 +9,34 @@
 </head>
 
 <body>
-    <div id="sidebar">
-        {% block sidebar %}
-        <ul class="nav nav-tabs navbar-inverse">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Schedules</a>
-            </li>
-        </ul>
-        {% endblock %}
+    <div>
+        <!-- {% block navbar %} -->
+        <!-- {% endblock %} -->
+        <nav class="navbar navbar-expand-lg nav-tabs navbar-dark bg-dark">
+            <a title="Weather aware construction schedules" class="navbar-brand" href="#">Weather-wise</a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+                    </li>            
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Help<span class="sr-only">(current)</span></a>
+                    </li>                  
+                </ul>                
+            </div>
+
+        </nav>
     </div>
 
     <div id="content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% block breadcrumb %}
+                {% endblock %}
+            </ol>          
+        </nav>
+        
         {% block content %}{% endblock %}
     </div>
 

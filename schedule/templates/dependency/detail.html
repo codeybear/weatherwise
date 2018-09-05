@@ -2,12 +2,20 @@
 
 {% block title %}Dependency Edit{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+<li class="breadcrumb-item"><a href="/schedule/activity/{{scheduleId}}">Activities</a></li>
+<li class="breadcrumb-item"><a href="/schedule/activity/{{activityId}}/detail?schedule_id={{scheduleId}}">Activity</a></li>
+<li class="breadcrumb-item"><a href="/schedule/dependency/{{activityId}}?schedule_id={{scheduleId}}">Dependencies</a></li>
+<li class="breadcrumb-item active" aria-current="page">Dependency</li>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
     <form action="/schedule/dependency/{{dependency.Id}}/update" method="post" data-parsley-validate="">
         {% csrf_token %}
-        <h3>Dependency</h3>
 
         <input type="hidden" name="schedule_id" value="{{scheduleId}}" />
         <input type="hidden" name="activity_id" value="{{activityId}}" />

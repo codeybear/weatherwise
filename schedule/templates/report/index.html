@@ -2,6 +2,16 @@
 
 {% block title %}Reporting{% endblock %}
 
+{% block breadcrumb %}
+{% if fromSchedules == False %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+{% else %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+{% endif %}
+<li class="breadcrumb-item active" aria-current="page">Gantt Chart</li>
+{% endblock %}
+
 {% block content %}
 
 {% load static %}
@@ -98,10 +108,6 @@
     }
 
 </style>
-
-{% if fromSchedules == False %}
-<a style="margin-left: 10px;" href="/schedule/{{scheduleId}}">Back to Schedule...</a>
-{% endif %}
 
 <div class="container-fluid">
     <div class="row">

@@ -2,6 +2,13 @@
 
 {% block title %}Activity{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+<li class="breadcrumb-item"><a href="/schedule/activity/{{scheduleId}}">Activities</a></li>
+<li class="breadcrumb-item active" aria-current="page">Activity</li>
+{% endblock %}
+
 {% block content %}
 
 <br />

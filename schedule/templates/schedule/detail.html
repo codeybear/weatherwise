@@ -2,12 +2,16 @@
 
 {% block title %}Schedule Edit{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item active" aria-current="page">Schedule</li>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
     <form action="/schedule/{{schedule.Id}}/update" method="post" data-parsley-validate="">
         {% csrf_token %}
-        <h3>Schedule</h3>
 
         <input type="hidden" name="id" value="{{schedule.Id}}" />
                 
@@ -80,7 +84,7 @@
 
         {% if scheduleId != 0 %}
         <div class="form-group">
-            <a class="btn btn-secondary" d  ata-toggle="tooltip" title="Manage the locations where construction will be carried out" href="/schedule/location/{{schedule.Id}}/index">Edit project locations</a>
+            <a class="btn btn-secondary" data-toggle="tooltip" title="Manage the locations where construction will be carried out" href="/schedule/location/{{schedule.Id}}/index">Edit project locations</a>
             <a class="btn btn-secondary" data-toggle="tooltip" title="Manage this schedule's activities and dependencies" href="/schedule/activity/{{schedule.Id}}">Edit project activities</a>
         </div>
         {% endif %}
@@ -102,7 +106,7 @@
         <div class="form-group">
             <a class="btn btn-secondary" data-toggle="tooltip" title="Show the planned and weather affected schedule" href="/schedule/report/{{schedule.Id}}?reporttype=2">Gantt Chart</a>
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic Project Duration</a>
-            <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Avg. Project Duration by start date</a>
+            <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Project Duration by start date</a>
         </div>
         
         <h6>Backwards (for retrospective weather-related as-built projects)</h6>

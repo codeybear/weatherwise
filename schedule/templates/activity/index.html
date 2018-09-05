@@ -2,17 +2,19 @@
 
 {% block title %}Activities{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Schedule List</a></li>
+<li class="breadcrumb-item"><a href="/schedule/{{scheduleId}}">Schedule</a></li>
+<li class="breadcrumb-item active" aria-current="page">Activities</li>
+{% endblock %}
+
 {% block content %}
 
-<br />
 <div class="container">
-<h3>Activity List</h3>
-<form>
 <div class="form-group">            
     <a class="btn btn-secondary" data-toggle="tooltip" title="Create an activity and manage its dependencies" href="/schedule/activity/0/detail?schedule_id={{scheduleId}}">Add a new activity...</a>
     <a class="btn btn-secondary" href="/schedule/{{scheduleId}}">Back to schedule...</a>
 </div>
-</form>
 
 <div class="row">
     <div>
