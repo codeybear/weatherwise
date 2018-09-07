@@ -13,7 +13,10 @@
         <!-- {% block navbar %} -->
         <!-- {% endblock %} -->
         <nav class="navbar navbar-expand-lg nav-tabs navbar-dark bg-dark">
-            <a title="Weather aware construction schedules" class="navbar-brand" href="#">Weather-wise</a>
+
+            <!-- <a title="Weather aware construction schedules" class="navbar-brand" href="#">
+                <img id="imgMap" src="{% static "schedule/Weather-Clouds-36-36.PNG" %}" style="width:32px;height:32px"></image>
+            </a> -->
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
@@ -21,7 +24,7 @@
                         <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                     </li>            
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Help<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" target="_blank" href="{% static 'schedule/UserGuide.pdf' %}">Help<span class="sr-only">(current)</span></a>
                     </li>                  
                 </ul>                
             </div>
