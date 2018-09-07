@@ -41,8 +41,8 @@ class ScheduleService:
                 schedule = self.__GetWorkingDays(schedule)
                 schedule.StartDateDisplay = schedule.StartDate.strftime("%d/%m/%Y")
 
-                if schedule.StatusDate is not None:
-                    schedule.StatusDateDisplay = schedule.StatusDate.strftime("%d/%m/%Y")
+                # if schedule.StatusDate is not None:
+                #     schedule.StatusDateDisplay = schedule.StatusDate.strftime("%d/%m/%Y")
 
                 return schedule
 

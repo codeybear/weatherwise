@@ -19,7 +19,8 @@ def index(request):
 def detail(request, schedule_id):
     scheduleService = ScheduleService
     schedule = Schedule
-    statusTypes = scheduleService.GetStatusTypes()
+    # statusTypes = scheduleService.GetStatusTypes()
+    statusTypes = []
     demoMode = settings.DEMO_MODE
     
     if schedule_id != 0:
@@ -37,8 +38,8 @@ def update(request, schedule_id):
     schedule.Name = request.POST['name']
     schedule.StartDateDisplay = request.POST['startdate']
     schedule.StartDate = time.strptime(schedule.StartDateDisplay, "%d/%m/%Y")
-    schedule.StatusTypeId = request.POST['status_type']
-    schedule.StatusDate = request.POST['status_date']
+    # schedule.StatusTypeId = request.POST['status_type']
+    # schedule.StatusDate = request.POST['status_date']
 
     schedule = CheckWorkingDays(request, schedule)
     scheduleService = ScheduleService
