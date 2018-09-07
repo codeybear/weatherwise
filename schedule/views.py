@@ -19,6 +19,7 @@ def index(request):
 def detail(request, schedule_id):
     scheduleService = ScheduleService
     schedule = Schedule
+    statusTypes = scheduleService.GetStatusTypes()
     demoMode = settings.DEMO_MODE
     
     if schedule_id != 0:
@@ -27,7 +28,7 @@ def detail(request, schedule_id):
         schedule.Id == 0
 
     template = loader.get_template('schedule/detail.html')
-    context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode  }
+    context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode, 'statusTypes' : statusTypes  }
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):
@@ -36,22 +37,10 @@ def update(request, schedule_id):
     schedule.Name = request.POST['name']
     schedule.StartDateDisplay = request.POST['startdate']
     schedule.StartDate = time.strptime(schedule.StartDateDisplay, "%d/%m/%Y")
+    schedule.StatusTypeId = request.POST['status_type']
+    schedule.StatusDate = request.POST['status_date']
 
-    schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
-    schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
-    schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')
-    schedule.WorkingDay3 = IsChecked(request.POST, 'workingday3')
-    schedule.WorkingDay4 = IsChecked(request.POST, 'workingday4')
-    schedule.WorkingDay5 = IsChecked(request.POST, 'workingday5')
-    schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
-
-    if schedule.WorkingDay0 == False and schedule.WorkingDay1 == False and schedule.WorkingDay2 == False and schedule.WorkingDay3 == False and schedule.WorkingDay4 == False and schedule.WorkingDay5 == False and schedule.WorkingDay6 == False:
-        schedule.WorkingDay0 = True
-        schedule.WorkingDay1 = True
-        schedule.WorkingDay2 = True
-        schedule.WorkingDay3 = True
-        schedule.WorkingDay4 = True
-
+    schedule = CheckWorkingDays(request, schedule)
     scheduleService = ScheduleService
 
     if schedule_id != 0:
@@ -82,3 +71,21 @@ def IsChecked(dict, item):
         return True
     else:
         return False
+
+def CheckWorkingDays(request, schedule):
+    schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
+    schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
+    schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')
+    schedule.WorkingDay3 = IsChecked(request.POST, 'workingday3')
+    schedule.WorkingDay4 = IsChecked(request.POST, 'workingday4')
+    schedule.WorkingDay5 = IsChecked(request.POST, 'workingday5')
+    schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
+
+    if schedule.WorkingDay0 == False and schedule.WorkingDay1 == False and schedule.WorkingDay2 == False and schedule.WorkingDay3 == False and schedule.WorkingDay4 == False and schedule.WorkingDay5 == False and schedule.WorkingDay6 == False:
+        schedule.WorkingDay0 = True
+        schedule.WorkingDay1 = True
+        schedule.WorkingDay2 = True
+        schedule.WorkingDay3 = True
+        schedule.WorkingDay4 = True
+
+    return schedule        

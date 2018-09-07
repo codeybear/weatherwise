@@ -8,6 +8,8 @@ class Schedule:
     Name = ""
     StartDate = ""
     StartDateDisplay = ""
+    StatusTypeId = 0
+    StatusDate = ""
     WorkingDay0 = False
     WorkingDay1 = False
     WorkingDay2 = False
@@ -16,6 +18,14 @@ class Schedule:
     WorkingDay5 = False
     WorkingDay6 = False
     WorkingDays = []   # Represents the above information in an array for convenience
+
+class StatusType:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+    Id = ""
+    Name = ""
+
 
 class ScheduleService:
     @classmethod
@@ -30,6 +40,9 @@ class ScheduleService:
                 schedule = None if result is None else Schedule(**result)
                 schedule = self.__GetWorkingDays(schedule)
                 schedule.StartDateDisplay = schedule.StartDate.strftime("%d/%m/%Y")
+
+                if schedule.StatusDate is not None:
+                    schedule.StatusDateDisplay = schedule.StatusDate.strftime("%d/%m/%Y")
 
                 return schedule
 
@@ -100,3 +113,20 @@ class ScheduleService:
                                 schedule.WorkingDay5, 
                                 schedule.WorkingDay6]
         return schedule
+
+    @classmethod
+    def GetStatusTypes(self):
+        connection = Common.getconnection()
+
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT Id, Name FROM status_type"
+                cursor.execute(sql)
+                results = cursor.fetchmany(cursor.rowcount)
+                # Convert list of dicts to list of classes
+                statusTypeList = [StatusType(**result) for result in results]
+
+                return statusTypeList
+
+        finally:
+            connection.close()
