@@ -10,6 +10,7 @@ class Schedule:
     StartDateDisplay = ""
     StatusTypeId = 0
     StatusDate = ""
+    StatusDateDisplay = ""
     WorkingDay0 = False
     WorkingDay1 = False
     WorkingDay2 = False
@@ -41,8 +42,8 @@ class ScheduleService:
                 schedule = self.__GetWorkingDays(schedule)
                 schedule.StartDateDisplay = schedule.StartDate.strftime("%d/%m/%Y")
 
-                # if schedule.StatusDate is not None:
-                #     schedule.StatusDateDisplay = schedule.StatusDate.strftime("%d/%m/%Y")
+                if schedule.StatusDate is not None:
+                    schedule.StatusDateDisplay = schedule.StatusDate.strftime("%d/%m/%Y")
 
                 return schedule
 
@@ -67,12 +68,12 @@ class ScheduleService:
     @classmethod
     def Add(self, schedule):
         connection = Common.getconnection()
-        
+
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`) \
-                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6))
+                sql = "INSERT INTO `schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`, `StatusTypeId`, `StatusDate`) \
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId, schedule.StatusDate))
                 connection.commit()
         finally:
             connection.close()
@@ -83,10 +84,12 @@ class ScheduleService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `schedule` SET `Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, `WorkingDay1` = %s, `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, `WorkingDay6` = %s \
-                       WHERE Id = %s"
+                sql = """UPDATE `schedule` SET `Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, `WorkingDay1` = %s, `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, `WorkingDay6` = %s,
+                       `StatusTypeId` = %s, `StatusDate` = %s 
+                       WHERE Id = %s"""
                 
-                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6, schedule.Id))
+                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, 
+                                     schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId, schedule.StatusDate, schedule.Id))
                 connection.commit()
         finally:
             connection.close()

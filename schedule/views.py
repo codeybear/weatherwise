@@ -19,8 +19,7 @@ def index(request):
 def detail(request, schedule_id):
     scheduleService = ScheduleService
     schedule = Schedule
-    # statusTypes = scheduleService.GetStatusTypes()
-    statusTypes = []
+    statusTypes = scheduleService.GetStatusTypes()
     demoMode = settings.DEMO_MODE
     
     if schedule_id != 0:
@@ -29,7 +28,7 @@ def detail(request, schedule_id):
         schedule.Id == 0
 
     template = loader.get_template('schedule/detail.html')
-    context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode, 'statusTypes' : statusTypes  }
+    context = { 'schedule' : schedule, 'scheduleId' : schedule_id, 'demoMode' : demoMode, 'statusTypes' : statusTypes }
     return HttpResponse(template.render(context, request))
 
 def update(request, schedule_id):
@@ -38,8 +37,9 @@ def update(request, schedule_id):
     schedule.Name = request.POST['name']
     schedule.StartDateDisplay = request.POST['startdate']
     schedule.StartDate = time.strptime(schedule.StartDateDisplay, "%d/%m/%Y")
-    # schedule.StatusTypeId = request.POST['status_type']
-    # schedule.StatusDate = request.POST['status_date']
+    schedule.StatusTypeId = request.POST['statustype']
+    schedule.StatusDateDisplay = request.POST['statusdate']
+    schedule.StatusDate = time.strptime(schedule.StatusDateDisplay, "%d/%m/%Y") if schedule.StatusDateDisplay != '' else None
 
     schedule = CheckWorkingDays(request, schedule)
     scheduleService = ScheduleService
