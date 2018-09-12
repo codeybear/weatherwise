@@ -127,7 +127,9 @@ class Weather:
                     currentDayNum = currentDay.timetuple().tm_yday
                     dayCoeff = 1
 
-                    if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL:
+                    stageCompleted = self.CheckProjectState(currentDay)
+
+                    if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL and not stageCompleted:
                         dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
                         #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
@@ -245,3 +247,16 @@ class Weather:
                 currentDate += datetime.timedelta(days=1)
                 
         return currentDate
+
+    @classmethod
+    def CheckProjectState(self, currentDay):
+        """ Check to see if this stage on the project has been completed """
+        status = False
+
+        if self.schedule.StatusTypeId == 2:
+            if currentDay < self.schedule.StartDate:
+                status = True
+        elif self.schedule.StatusTypeId == 3:
+            status = True
+        
+        return status
