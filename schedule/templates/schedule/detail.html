@@ -27,9 +27,9 @@
 
         <div class="form-group w-50">
             <label for="activity-type">Project Status</label>
-            <select class="form-control form-control-sm" name="statustype">
+            <select class="form-control form-control-sm" name="statustype" id="selectStatus" onchange="StatusChanged()">
                 {% for status in statusTypes %}
-                <option value="{{status.Id}}" {% if schedule.StatusTypeId == statusTypes.Id %}selected{% endif %}>{{status.Name}}</option>
+                <option value="{{status.Id}}" {% if schedule.StatusTypeId == status.Id %}selected{% endif %}>{{status.Name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -135,4 +135,20 @@
     </form>
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function StatusChanged(selectElement) {
+            inputStatusDate = document.getElementById("inputStatusDate");
+            item = document.getElementById("selectStatus").value;
+
+            if (item == 2)
+                inputStatusDate.disabled = false;
+            else
+                inputStatusDate.disabled = true;
+        }
+
+        StatusChanged();
+    </script>
 {% endblock %}
