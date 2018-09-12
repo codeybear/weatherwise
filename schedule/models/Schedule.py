@@ -56,7 +56,9 @@ class ScheduleService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM schedule"
+                sql = """SELECT schedule.*, status_type.Name AS StatusName FROM schedule
+                       INNER JOIN status_type ON status_type.Id = schedule.StatusTypeId"""
+
                 cursor.execute(sql)
                 results = cursor.fetchmany(cursor.rowcount)
                 scheduleList = [Schedule(**result) for result in results]

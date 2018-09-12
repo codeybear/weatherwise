@@ -14,6 +14,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Start Date</th>                
+                <th scope="col">Status</th>                
             </tr>
         </thead>
     {% for schedule in schedules %}
@@ -23,6 +24,9 @@
         </td>
         <td>
             {{ schedule.StartDate }}
+        </td>
+        <td>
+            {{ schedule.StatusName }}
         </td>
         <td>
             <a data-toggle="tooltip" title="View the Gantt Chart" href="/schedule/report/{{schedule.Id}}/?reporttype=2&fromschedules=1">View...</a>
