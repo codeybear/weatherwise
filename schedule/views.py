@@ -38,7 +38,7 @@ def update(request, schedule_id):
     schedule.StartDateDisplay = request.POST['startdate']
     schedule.StartDate = time.strptime(schedule.StartDateDisplay, "%d/%m/%Y")
     schedule.StatusTypeId = request.POST['statustype']
-    schedule.StatusDateDisplay = request.POST['statusdate']
+    schedule.StatusDateDisplay = request.POST.get('statusdate', '')
     schedule.StatusDate = time.strptime(schedule.StatusDateDisplay, "%d/%m/%Y") if schedule.StatusDateDisplay != '' else None
 
     schedule = CheckWorkingDays(request, schedule)
