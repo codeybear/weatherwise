@@ -254,8 +254,9 @@ class Weather:
         status = False
 
         if self.schedule.StatusTypeId == 2:
-            if currentDay < self.schedule.StartDate:
-                status = True
+            if self.schedule.StatusDate is not None:
+                if currentDay < self.schedule.StatusDate:
+                    status = True
         elif self.schedule.StatusTypeId == 3:
             status = True
         
