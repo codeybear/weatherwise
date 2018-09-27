@@ -45,7 +45,7 @@ class Weather:
 
     @classmethod
     def CalcDaysOfYear(self):
-        day = datetime.datetime(2018, 1, 1)
+        day = datetime.date(2018, 1, 1)
         durationList = []
         endDateList = []
 
