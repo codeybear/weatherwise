@@ -45,7 +45,7 @@ class Weather:
 
     @classmethod
     def CalcDaysOfYear(self):
-        day = datetime.date(2018, 1, 1)
+        day = datetime.date(2100, 1, 1)
         durationList = []
         endDateList = []
 
@@ -75,6 +75,7 @@ class Weather:
                 for idx, activity in enumerate(self.activityList):
                     self.activityList[idx].Duration = result[0][idx].NewDuration
 
+                # Calculate the correct start and end dates for these activities (reverse stochastic report does not do this)
                 result = self.CalcScheduleDuration(startDate=None, calcType=ReportType.NORMAL)
                 durationList.append((0, result[1]))  
         else:        
@@ -89,7 +90,12 @@ class Weather:
                 iterCount += 1
 
         durationList.sort(key=itemgetter(1))
+        durationList = Weather.CalcStochasticProbabilities(iterCount, durationList)
 
+        return durationList
+
+    @staticmethod
+    def CalcStochasticProbabilities(iterCount, durationList):
         prevDuration = 0
         thisIndex = 0
 
