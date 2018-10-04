@@ -79,7 +79,10 @@ def stochasticindex(request, schedule_id):
     if reportType == 2:
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
-        result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        # Get the weather aware durations and set these durations for the reverse report
+        result = CalcReverseReport(schedule_id)        
+
+        # result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
         duration = result[1]
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
         itemCDF = [item for item in durationList if item[1] == duration]
@@ -91,3 +94,23 @@ def stochasticindex(request, schedule_id):
     context = { 'durationList' : durationList, 'scheduleId' : schedule_id, 'startDate' : schedule.StartDate , 'duration' : duration, 
                 'durationCDF' : durationCDF, 'reportType' : reportType, 'demoMode' : demoMode}
     return HttpResponse(template.render(context, request))
+
+def CalcReverseReport(schedule_id):
+    # Get the weather aware durations and set these durations for the reverse report
+    weather2 = Weather(schedule_id)
+
+    result = weather2.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+
+    for idx, activity in enumerate(weather2.activityList):
+        weather2.activityList[idx].Duration = result[0][idx].NewDuration
+
+    # Get the planned durations from the weather aware durations
+    result = weather2.CalcScheduleDuration(calcType = ReportType.REVERSE)
+
+    # Calculate the start and end dates for these activities using the normal report
+    for idx, activity in enumerate(weather2.activityList):
+        weather2.activityList[idx].Duration = result[0][idx].NewDuration     
+
+    result = weather2.CalcScheduleDuration(calcType = ReportType.NORMAL)        
+    return result
+

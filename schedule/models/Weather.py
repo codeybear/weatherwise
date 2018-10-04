@@ -123,6 +123,10 @@ class Weather:
             actualDuration = 0
             actualDurationDays = 0
 
+            if calcType == ReportType.REVERSE and stochastic is True and activity.ActivityTypeId != 7:
+                if activity.Duration > 1:
+                    activity.Duration = activity.Duration - 1
+
             location = next(l for l in self.locationList if l.Id == activity.LocationId)
             parameter = ParameterService.GetByLatLong(activity.ActivityTypeId, location.Lat, location.Long)
             activityStartDay = self.GetActivityStartDate(activity, parameter, currentDay)
