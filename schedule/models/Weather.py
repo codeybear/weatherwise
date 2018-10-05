@@ -125,13 +125,7 @@ class Weather:
 
             if calcType == ReportType.REVERSE and stochastic is True and activity.ActivityTypeId != 7:
                 if activity.Duration > 1:
-                    # Don't do this for status date activities, they are the correct durations already
-                    if self.schedule.StatusTypeId == 2:
-                        if activity.EndDate < self.schedule.StatusDate:
-                            activity.Duration = activity.Duration - 1
-                    if self.schedule.StatusTypeId == 1:
-                        activity.Duration = activity.Duration - 1
-
+                    activity.Duration = activity.Duration - 1
 
             location = next(l for l in self.locationList if l.Id == activity.LocationId)
             parameter = ParameterService.GetByLatLong(activity.ActivityTypeId, location.Lat, location.Long)

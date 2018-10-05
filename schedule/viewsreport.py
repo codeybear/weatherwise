@@ -97,20 +97,21 @@ def stochasticindex(request, schedule_id):
 
 def CalcReverseReport(schedule_id):
     # Get the weather aware durations and set these durations for the reverse report
-    weather2 = Weather(schedule_id)
+    weather = Weather(schedule_id)
+    weather.schedule.StatusTypeId = 1
 
-    result = weather2.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+    result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
 
-    for idx, activity in enumerate(weather2.activityList):
-        weather2.activityList[idx].Duration = result[0][idx].NewDuration
+    for idx, activity in enumerate(weather.activityList):
+        weather.activityList[idx].Duration = result[0][idx].NewDuration
 
     # Get the planned durations from the weather aware durations
-    result = weather2.CalcScheduleDuration(calcType = ReportType.REVERSE)
+    result = weather.CalcScheduleDuration(calcType = ReportType.REVERSE)
 
     # Calculate the start and end dates for these activities using the normal report
-    for idx, activity in enumerate(weather2.activityList):
-        weather2.activityList[idx].Duration = result[0][idx].NewDuration     
+    for idx, activity in enumerate(weather.activityList):
+        weather.activityList[idx].Duration = result[0][idx].NewDuration     
 
-    result = weather2.CalcScheduleDuration(calcType = ReportType.NORMAL)        
+    result = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)        
     return result
 
