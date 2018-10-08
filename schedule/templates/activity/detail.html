@@ -62,6 +62,7 @@
             
         </div>
         
+        {% if activity.Id != 0 %}        
         <div class="form-group">
             <div class="alert alert-warning">
                 Changing the position of an activity may create successor dependencies, these will be removed as part of the move process.
@@ -70,7 +71,6 @@
             <span id="divSuccessorCount"></span>
         </div>              
         
-        {% if activity.Id != 0 %}
         <div class="form-group">            
             <a class="btn btn-secondary" data-toggle="tooltip" title="Create and edit one or more dependencies" href="/schedule/dependency/{{activity.Id}}?schedule_id={{scheduleId}}">Dependencies...</a>
         </div>
