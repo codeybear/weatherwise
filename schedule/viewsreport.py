@@ -58,6 +58,7 @@ def index(request, schedule_id):
 
 def daysindex(request, schedule_id):
     weather = Weather(schedule_id)
+    weather.schedule.StatusTypeId = 1
     durationList, endDateList = weather.CalcDaysOfYear()
 
     template = loader.get_template('report/daysindex.html')
@@ -81,8 +82,8 @@ def stochasticindex(request, schedule_id):
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
         result = CalcReverseReport(schedule_id)        
-
         # result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
+        
         duration = result[1]
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
         itemCDF = [item for item in durationList if item[1] == duration]
