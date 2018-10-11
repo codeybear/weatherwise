@@ -116,18 +116,22 @@
 
         {% if scheduleId != 0 %}
         <h5>Schedule Reports</h5>
+        {% if schedule.StatusTypeId != 3 %}
         <h6>Forwards (for weather-aware project planning)</h6>
         <div class="form-group">
             <a class="btn btn-secondary" data-toggle="tooltip" title="Show the planned and weather affected schedule" href="/schedule/report/{{schedule.Id}}?reporttype=2">Gantt Chart</a>
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}">Stochastic Project Duration</a>
             <a class="btn btn-secondary" href="/schedule/reportdays/{{schedule.Id}}">Project Duration by start date</a>
         </div>
+        {% endif %}
         
+        {% if schedule.StatusTypeId != 1 %}
         <h6>Backwards (for retrospective weather-related as-built projects)</h6>
         <div class="form-group">        
             <a class="btn btn-secondary" data-toggle="tooltip" title="Show the planned and weather affected schedule" href="/schedule/report/{{schedule.Id}}?reporttype=4">Gantt Chart</a>
             <a class="btn btn-secondary" href="/schedule/reportstochastic/{{schedule.Id}}/?type=4">Stochastic Project Duration</a>
         </div>  
+        {% endif %}
         
         {% endif %}
         <div class="form-group">
