@@ -134,7 +134,13 @@
             <input type="radio" class="form-check-input" id="optPlanned" name="report-type" value="2" {% if reportType == 4 %} checked {% endif %} />
             <label class="form-check-label" for="optPlanned">Planned (Weather-unaware)</label>
         </div>
-    </div>  
+    </div>
+    
+    {% if statusDate != "" %}
+    <div class="row">
+            Status Date: {{ statusDate }}
+    </div>
+    {% endif %}
 
     <div class="row">
         <div class="gantt_wrapper panel" id="gantt_here"></div>

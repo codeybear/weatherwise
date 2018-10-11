@@ -12,6 +12,7 @@ def index(request, schedule_id):
     fromSchedules = request.GET.get('fromschedules', False)    
     reportType = int(request.GET["reporttype"])
     weather = Weather(schedule_id)
+    statusDate = GetStatusDate(schedule_id)
     originalLabel = "Planned dur"
     newLabel = "Actual dur"
 
@@ -53,7 +54,7 @@ def index(request, schedule_id):
 
     context = { 'activities' : activities, 'activities2' : activities2 , 'dependencies' : weather.dependencyList, 'scheduleId' : schedule_id, 
                 'duration' : duration, 'duration2' : duration2 ,'reportType' : reportType, 'originalLabel' : originalLabel, 'newLabel' : newLabel, 
-                'fromSchedules' : fromSchedules  }
+                'fromSchedules' : fromSchedules, 'statusDate' : statusDate  }
     return HttpResponse(template.render(context, request))
 
 def daysindex(request, schedule_id):
@@ -96,9 +97,9 @@ def stochasticindex(request, schedule_id):
                 'durationCDF' : durationCDF, 'reportType' : reportType, 'demoMode' : demoMode}
     return HttpResponse(template.render(context, request))
 
-def CalcReverseReport(schedule_id):
+def CalcReverseReport(scheduleId):
     # Get the weather aware durations and set these durations for the reverse report
-    weather = Weather(schedule_id)
+    weather = Weather(scheduleId)
     weather.schedule.StatusTypeId = 1
 
     result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
@@ -115,4 +116,13 @@ def CalcReverseReport(schedule_id):
 
     result = weather.CalcScheduleDuration(calcType = ReportType.NORMAL)        
     return result
+
+def GetStatusDate(scheduleId):
+    scheduleService = ScheduleService
+    schedule = scheduleService.GetById(scheduleId)
+
+    if schedule.StatusTypeId == 2:
+        return schedule.StatusDateDisplay
+    else:
+        return ""
 
