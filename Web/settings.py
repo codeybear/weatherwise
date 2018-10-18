@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from .database import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -69,18 +70,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Web.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'NAME': 'weather',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-    }
-}
+# These settings have been moved to database.py
 
 DEMO_MODE = False
 
