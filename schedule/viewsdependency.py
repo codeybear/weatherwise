@@ -47,7 +47,7 @@ def update(request, dependency_id):
     dependency.Id = dependency_id
     dependency.ActivityId = activityId
     dependency.PredActivityId = request.POST["pred_activity_id"]
-    dependency.DependencyTypeId = request.POST["dependency_type_id"]
+    dependency.TypeId = request.POST["dependency_type_id"]
     dependency.DependencyLength = request.POST["dependency_length"]
 
     if dependency.Id == 0:

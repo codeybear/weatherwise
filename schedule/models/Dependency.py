@@ -7,7 +7,7 @@ class Dependency:
     Id = 0
     ActivityId = 0
     PredActivityId = 0
-    DependencyTypeId = 0
+    TypeId = 0
     DependencyLength = 0
 
 class DependencyType:
@@ -78,7 +78,7 @@ class DependencyService:
             with connection.cursor() as cursor:
                 sql = "SELECT dependency.*, dependency_type.Name AS DependencyName, activity.Name AS PredessesorName  \
                        FROM dependency \
-                       INNER JOIN dependency_type ON dependency.DependencyTypeId = dependency_type.Id \
+                       INNER JOIN dependency_type ON dependency.TypeId = dependency_type.Id \
                        INNER JOIN activity ON dependency.PredActivityId = activity.Id \
                        WHERE dependency.ActivityId = %s"
                        
@@ -113,8 +113,8 @@ class DependencyService:
                 
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`, `DependencyTypeId`, `DependencyLength`) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.DependencyTypeId, dependency.DependencyLength))
+                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`, `TypeId`, `DependencyLength`) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.DependencyLength))
                 connection.commit()
         finally:
             connection.close()
@@ -125,9 +125,9 @@ class DependencyService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s, `DependencyTypeId` = %s, `DependencyLength` = %s \
+                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s, `TypeId` = %s, `DependencyLength` = %s \
                        WHERE Id = %s"
-                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.DependencyTypeId, dependency.DependencyLength, dependency.Id))
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.DependencyLength, dependency.Id))
                 connection.commit()
         finally:
             connection.close()

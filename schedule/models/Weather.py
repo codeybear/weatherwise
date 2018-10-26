@@ -176,7 +176,7 @@ class Weather:
             activity.Initial = activityType[0].Initial 
 
         for dependency in self.dependencyList:
-            dependency.FormattedDependencyType = int(dependency.DependencyTypeId) - 1
+            dependency.FormattedDependencyType = int(dependency.TypeId) - 1
 
     @classmethod
     def GetActivityStartDate(self, activity, parameter, currentDay):
@@ -189,11 +189,11 @@ class Weather:
         for dependency in dependencies:
             predActivity = [x for x in self.activityList if dependency.PredActivityId == x.Id][0]
 
-            if dependency.DependencyTypeId == 1:
+            if dependency.TypeId == 1:
                 startDate = predActivity.EndDate + datetime.timedelta(days=1) 
                 startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)                
                 dateList.append(startDate)
-            if dependency.DependencyTypeId == 2:
+            if dependency.TypeId == 2:
                 startDate = predActivity.StartDate
                 startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
                 dateList.append(startDate)

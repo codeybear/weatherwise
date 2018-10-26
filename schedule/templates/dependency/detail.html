@@ -42,7 +42,7 @@
                 <select class="form-control form-control-sm" name="dependency_type_id" required>
                     {% if dependency.Id == 0 %}<option></option>{% endif %}                       
                     {% for dependencyType in dependencyTypes %}
-                    <option value="{{dependencyType.Id}}" {% if dependency.DependencyTypeId == dependencyType.Id %}selected{% endif %}>{{dependencyType.Name}}</option>
+                    <option value="{{dependencyType.Id}}" {% if dependency.TypeId == dependencyType.Id %}selected{% endif %}>{{dependencyType.Name}}</option>
                     {% endfor %}
                 </select>                
             </div>
