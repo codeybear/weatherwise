@@ -48,7 +48,7 @@ def update(request, dependency_id):
     dependency.ActivityId = activityId
     dependency.PredActivityId = request.POST["pred_activity_id"]
     dependency.TypeId = request.POST["dependency_type_id"]
-    dependency.DependencyLength = request.POST["dependency_length"]
+    dependency.Length = request.POST["dependency_length"]
 
     if dependency.Id == 0:
         dependencyService.Add(dependency)

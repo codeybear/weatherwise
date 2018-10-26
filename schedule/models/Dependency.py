@@ -8,7 +8,7 @@ class Dependency:
     ActivityId = 0
     PredActivityId = 0
     TypeId = 0
-    DependencyLength = 0
+    Length = 0
 
 class DependencyType:
     def __init__(self, **entries):
@@ -113,8 +113,8 @@ class DependencyService:
                 
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`, `TypeId`, `DependencyLength`) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.DependencyLength))
+                sql = "INSERT INTO `dependency` (`ActivityId`, `PredActivityId`, `TypeId`, `Length`) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.Length))
                 connection.commit()
         finally:
             connection.close()
@@ -125,9 +125,9 @@ class DependencyService:
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s, `TypeId` = %s, `DependencyLength` = %s \
+                sql = "UPDATE `dependency` SET `ActivityId` = %s, `PredActivityId` = %s, `TypeId` = %s, `Length` = %s \
                        WHERE Id = %s"
-                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.DependencyLength, dependency.Id))
+                cursor.execute(sql, (dependency.ActivityId, dependency.PredActivityId, dependency.TypeId, dependency.Length, dependency.Id))
                 connection.commit()
         finally:
             connection.close()

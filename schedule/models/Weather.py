@@ -191,11 +191,11 @@ class Weather:
 
             if dependency.TypeId == 1:
                 startDate = predActivity.EndDate + datetime.timedelta(days=1) 
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)                
+                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.Length)                
                 dateList.append(startDate)
             if dependency.TypeId == 2:
                 startDate = predActivity.StartDate
-                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.DependencyLength)
+                startDate = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, dependency.Length)
                 dateList.append(startDate)
                 
         maxDate = max(dateList)        
