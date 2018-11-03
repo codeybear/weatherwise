@@ -4,7 +4,7 @@ Folder Structure
 The website is built using django, this library mostly dictates how the code is organised:
 
 /schedule/models/
-The models contains code mostly to handle talking to the database, as well as the reporting functions.
+The models contains code mostly to handle talking to the database, as well as the reporting functions contained in weather.py.
 
 /schedule/templates/
 The templates render the HTML pages, each subfolder relates to a different page.
@@ -18,7 +18,7 @@ This folder contains the static files.
 This is just the location map, user guide and the front end JavaScript code.
 
 Skills required
-==============
+===============
 
 Python
 
