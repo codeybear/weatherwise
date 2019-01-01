@@ -1,8 +1,8 @@
 DATABASES = {
     'default': {
-        'NAME': 'weather',
+        'NAME': 'mydatabase',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
     }
 }
