@@ -63,7 +63,6 @@ def update(request, activity_id):
 def getsuccessors(request, activity_id):
     newPosId = int(request.GET["newposid"])
     activityService = ActivityService
-    # activityId = request.GET.get("activityid")
     successors = activityService.GetSuccessors(activity_id, newPosId)
     data = { 'successorCount' : len(successors) }
     
