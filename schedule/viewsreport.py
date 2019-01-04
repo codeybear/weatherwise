@@ -83,8 +83,6 @@ def stochasticindex(request, schedule_id):
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
         result = CalcReverseReport(schedule_id)        
-        # result = weather.CalcScheduleDuration(calcType = ReportType.WEATHER_AWARE)
-        
         duration = result[1]
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
         itemCDF = [item for item in durationList if item[1] == duration]
