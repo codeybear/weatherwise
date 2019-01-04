@@ -122,11 +122,6 @@ class Weather:
         for activity in self.activityList:
             actualDuration = 0
             actualDurationDays = 0
-
-            if calcType == ReportType.REVERSE and stochastic is True and activity.ActivityTypeId != 7:
-                if activity.Duration > 1:
-                    activity.Duration = activity.Duration - 1
-
             location = next(l for l in self.locationList if l.Id == activity.LocationId)
             parameter = ParameterService.GetByLatLong(activity.ActivityTypeId, location.Lat, location.Long)
             activityStartDay = self.GetActivityStartDate(activity, parameter, currentDay)
@@ -136,12 +131,10 @@ class Weather:
                 if self.schedule.WorkingDays[currentDay.weekday()]:
                     currentDayNum = currentDay.timetuple().tm_yday
                     dayCoeff = 1
-
                     stageCompleted = self.CheckProjectState(currentDay)
 
                     if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL and not stageCompleted:
                         dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
-                        #if dayCoeff == 0: raise ValueError("Zero coefficient value occurred, exiting")
 
                     if calcType == ReportType.REVERSE:
                         actualDuration += 1
@@ -152,8 +145,6 @@ class Weather:
                     
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.floor(actualDurationDays)
-                        activity.NewDuration = actualDurationDays
-
                         Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
                         break  
@@ -162,9 +153,8 @@ class Weather:
 
         currentDay -= datetime.timedelta(days=1)
         newScheduleDuration = self.CalcDuration()
-        print(f"New schedule duration: {newScheduleDuration} Last day Num: {currentDayNum} Last day {currentDay}") # TODO might need to be -1 here
         self.CreateReportingVariables()
-        returnList = copy.deepcopy(self.activityList)
+        returnList = copy.deepcopy(self.activityList)   # make sure the activity list is a new copy as it is manipulated outside of this function
         return (returnList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
     
     @classmethod
