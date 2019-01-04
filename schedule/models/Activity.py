@@ -210,7 +210,6 @@ class ActivityService:
     @classmethod
     def GetSuccessors(self, activityId, newPosId):
         connection = Common.getconnection()
-
         newPos = 0
 
         if newPosId != 0:
