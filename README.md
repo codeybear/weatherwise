@@ -31,4 +31,4 @@ SQL Databases (MYSQL preferred)
 Non essentials:
 
 Bootstrap to layout the forms and parsley.js to do form validation.  
-pymysql is used to talk to MYSQL.
+pymysql is used to talk to MYSQL
