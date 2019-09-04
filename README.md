@@ -33,4 +33,6 @@ Non essentials:
 Bootstrap to layout the forms and parsley.js to do form validation.  
 pymysql is used to talk to MYSQL
 
-<img src="documents/locations.png" alt="Locations"/>
+<img src="documents/Locations.png" alt="Locations" width="500px"/>
+<img src="documents/Activities.png" alt="Activities" width="500px"/>
+<img src="documents/Gantt.png" alt="Gantt" width="500px"/>
