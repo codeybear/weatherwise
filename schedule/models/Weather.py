@@ -15,7 +15,6 @@ class ReportType(Enum):
     REVERSE = 4
 
 class Weather:
-    @classmethod
     def __init__(self, scheduleId):
         scheduleService = ScheduleService
         self.schedule = scheduleService.GetById(scheduleId)
@@ -24,12 +23,12 @@ class Weather:
         self.dependencyList = DependencyService.GetByScheduleId(scheduleId)
         self.activityTypeList = ActivityService.GetActivityTypes()
 
-    #@functools.lru_cache(maxsize=None)
+    @classmethod
     def CalcCRC(K, A, P, dayOfYear, stochastic=False):
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
 
-        if stochastic == False:
+        if not stochastic:
             return result
         else:
             randomNum = random.random()
@@ -43,8 +42,8 @@ class Weather:
         activity.EndDate = activityEndDay
         activity.NewDuration = duration
 
-    @classmethod
     def CalcDaysOfYear(self):
+        """Calculate the weather aware duration for every day of the year"""
         day = datetime.date(2100, 1, 1)
         durationList = []
         endDateList = []
@@ -57,7 +56,6 @@ class Weather:
 
         return (durationList, endDateList);
 
-    @classmethod
     def CalcStochastic(self, iterCount, reportType, duration = 0):
         durationList = []
 
@@ -94,8 +92,9 @@ class Weather:
 
         return durationList
 
-    @staticmethod
+    @classmethod
     def CalcStochasticProbabilities(iterCount, durationList):
+        """Calculate the probabity of each schedule duration as a percentage"""
         prevDuration = 0
         thisIndex = 0
 
@@ -104,7 +103,7 @@ class Weather:
             index = round(index, 2)
             listItem = durationList[counter]
 
-            if prevDuration != listItem[1]:    # this makes sure to points with the same duration are plotted in the same place
+            if prevDuration != listItem[1]:    # this makes sure that points with the same duration are plotted in the same place
                 thisIndex = index
 
             durationList[counter] = (thisIndex, listItem[1])
@@ -112,8 +111,8 @@ class Weather:
 
         return durationList
 
-    @classmethod
     def CalcScheduleDuration(self, startDate=None, calcType=ReportType.WEATHER_AWARE, stochastic=False):
+        """Calculate the extended weather affected activity durations"""
         if startDate == None:
             startDate = self.schedule.StartDate
 
@@ -134,7 +133,7 @@ class Weather:
                     stageCompleted = self.CheckProjectState(currentDay)
 
                     if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL and not stageCompleted:
-                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
+                        dayCoeff = self.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
 
                     if calcType == ReportType.REVERSE:
                         actualDuration += 1
@@ -145,7 +144,7 @@ class Weather:
                     
                     if actualDuration >= activity.Duration:
                         actualDurationDays = math.floor(actualDurationDays)
-                        Weather.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
+                        self.ProcessNewDuration(activity, activityStartDay, currentDay, actualDurationDays)
                         currentDay += datetime.timedelta(days=1)
                         break  
                 
@@ -154,10 +153,9 @@ class Weather:
         currentDay -= datetime.timedelta(days=1)
         newScheduleDuration = self.CalcDuration()
         self.CreateReportingVariables()
-        returnList = copy.deepcopy(self.activityList)   # make sure the activity list is a new copy as it is manipulated outside of this function
+        returnList = copy.deepcopy(self.activityList)   # make sure the activity list is a deep copy as it is manipulated outside of this function
         return (returnList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
     
-    @classmethod
     def CreateReportingVariables(self):
         for activity in self.activityList:
             activity.FormattedStartDate = activity.StartDate.strftime("%d-%m-%Y")
@@ -168,7 +166,6 @@ class Weather:
         for dependency in self.dependencyList:
             dependency.FormattedDependencyType = int(dependency.TypeId) - 1
 
-    @classmethod
     def GetActivityStartDate(self, activity, parameter, currentDay):
         dependencies = [x for x in self.dependencyList if x.ActivityId == activity.Id]
         if len(dependencies) == 0: return currentDay
@@ -191,8 +188,8 @@ class Weather:
         maxDate = max(dateList)        
         return maxDate
 
-    @classmethod
     def CalcDuration(self):
+        """Calculate the length of the current schedule in working days"""
         startDate = min(activity.StartDate for activity in self.activityList)
         endDate = max(activity.EndDate for activity in self.activityList)
         currentDate = startDate
@@ -206,9 +203,8 @@ class Weather:
 
         return duration
 
-
-    @classmethod
     def calcActivityEndDate(self, activityStartDay, actualDurationDays):
+        """Calculate the end date for an activity"""
         calcDay = activityStartDay
         workingdayCounter = 0
 
@@ -224,6 +220,7 @@ class Weather:
         return calcDay
 
     def GetAdjustedDate(date, workingDays, adjustment, parameter = None):
+        """Move forward or backwards by a given number of working days"""
         currentDate = date
         dayCount = 0
 
@@ -248,7 +245,6 @@ class Weather:
                 
         return currentDate
 
-    @classmethod
     def CheckProjectState(self, currentDay):
         """ Check to see if this stage on the project has been completed """
         status = False
