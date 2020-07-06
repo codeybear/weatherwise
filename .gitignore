@@ -300,3 +300,4 @@ __pycache__/
 
 virtualbox/
 .vscode/settings.json
+env/
