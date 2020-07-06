@@ -1,12 +1,11 @@
-import math
-import datetime
-import functools
-import random
 import copy
-from operator import itemgetter
+import datetime
+import math
+import random
 from enum import Enum
+from operator import itemgetter
 
-from schedule.models import Schedule, ScheduleService, Activity, ActivityService, Location, LocationService, Parameter, ParameterService, Dependency, DependencyService 
+from schedule.models import ScheduleService, ActivityService, LocationService, ParameterService, DependencyService 
 
 class ReportType(Enum):
     NORMAL = 1
@@ -24,7 +23,7 @@ class Weather:
         self.activityTypeList = ActivityService.GetActivityTypes()
 
     @classmethod
-    def CalcCRC(K, A, P, dayOfYear, stochastic=False):
+    def CalcCRC(cls, K, A, P, dayOfYear, stochastic=False):
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
 
@@ -37,7 +36,8 @@ class Weather:
             else: 
                 return 0 
 
-    def ProcessNewDuration(activity, activityStartDay, activityEndDay, duration):
+    @classmethod
+    def ProcessNewDuration(cls, activity, activityStartDay, activityEndDay, duration):
         activity.StartDate = activityStartDay
         activity.EndDate = activityEndDay
         activity.NewDuration = duration
@@ -93,7 +93,7 @@ class Weather:
         return durationList
 
     @classmethod
-    def CalcStochasticProbabilities(iterCount, durationList):
+    def CalcStochasticProbabilities(cls, iterCount, durationList):
         """Calculate the probabity of each schedule duration as a percentage"""
         prevDuration = 0
         thisIndex = 0
@@ -116,7 +116,7 @@ class Weather:
         if startDate == None:
             startDate = self.schedule.StartDate
 
-        currentDay = self.GetAdjustedDate(startDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
+        currentDay = Weather.GetAdjustedDate(startDate, self.schedule.WorkingDays, 0) # adjust the first day to make sure its a working day
 
         for activity in self.activityList:
             actualDuration = 0
@@ -133,7 +133,7 @@ class Weather:
                     stageCompleted = self.CheckProjectState(currentDay)
 
                     if activity.ActivityTypeId != 7 and calcType != ReportType.NORMAL and not stageCompleted:
-                        dayCoeff = self.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
+                        dayCoeff = Weather.CalcCRC(float(parameter.K), float(parameter.A), float(parameter.P), currentDayNum, stochastic)
 
                     if calcType == ReportType.REVERSE:
                         actualDuration += 1
@@ -219,7 +219,8 @@ class Weather:
 
         return calcDay
 
-    def GetAdjustedDate(date, workingDays, adjustment, parameter = None):
+    @classmethod
+    def GetAdjustedDate(cls, date, workingDays, adjustment, parameter = None):
         """Move forward or backwards by a given number of working days"""
         currentDate = date
         dayCount = 0
