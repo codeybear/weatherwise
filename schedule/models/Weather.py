@@ -24,6 +24,7 @@ class Weather:
 
     @classmethod
     def CalcCRC(cls, K, A, P, dayOfYear, stochastic=False):
+        """Get the work effectiveness coefficient for this day of the year"""
         result = 2*math.pi*(dayOfYear/365-P)
         result =  K + A*math.cos(result)
 
@@ -38,6 +39,7 @@ class Weather:
 
     @classmethod
     def ProcessNewDuration(cls, activity, activityStartDay, activityEndDay, duration):
+        """An activity duration has been calculated so store the key information"""
         activity.StartDate = activityStartDay
         activity.EndDate = activityEndDay
         activity.NewDuration = duration
@@ -57,6 +59,9 @@ class Weather:
         return (durationList, endDateList);
 
     def CalcStochastic(self, iterCount, reportType, duration = 0):
+        """"Calculate a series of weather aware reports with random variations.
+        
+        Effectively a monte carlo simulation that will produce the probability of a given project duration occuring."""
         durationList = []
 
         if reportType == ReportType.REVERSE:
@@ -157,6 +162,7 @@ class Weather:
         return (returnList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
     
     def CreateReportingVariables(self):
+        """Create additional activity fields for reporting purposes"""
         for activity in self.activityList:
             activity.FormattedStartDate = activity.StartDate.strftime("%d-%m-%Y")
             activity.FormattedEndDate = activity.EndDate.strftime("%d-%m-%Y")
@@ -167,6 +173,7 @@ class Weather:
             dependency.FormattedDependencyType = int(dependency.TypeId) - 1
 
     def GetActivityStartDate(self, activity, parameter, currentDay):
+        """Find an activities start date based on its predecessors dependencies."""
         dependencies = [x for x in self.dependencyList if x.ActivityId == activity.Id]
         if len(dependencies) == 0: return currentDay
 
