@@ -43,7 +43,7 @@ class Weather:
         activity.NewDuration = duration
 
     def CalcDaysOfYear(self):
-        """Calculate the weather aware duration for every day of the year"""
+        """Calculate the weather aware duration for a given schedule for every day of the year"""
         day = datetime.date(2100, 1, 1)
         durationList = []
         endDateList = []
