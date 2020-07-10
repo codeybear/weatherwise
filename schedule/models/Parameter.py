@@ -1,5 +1,9 @@
-from schedule.models import Common
+"""All functionality related to parameters"""
+
 import functools
+
+from schedule.models import Common
+
 
 class Parameter:
     def __init__(self, **entries):

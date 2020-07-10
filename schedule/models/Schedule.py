@@ -1,10 +1,13 @@
+"""All functionality related to schedules"""
+
 from schedule.models import Common
+
 
 class Schedule:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
-    Id = 0    
+    Id = 0
     Name = ""
     StartDate = ""
     StartDateDisplay = ""
@@ -18,7 +21,8 @@ class Schedule:
     WorkingDay4 = False
     WorkingDay5 = False
     WorkingDay6 = False
-    WorkingDays = []   # Represents the above information in an array for convenience
+    WorkingDays = []  # Represents the above working days information in an array for convenience
+
 
 class StatusType:
     def __init__(self, **entries):
@@ -30,7 +34,7 @@ class StatusType:
 
 class ScheduleService:
     @classmethod
-    def GetById(self, uid):
+    def GetById(cls, uid):
         connection = Common.getconnection()
 
         try:
@@ -39,7 +43,7 @@ class ScheduleService:
                 cursor.execute(sql, (str(uid)))
                 result = cursor.fetchone()
                 schedule = None if result is None else Schedule(**result)
-                schedule = self.__GetWorkingDays(schedule)
+                schedule = cls.__GetWorkingDays(schedule)
                 schedule.StartDateDisplay = schedule.StartDate.strftime("%d/%m/%Y")
 
                 if schedule.StatusDate is not None:
@@ -51,7 +55,7 @@ class ScheduleService:
             connection.close()
 
     @classmethod
-    def GetAll(self):
+    def GetAll(cls):
         connection = Common.getconnection()
 
         try:
@@ -69,59 +73,66 @@ class ScheduleService:
             connection.close()
 
     @classmethod
-    def Add(self, schedule):
+    def Add(cls, schedule):
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`, `StatusTypeId`, `StatusDate`) \
-                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId, schedule.StatusDate))
+                sql = """INSERT INTO `schedule` (`Name`, `StartDate`, `WorkingDay0`, `WorkingDay1`, `WorkingDay2`, 
+                      `WorkingDay3`, `WorkingDay4`, `WorkingDay5`, `WorkingDay6`, `StatusTypeId`, `StatusDate`) 
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """
+
+                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1,
+                                     schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4,
+                                     schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId,
+                                     schedule.StatusDate))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Update(self, schedule):
+    def Update(cls, schedule):
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
-                sql = """UPDATE `schedule` SET `Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, `WorkingDay1` = %s, `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, `WorkingDay6` = %s,
-                       `StatusTypeId` = %s, `StatusDate` = %s 
-                       WHERE Id = %s"""
-                
-                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1, schedule.WorkingDay2, schedule.WorkingDay3, 
-                                     schedule.WorkingDay4, schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId, schedule.StatusDate, schedule.Id))
+                sql = """UPDATE `schedule` SET `Name` = %s, `StartDate` = %s, `WorkingDay0` = %s, `WorkingDay1` = %s, 
+                      `WorkingDay2` = %s, `WorkingDay3` = %s, `WorkingDay4` = %s, `WorkingDay5` = %s, 
+                      `WorkingDay6` = %s, `StatusTypeId` = %s, `StatusDate` = %s WHERE Id = %s """
+
+                cursor.execute(sql, (schedule.Name, schedule.StartDate, schedule.WorkingDay0, schedule.WorkingDay1,
+                                     schedule.WorkingDay2, schedule.WorkingDay3, schedule.WorkingDay4,
+                                     schedule.WorkingDay5, schedule.WorkingDay6, schedule.StatusTypeId,
+                                     schedule.StatusDate, schedule.Id))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Delete(self, schedule_id):
+    def Delete(cls, schedule_id):
         connection = Common.getconnection()
-        
+
         try:
             with connection.cursor() as cursor:
                 sql = "DELETE FROM schedule WHERE Id = %s"
                 cursor.execute(sql, (schedule_id))
-                connection.commit()                
+                connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def __GetWorkingDays(self, schedule):
-        schedule.WorkingDays = [schedule.WorkingDay0, 
-                                schedule.WorkingDay1, 
-                                schedule.WorkingDay2, 
-                                schedule.WorkingDay3, 
-                                schedule.WorkingDay4, 
-                                schedule.WorkingDay5, 
+    def __GetWorkingDays(cls, schedule):
+        schedule.WorkingDays = [schedule.WorkingDay0,
+                                schedule.WorkingDay1,
+                                schedule.WorkingDay2,
+                                schedule.WorkingDay3,
+                                schedule.WorkingDay4,
+                                schedule.WorkingDay5,
                                 schedule.WorkingDay6]
         return schedule
 
     @classmethod
-    def GetStatusTypes(self):
+    def GetStatusTypes(cls):
         connection = Common.getconnection()
 
         try:

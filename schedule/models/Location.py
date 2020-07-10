@@ -1,4 +1,7 @@
+"""All functionality related to locations"""
+
 from schedule.models import Common
+
 
 class Location:
     def __init__(self, **entries):
@@ -10,9 +13,10 @@ class Location:
     Lat = 0.0
     Long = 0.0
 
+
 class LocationService:
     @classmethod
-    def GetByScheduleId(self, ScheduleId):
+    def GetByScheduleId(cls, ScheduleId):
         connection = Common.getconnection()
 
         try:
@@ -27,7 +31,7 @@ class LocationService:
             connection.close()
 
     @classmethod
-    def GetById(self, Id):
+    def GetById(cls, Id):
         connection = Common.getconnection()
 
         try:
@@ -42,36 +46,37 @@ class LocationService:
             connection.close()
 
     @classmethod
-    def Add(self, location):
+    def Add(cls, location):
         connection = Common.getconnection()
-        
+
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO `location` (`ScheduleId`, `Name`, `Lat`, `Long`) \
-                       VALUES (%s, %s, %s, %s)"
+                sql = """INSERT INTO `location` (`ScheduleId`, `Name`, `Lat`, `Long`)
+                       VALUES (%s, %s, %s, %s)"""
+
                 cursor.execute(sql, (location.ScheduleId, location.Name, location.Lat, location.Long))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Update(self, location):
+    def Update(cls, location):
         connection = Common.getconnection()
 
         try:
             with connection.cursor() as cursor:
-                sql = "UPDATE `location` SET `Name` = %s, `ScheduleId` = %s, `Lat` = %s, `Long` = %s \
-                       WHERE Id = %s"
-                
+                sql = """UPDATE `location` SET `Name` = %s, `ScheduleId` = %s, `Lat` = %s, `Long` = %s
+                       WHERE Id = %s"""
+
                 cursor.execute(sql, (location.Name, location.ScheduleId, location.Lat, location.Long, location.Id))
                 connection.commit()
         finally:
             connection.close()
 
     @classmethod
-    def Delete(self, location_id):
+    def Delete(cls, location_id):
         connection = Common.getconnection()
-        
+
         try:
             with connection.cursor() as cursor:
                 sql = "DELETE FROM location WHERE Id = %s"
@@ -79,4 +84,3 @@ class LocationService:
                 connection.commit()
         finally:
             connection.close()
-        
