@@ -7,6 +7,7 @@ class WeatherTestCase(SimpleTestCase):
     # def setUp(self):
     def test_can_run_report(self):
         weather = Weather(2)
+        weather.schedule.StatusTypeId = 1
         activities = weather.CalcScheduleDuration()[0]
         self.assertEqual(activities[-1].EndDate, datetime.date(2019, 3, 14))
 
@@ -14,18 +15,25 @@ class WeatherTestCase(SimpleTestCase):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
 
+        # get the end date with no weathe aware extensions
         result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
         originalEndDate = result[0][-1].EndDate
 
+        # now go forwards and then backwards
         result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
         for idx, activity in enumerate(weather.activityList):
             weather.activityList[idx].Duration = result[0][idx].NewDuration
 
         result = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
+
+        for idx, activity in enumerate(weather.activityList):
+            weather.activityList[idx].Duration = result[0][idx].NewDuration
+
+        result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
         reversedEndDate = result[0][-1].EndDate
 
-        assert originalEndDate == reversedEndDate
+        self.assertEqual(originalEndDate, reversedEndDate)
 
 class TestWeatherMethods(SimpleTestCase):
     @classmethod
@@ -67,6 +75,3 @@ class TestWeatherMethods(SimpleTestCase):
 
     def testMinus10WeatherEffected(self):
         self.assertEqual(Weather.GetAdjustedDate(datetime.date(2018, 1, 17), self._standardWorkingDays, -10, self._parameter), datetime.date(2018, 1, 1))
-
-if __name__ == '__main__':
-    unittest.main()
