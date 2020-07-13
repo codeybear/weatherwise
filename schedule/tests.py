@@ -1,15 +1,33 @@
-from django.test import TestCase
-from schedule.models import Weather, Parameter
 import datetime
+from django.test import SimpleTestCase
 
-class WeatherTestCase(TestCase):
+from schedule.models import Weather, Parameter, ReportType
+
+class WeatherTestCase(SimpleTestCase):
     # def setUp(self):
     def test_can_run_report(self):
         weather = Weather(2)
-        activities = weather.CalcScheduleDuration()
+        activities = weather.CalcScheduleDuration()[0]
         self.assertEqual(activities[-1].EndDate, datetime.date(2019, 3, 14))
 
-class TestWeatherMethods(TestCase):
+    def test_can_run_report_reverse(self):
+        weather = Weather(2)
+        weather.schedule.StatusTypeId = 1
+
+        result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
+        originalEndDate = result[0][-1].EndDate
+
+        result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
+
+        for idx, activity in enumerate(weather.activityList):
+            weather.activityList[idx].Duration = result[0][idx].NewDuration
+
+        result = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
+        reversedEndDate = result[0][-1].EndDate
+
+        assert originalEndDate == reversedEndDate
+
+class TestWeatherMethods(SimpleTestCase):
     @classmethod
     def setUp(cls):
         # earthworks, lat = -0.9, long = 49.0
