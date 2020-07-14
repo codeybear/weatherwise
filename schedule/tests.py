@@ -5,24 +5,24 @@ from unittest import TestCase
 from schedule.models import Weather, Parameter, ReportType
 
 class WeatherTestCase(SimpleTestCase):
-    def test_gantt_weather(self):
+    def testGanttWeather(self):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
         activities = weather.CalcScheduleDuration()[0]
         self.assertEqual(activities[-1].EndDate, datetime.date(2019, 3, 14))
 
-    def test_gantt_weather_statusdate(self):
+    def testGanttWeatherStatusdate(self):
         weather = Weather(2)
         weather.schedule.StatusDate = datetime.date(2017, 4, 1)
         weather.schedule.StatusTypeId = 2
-        activities = weather.CalcScheduleDuration()[0]
-        self.assertEqual(activities[-1].EndDate, datetime.date(2018, 12, 31))
+        result = weather.CalcScheduleDuration()
+        self.assertEqual(result[0][-1].EndDate, datetime.date(2018, 12, 31))
 
-    def test_gantt_reverse(self):
+    def testGanttReverse(self):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
 
-        # get the end date with no weathe aware extensions
+        # get the end date with no weather aware extensions
         result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
         originalEndDate = result[0][-1].EndDate
 
@@ -41,6 +41,28 @@ class WeatherTestCase(SimpleTestCase):
         reversedEndDate = result[0][-1].EndDate
 
         self.assertEqual(originalEndDate, reversedEndDate)
+
+    def testStochastic(self):
+        weather = Weather(2)
+        weather.schedule.StatusTypeId = 1
+        durationList = weather.CalcStochastic(100, reportType=ReportType.WEATHER_AWARE)
+        averageDays = sum(days for probability, days in durationList) / 100
+        assert 550.0 <= averageDays <= 570.0
+
+    def testStochasticStatusDate(self):
+        weather = Weather(2)
+        weather.schedule.StatusDate = datetime.date(2017, 4, 1)
+        weather.schedule.StatusTypeId = 2
+        durationList = weather.CalcStochastic(100, reportType=ReportType.WEATHER_AWARE)
+        averageDays = sum(days for probability, days in durationList) / 100
+        assert 510.0 <= averageDays <= 530.0
+
+    def testReverseStochastic(self):
+        weather = Weather(2)
+        weather.schedule.StatusTypeId = 1
+        durationList = weather.CalcStochastic(100, reportType=ReportType.REVERSE)
+        averageDays = sum(days for probability, days in durationList) / 100
+        assert 470.0 <= averageDays <= 490.0
 
 class TestWeatherMethods(TestCase):
     @classmethod
