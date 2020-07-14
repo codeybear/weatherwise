@@ -1,17 +1,24 @@
 import datetime
 from django.test import SimpleTestCase
+from unittest import TestCase
 
 from schedule.models import Weather, Parameter, ReportType
 
 class WeatherTestCase(SimpleTestCase):
-    # def setUp(self):
-    def test_can_run_report(self):
+    def test_gantt_weather(self):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
         activities = weather.CalcScheduleDuration()[0]
         self.assertEqual(activities[-1].EndDate, datetime.date(2019, 3, 14))
 
-    def test_can_run_report_reverse(self):
+    def test_gantt_weather_statusdate(self):
+        weather = Weather(2)
+        weather.schedule.StatusDate = datetime.date(2017, 4, 1)
+        weather.schedule.StatusTypeId = 2
+        activities = weather.CalcScheduleDuration()[0]
+        self.assertEqual(activities[-1].EndDate, datetime.date(2018, 12, 31))
+
+    def test_gantt_reverse(self):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
 
@@ -35,7 +42,7 @@ class WeatherTestCase(SimpleTestCase):
 
         self.assertEqual(originalEndDate, reversedEndDate)
 
-class TestWeatherMethods(SimpleTestCase):
+class TestWeatherMethods(TestCase):
     @classmethod
     def setUp(cls):
         # earthworks, lat = -0.9, long = 49.0
