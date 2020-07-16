@@ -4,7 +4,10 @@ from unittest import TestCase
 
 from schedule.models import Weather, Parameter, ReportType
 
-class WeatherTestCase(SimpleTestCase):
+class ReportingTestCase(SimpleTestCase):
+    """All of the reporting methods
+    
+    From the command line use -> python manage.py test schedule.tests.ReportingTestCase.testDaysOfYear"""
     def testGanttWeather(self):
         weather = Weather(2)
         weather.schedule.StatusTypeId = 1
@@ -17,6 +20,14 @@ class WeatherTestCase(SimpleTestCase):
         weather.schedule.StatusTypeId = 2
         result = weather.CalcScheduleDuration()
         self.assertEqual(result[0][-1].EndDate, datetime.date(2018, 12, 31))
+
+    def testDaysOfYear(self):
+        weather = Weather(2)
+        weather.schedule.StatusTypeId = 1
+        durationList, endDateList = weather.CalcDaysOfYear()
+        averageDuration = sum(durationList) / 365
+        assert len(durationList) == 365
+        assert int(averageDuration) == 570
 
     def testGanttReverse(self):
         weather = Weather(2)
@@ -64,7 +75,7 @@ class WeatherTestCase(SimpleTestCase):
         averageDays = sum(days for probability, days in durationList) / 100
         assert 470.0 <= averageDays <= 490.0
 
-class TestWeatherMethods(TestCase):
+class WeatherMethodsTestCase(TestCase):
     @classmethod
     def setUp(cls):
         # earthworks, lat = -0.9, long = 49.0
