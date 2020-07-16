@@ -54,7 +54,7 @@ class Weather:
         durationList = []
         endDateList = []
 
-        for dayNum in range(1, 365):
+        for _ in range(365):
             result = self.CalcScheduleDuration(day, calcType=ReportType.WEATHER_AWARE)
             durationList.append(result[1])
             endDateList.append(result[2])

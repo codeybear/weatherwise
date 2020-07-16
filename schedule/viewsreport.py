@@ -59,6 +59,7 @@ def index(request, schedule_id):
 
 def daysindex(request, schedule_id):
     weather = Weather(schedule_id)
+    # TODO this should not be enforced here
     weather.schedule.StatusTypeId = 1
     durationList, endDateList = weather.CalcDaysOfYear()
 
