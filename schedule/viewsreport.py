@@ -13,8 +13,6 @@ def index(request, schedule_id):
     originalLabel = "Planned dur"
     newLabel = "Actual dur"
 
-    if reportType == 1:
-        result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
     if reportType == 2:
         result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
         result2 = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
