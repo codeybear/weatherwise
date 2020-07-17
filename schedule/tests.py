@@ -5,7 +5,7 @@ from unittest import TestCase
 from schedule.models import Weather, Parameter, ReportType
 
 class ReportingTestCase(SimpleTestCase):
-    """All of the reporting methods
+    """All of the reporting methods using djangos test case object
     
     From the command line use -> python manage.py test schedule.tests.ReportingTestCase.testDaysOfYear"""
     def testGanttWeather(self):
