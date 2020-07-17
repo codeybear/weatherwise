@@ -17,27 +17,32 @@ def index(request, schedule_id):
         activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
         activities2, duration2, _ = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
 
+        for idx, _ in enumerate(activities):
+            activities2[idx].NewDuration = activities[idx].NewDuration
+
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
-        result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
+        weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
-        for idx, activity in enumerate(weather.activityList):
-            weather.activityList[idx].Duration = result[0][idx].NewDuration
+        for activity in weather.activityList:
+            activity.Duration = activity.NewDuration
 
         # Get the planned durations from the weather aware durations
         activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
 
-        # Calculate the start and end dates for these activities using the normal report
-        for idx, activity in enumerate(weather.activityList):
-            weather.activityList[idx].Duration = result[0][idx].NewDuration
+        # TODO the next section needs moving into the reporting class, probably after the deep copy of the activity
+        #  list is created
 
-        activities2, duration2, _  = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
+        # Calculate the start and end dates for these activities using the normal report
+        for activity in weather.activityList:
+            activity.Duration = activity.NewDuration
+
+        activities2, duration2, _ = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
+
+        for idx, activity in enumerate(activities):
+            activities2[idx].Duration = activities[idx].Duration
 
         originalLabel, newLabel = newLabel, originalLabel
-
-    for idx, activity in enumerate(activities):
-        if reportType == 2:
-            activities2[idx].NewDuration = activities[idx].NewDuration
 
     template = loader.get_template('report/index.html')
 
