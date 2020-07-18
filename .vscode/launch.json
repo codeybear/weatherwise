@@ -8,7 +8,7 @@
         "name": "Django",
         "type": "python",
         "request": "launch",
-        "stopOnEntry": true,
+        "stopOnEntry": false,
         "pythonPath": "${command:python.interpreterPath}",
         "program": "${workspaceFolder}/manage.py",
         "cwd": "${workspaceFolder}",
@@ -18,7 +18,7 @@
             "--nothreading"
         ],
         "env": {},
-        "envFile": "${workspaceFolder}/.env",
+        "envFile": "${workspaceFolder}/env",
         "debugOptions": [
             "RedirectOutput",
             "DjangoDebugging"
