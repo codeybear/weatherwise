@@ -163,10 +163,28 @@ class Weather:
                 currentDay += datetime.timedelta(days=1)
 
         currentDay -= datetime.timedelta(days=1)
+
+        if calcType == ReportType.REVERSE: self.FindReversedReportDates()
         newScheduleDuration = self.CalcDuration()
         self.CreateReportingVariables()
         returnList = copy.deepcopy(self.activityList)  # ensure deep copy as it is manipulated outside of this function
         return (returnList, newScheduleDuration, currentDay.strftime("%d-%m-%Y"))
+
+    def FindReversedReportDates(self):
+        '''This method fixes the dates created by CalcScheduleDuration() when using
+        calcType=REVERSE, this method needs to find the reversed durations
+        first then run this method to find the correct dates'''
+        savedList = copy.deepcopy(self.activityList)
+
+        # run the normal report on the new reverse activity durations
+        for activity in self.activityList:
+            activity.Duration = activity.NewDuration
+
+        activities, _, _ = self.CalcScheduleDuration(calcType=ReportType.NORMAL)
+
+        # now restore the original durations to continue
+        for idx, activity in enumerate(activities):
+            self.activityList[idx].Duration = savedList[idx].Duration
 
     def CreateReportingVariables(self):
         """Create additional activity fields for reporting purposes"""
