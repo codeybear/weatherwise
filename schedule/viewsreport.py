@@ -1,3 +1,4 @@
+import enum
 from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
@@ -19,28 +20,18 @@ def index(request, schedule_id):
 
         for idx, _ in enumerate(activities):
             activities2[idx].NewDuration = activities[idx].NewDuration
-
     if reportType == 4:
-        # Get the weather aware durations and set these durations for the reverse report
-        weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
+        # Get the weather aware durations as we want to work backwards from these predictions
+        activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
         for activity in weather.activityList:
             activity.Duration = activity.NewDuration
 
-        # Get the planned durations from the weather aware durations
-        activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
+        # Get the planned activity durations from the weather aware durations
+        activities2, duration2, _ = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
 
-        # TODO the next section needs moving into the reporting class, probably after the deep copy of the activity
-        #  list is created
-
-        # Calculate the start and end dates for these activities using the normal report
-        for activity in weather.activityList:
-            activity.Duration = activity.NewDuration
-
-        activities2, duration2, _ = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
-
-        for idx, activity in enumerate(activities):
-            activities2[idx].Duration = activities[idx].Duration
+        for activity in activities:
+            activity.Duration, activity.NewDuration = activity.NewDuration, activity.Duration
 
         originalLabel, newLabel = newLabel, originalLabel
 
@@ -81,6 +72,7 @@ def stochasticindex(request, schedule_id):
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
         # Get the weather aware durations and set these durations for the reverse report
+        # TODO what was this for? is it still being called?
         result = CalcReverseReport(schedule_id)
         duration = result[1]
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
@@ -97,12 +89,15 @@ def stochasticindex(request, schedule_id):
 
 
 def CalcReverseReport(scheduleId):
+    """"This is to mark a point on the reverse report that shows where the weather aware
+    duration appears"""
     # Get the weather aware durations and set these durations for the reverse report
     weather = Weather(scheduleId)
     weather.schedule.StatusTypeId = 1
 
     result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
+    # TODO here is where to remove code after main reporting method changed
     for idx, activity in enumerate(weather.activityList):
         weather.activityList[idx].Duration = result[0][idx].NewDuration
 
