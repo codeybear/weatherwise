@@ -48,7 +48,6 @@ def index(request, schedule_id):
 
 def daysindex(request, schedule_id):
     weather = Weather(schedule_id)
-    # TODO this should not be enforced here
     weather.schedule.StatusTypeId = 1
     durationList, endDateList = weather.CalcDaysOfYear()
 
@@ -69,14 +68,13 @@ def stochasticindex(request, schedule_id):
     if reportType == 2:
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
-        result = CalcReverseReport(schedule_id)
-        duration = result[1]
+        _, duration, _ = CalcReverseReport(schedule_id)
         weather.schedule.StatusTypeId = 1
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
-        itemCDF = [item for item in durationList if item[1] == duration]
 
-        if len(itemCDF) > 0:
-            durationCDF = itemCDF[0][0]
+        # find the probability for the marked point
+        itemCDF = [item for item in durationList if item[1] == duration]
+        if len(itemCDF) > 0: durationCDF = itemCDF[0][0]
 
     template = loader.get_template('report/stochasticindex.html')
     context = {'durationList': durationList, 'scheduleId': schedule_id, 'startDate': weather.schedule.StartDate,
@@ -100,11 +98,6 @@ def CalcReverseReport(scheduleId):
     # Get the planned durations from the weather aware durations
     result = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
 
-    # Calculate the start and end dates for these activities using the normal report
-    for idx, activity in enumerate(weather.activityList):
-        weather.activityList[idx].Duration = result[0][idx].NewDuration
-
-    result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
     return result
 
 

@@ -44,11 +44,6 @@ class ReportingTestCase(SimpleTestCase):
             weather.activityList[idx].Duration = result[0][idx].NewDuration
 
         result = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
-
-        for idx, activity in enumerate(weather.activityList):
-            weather.activityList[idx].Duration = result[0][idx].NewDuration
-
-        result = weather.CalcScheduleDuration(calcType=ReportType.NORMAL)
         reversedEndDate = result[0][-1].EndDate
 
         self.assertEqual(originalEndDate, reversedEndDate)
