@@ -20,6 +20,7 @@ def index(request, schedule_id):
 
         for idx, _ in enumerate(activities):
             activities2[idx].NewDuration = activities[idx].NewDuration
+
     if reportType == 4:
         # Get the weather aware durations as we want to work backwards from these predictions
         activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
@@ -65,16 +66,12 @@ def stochasticindex(request, schedule_id):
     durationList = []
     demoMode = settings.DEMO_MODE
 
-    scheduleService = ScheduleService()
-    schedule = scheduleService.GetById(schedule_id)
-
     if reportType == 2:
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
-        # Get the weather aware durations and set these durations for the reverse report
-        # TODO what was this for? is it still being called?
         result = CalcReverseReport(schedule_id)
         duration = result[1]
+        weather.schedule.StatusTypeId = 1
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
         itemCDF = [item for item in durationList if item[1] == duration]
 
@@ -82,7 +79,7 @@ def stochasticindex(request, schedule_id):
             durationCDF = itemCDF[0][0]
 
     template = loader.get_template('report/stochasticindex.html')
-    context = {'durationList': durationList, 'scheduleId': schedule_id, 'startDate': schedule.StartDate,
+    context = {'durationList': durationList, 'scheduleId': schedule_id, 'startDate': weather.schedule.StartDate,
                'duration': duration, 'durationCDF': durationCDF, 'reportType': reportType, 'demoMode': demoMode}
 
     return HttpResponse(template.render(context, request))
@@ -97,7 +94,6 @@ def CalcReverseReport(scheduleId):
 
     result = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
-    # TODO here is where to remove code after main reporting method changed
     for idx, activity in enumerate(weather.activityList):
         weather.activityList[idx].Duration = result[0][idx].NewDuration
 

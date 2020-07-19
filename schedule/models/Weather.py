@@ -77,14 +77,14 @@ class Weather:
                     self.activityList[idx].Duration = resultWA[0][idx].NewDuration
 
                 # Get the planned durations from the weather aware durations with stochastic variations
-                result = self.CalcScheduleDuration(calcType=ReportType.REVERSE, stochastic=True)
+                _, duration, _ = self.CalcScheduleDuration(calcType=ReportType.REVERSE, stochastic=True)
 
-                for idx, activity in enumerate(self.activityList):
-                    self.activityList[idx].Duration = result[0][idx].NewDuration
-
-                # Calculate the correct start and end dates for these activities (reverse report does not do this)
-                result = self.CalcScheduleDuration(startDate=None, calcType=ReportType.NORMAL)
-                durationList.append((0, result[1]))
+                # for idx, activity in enumerate(self.activityList):
+                #     self.activityList[idx].Duration = result[0][idx].NewDuration
+                #
+                # # Calculate the correct start and end dates for these activities (reverse report does not do this)
+                # result = self.CalcScheduleDuration(startDate=None, calcType=ReportType.NORMAL)
+                durationList.append((0, duration))
         else:
             for counter in range(iterCount):
                 result = self.CalcScheduleDuration(startDate=None, calcType=reportType, stochastic=True)
