@@ -79,7 +79,6 @@ def IsChecked(dict, item):
 
 
 def CheckWorkingDays(request, schedule):
-    # TODO should really be in the model not UI this kind of thing, was a fix for an interface problem originally
     schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
     schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
     schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')

@@ -72,7 +72,7 @@ class Weather:
             # Get the weather aware durations and set these as the start durations for the reverse report
             resultWA = self.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
-            for counter in range(iterCount):
+            for _ in range(iterCount):
                 for idx, _ in enumerate(self.activityList):
                     self.activityList[idx].Duration = resultWA[0][idx].NewDuration
 
@@ -130,7 +130,6 @@ class Weather:
             activityStartDay = self.GetActivityStartDate(activity, parameter, currentDay)
             currentDay = activityStartDay
 
-            # TODO needs to refactor this into a function, also make it an internal one as it makes no sense outside
             for counter in range(1, 9999):
                 if self.schedule.WorkingDays[currentDay.weekday()]:
                     currentDayNum = currentDay.timetuple().tm_yday
