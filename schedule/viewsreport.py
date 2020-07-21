@@ -25,14 +25,14 @@ def index(request, schedule_id):
         # Get the weather aware durations as we want to work backwards from these predictions
         activities, duration, _ = weather.CalcScheduleDuration(calcType=ReportType.WEATHER_AWARE)
 
+        for activity in activities:
+            activity.Duration, activity.NewDuration = activity.NewDuration, activity.Duration
+
         for activity in weather.activityList:
             activity.Duration = activity.NewDuration
 
         # Get the planned activity durations from the weather aware durations
         activities2, duration2, _ = weather.CalcScheduleDuration(calcType=ReportType.REVERSE)
-
-        for activity in activities:
-            activity.Duration, activity.NewDuration = activity.NewDuration, activity.Duration
 
         originalLabel, newLabel = newLabel, originalLabel
 
