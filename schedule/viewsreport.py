@@ -36,13 +36,12 @@ def index(request, schedule_id):
 
         originalLabel, newLabel = newLabel, originalLabel
 
-    template = loader.get_template('report/index.html')
-
     context = {'activities': activities, 'activities2': activities2, 'dependencies': weather.dependencyList,
                'scheduleId': schedule_id, 'duration': duration, 'duration2': duration2, 'reportType': reportType,
                'originalLabel': originalLabel, 'newLabel': newLabel, 'fromSchedules': fromSchedules,
                'statusDate': statusDate}
 
+    template = loader.get_template('report/index.html')
     return HttpResponse(template.render(context, request))
 
 
@@ -68,6 +67,7 @@ def stochasticindex(request, schedule_id):
     if reportType == 2:
         durationList = weather.CalcStochastic(iterCount, ReportType.WEATHER_AWARE)
     if reportType == 4:
+        # This should be the weather aware point, even though it is unlikely to show
         _, duration, _ = CalcReverseReport(schedule_id)
         weather.schedule.StatusTypeId = 1
         durationList = weather.CalcStochastic(iterCount, ReportType.REVERSE, duration)
