@@ -41,6 +41,7 @@ def update(request, schedule_id):
     schedule.StatusDateDisplay = request.POST.get('statusdate', '')
     schedule.StatusDate = time.strptime(schedule.StatusDateDisplay,
                                         "%d/%m/%Y") if schedule.StatusDateDisplay != '' else None
+    # TODO move this into the model
     schedule = CheckWorkingDays(request, schedule)
     scheduleService = ScheduleService
 
