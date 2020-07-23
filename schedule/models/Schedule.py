@@ -75,6 +75,7 @@ class ScheduleService:
     @classmethod
     def Add(cls, schedule):
         connection = Common.getconnection()
+        schedule = ScheduleService.CheckWorkingDays(schedule)
 
         try:
             with connection.cursor() as cursor:
@@ -93,6 +94,7 @@ class ScheduleService:
     @classmethod
     def Update(cls, schedule):
         connection = Common.getconnection()
+        schedule = ScheduleService.CheckWorkingDays(schedule)
 
         try:
             with connection.cursor() as cursor:
@@ -129,6 +131,19 @@ class ScheduleService:
                                 schedule.WorkingDay4,
                                 schedule.WorkingDay5,
                                 schedule.WorkingDay6]
+        return schedule
+
+    @classmethod
+    def CheckWorkingDays(cls, schedule):
+        if not schedule.WorkingDay0 and not schedule.WorkingDay1 and not schedule.WorkingDay2 \
+            and not schedule.WorkingDay3 and not schedule.WorkingDay4 and not schedule.WorkingDay5 \
+            and not schedule.WorkingDay6:
+            schedule.WorkingDay0 = True
+            schedule.WorkingDay1 = True
+            schedule.WorkingDay2 = True
+            schedule.WorkingDay3 = True
+            schedule.WorkingDay4 = True
+        
         return schedule
 
     @classmethod

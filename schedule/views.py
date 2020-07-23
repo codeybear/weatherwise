@@ -80,21 +80,7 @@ def IsChecked(dict, item):
 
 
 def CheckWorkingDays(request, schedule):
-    schedule.WorkingDay0 = IsChecked(request.POST, 'workingday0')
-    schedule.WorkingDay1 = IsChecked(request.POST, 'workingday1')
-    schedule.WorkingDay2 = IsChecked(request.POST, 'workingday2')
-    schedule.WorkingDay3 = IsChecked(request.POST, 'workingday3')
-    schedule.WorkingDay4 = IsChecked(request.POST, 'workingday4')
-    schedule.WorkingDay5 = IsChecked(request.POST, 'workingday5')
-    schedule.WorkingDay6 = IsChecked(request.POST, 'workingday6')
-
-    if not schedule.WorkingDay0 and not schedule.WorkingDay1 and not schedule.WorkingDay2 \
-        and not schedule.WorkingDay3 and not schedule.WorkingDay4 and not schedule.WorkingDay5 \
-        and not schedule.WorkingDay6:
-        schedule.WorkingDay0 = True
-        schedule.WorkingDay1 = True
-        schedule.WorkingDay2 = True
-        schedule.WorkingDay3 = True
-        schedule.WorkingDay4 = True
+    for item in range(0, 6):
+        schedule.__dict__["WorkingDay" + str(item)] =  IsChecked(request.POST, 'workingday' + str(item))
 
     return schedule
