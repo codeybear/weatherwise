@@ -41,8 +41,8 @@ def update(request, schedule_id):
     schedule.StatusDateDisplay = request.POST.get('statusdate', '')
     schedule.StatusDate = time.strptime(schedule.StatusDateDisplay,
                                         "%d/%m/%Y") if schedule.StatusDateDisplay != '' else None
-    # TODO move this into the model
-    schedule = CheckWorkingDays(request, schedule)
+
+    schedule = UpdateWorkingDays(request, schedule)
     scheduleService = ScheduleService
 
     if schedule_id != 0:
@@ -79,7 +79,7 @@ def IsChecked(dict, item):
         return False
 
 
-def CheckWorkingDays(request, schedule):
+def UpdateWorkingDays(request, schedule):
     for item in range(0, 6):
         schedule.__dict__["WorkingDay" + str(item)] =  IsChecked(request.POST, 'workingday' + str(item))
 

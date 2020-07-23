@@ -100,7 +100,6 @@ def CalcReverseReport(scheduleId):
 
     return result
 
-# TODO move this into model
 def GetStatusDate(scheduleId):
     scheduleService = ScheduleService
     schedule = scheduleService.GetById(scheduleId)
