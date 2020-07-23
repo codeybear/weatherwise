@@ -146,7 +146,7 @@ class Weather:
         actualDuration = 0 
         actualDurationDays = 0
 
-        for _ in range(1, 9999):
+        while True:
             if self.schedule.WorkingDays[currentDay.weekday()]:
                 currentDayNum = currentDay.timetuple().tm_yday
                 dayCoeff = 1
@@ -242,7 +242,7 @@ class Weather:
         calcDay = activityStartDay
         workingdayCounter = 0
 
-        for _ in range(1, 999999):
+        while True:
             if self.schedule.WorkingDays[calcDay.weekday()]:
                 workingdayCounter += 1
 
