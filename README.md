@@ -17,10 +17,11 @@ The views* files in this folder take the incoming web request, call the relevant
 This folder contains the static files.
 This is just the location map, user guide and the front end JavaScript code.
 
-How to setup the project:
+
+How to setup the project:  
 /documents/Website Setup.docx
 
-User Guide:
+User Guide:  
 /documents/UserGuide.docx
 
 
