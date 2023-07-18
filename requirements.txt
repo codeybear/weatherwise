@@ -1,2 +1,2 @@
 pymysql==0.8.0
-django==2.0.2
+django==2.2.28
